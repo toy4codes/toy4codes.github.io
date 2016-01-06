@@ -1,0 +1,27 @@
+---
+layout: post
+title:  "Help Docs"
+date:   2016-01-01 12:00:00
+categories: documents
+---
+jekyll docs : [http://jekyllrb.com/](http://jekyllrb.com/)
+
+markdown docs : [https://daringfireball.net/projects/markdown/](https://daringfireball.net/projects/markdown/)
+
+git docs : [https://git-scm.com/doc](https://git-scm.com/doc)
+
+git-bootcamp : [https://help.github.com/categories/bootcamp/](https://help.github.com/categories/bootcamp/)
+
+git-SSH : [https://help.github.com/categories/ssh/](https://help.github.com/categories/ssh/)
+
+git-GitHub Pages Basics : [https://help.github.com/categories/github-pages-basics/](https://help.github.com/categories/github-pages-basics/)
+
+git-the simple guide : [http://rogerdudler.github.io/git-guide/index.html](http://rogerdudler.github.io/git-guide/index.html)
+
+
+
+
+
+
+
+
