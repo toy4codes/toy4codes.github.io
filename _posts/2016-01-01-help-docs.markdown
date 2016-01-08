@@ -18,10 +18,4 @@ git-GitHub Pages Basics : [https://help.github.com/categories/github-pages-basic
 
 git-the simple guide : [http://rogerdudler.github.io/git-guide/index.html](http://rogerdudler.github.io/git-guide/index.html)
 
-
-
-
-
-
-
-
+mysql docs : [http://dev.mysql.com/doc/](http://dev.mysql.com/doc/)
