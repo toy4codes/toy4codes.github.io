@@ -4,9 +4,8 @@ title:  "Help Docs"
 date:   2016-01-01 12:00:00
 categories: help
 ---
-jekyll docs : [http://jekyllrb.com/](http://jekyllrb.com/)
 
-markdown docs : [https://daringfireball.net/projects/markdown/](https://daringfireball.net/projects/markdown/)
+bootstrap : [http://getbootstrap.com/](http://getbootstrap.com/)
 
 git docs : [https://git-scm.com/doc](https://git-scm.com/doc)
 
@@ -18,6 +17,16 @@ git-GitHub Pages Basics : [https://help.github.com/categories/github-pages-basic
 
 git-the simple guide : [http://rogerdudler.github.io/git-guide/index.html](http://rogerdudler.github.io/git-guide/index.html)
 
+hibernate : [http://hibernate.org/](http://hibernate.org/)
+
+jekyll docs : [http://jekyllrb.com/](http://jekyllrb.com/)
+
+Java EE 7 : [http://docs.oracle.com/javaee/7/index.html](http://docs.oracle.com/javaee/7/index.html)
+
+Java SE 8: [http://docs.oracle.com/javase/8/](http://docs.oracle.com/javase/8/)
+
+markdown docs : [https://daringfireball.net/projects/markdown/](https://daringfireball.net/projects/markdown/)
+
 mysql docs : [http://dev.mysql.com/doc/](http://dev.mysql.com/doc/)
 
 struts : [http://struts.apache.org/](http://struts.apache.org/)
@@ -25,15 +34,6 @@ struts : [http://struts.apache.org/](http://struts.apache.org/)
 spring : [http://projects.spring.io/spring-framework/](http://projects.spring.io/spring-framework/)
 
 spring security : [http://projects.spring.io/spring-security/](http://projects.spring.io/spring-security/)
-
-hibernate : [http://hibernate.org/](http://hibernate.org/)
-
-bootstrap : [http://getbootstrap.com/](http://getbootstrap.com/)
-
-Java EE 7 : [http://docs.oracle.com/javaee/7/index.html](http://docs.oracle.com/javaee/7/index.html)
-
-Java SE 8: [http://docs.oracle.com/javase/8/](http://docs.oracle.com/javase/8/)
-
 
 
 
