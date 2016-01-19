@@ -5,7 +5,7 @@ date:   2016-01-19 12:00:00
 categories: spring security
 ---
 
-# Architecture and Implementation
+# Spring Security Architecture and Implementation
 
 ## Technical Overview
 
