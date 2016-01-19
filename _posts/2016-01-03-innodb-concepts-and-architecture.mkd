@@ -1,0 +1,74 @@
+---
+layout: post
+title:  "InnoDB Concepts and Architecture"
+date:   2016-01-03 12:00:00
+categories: mysql
+---
+
+## InnoDB Concepts and Architecture
+
+### MySQL and the ACID Model
+
+The ACID model is a set of database design principles that emphasize aspects of reliability that are important for business data and mission-critical applications. MySQL includes components such as the InnoDB storage engine that adhere closely to the ACID model, so that data is not corrupted and results are not distorted by exceptional conditions such as software crashes and hardware malfunctions. When you rely on ACID-compliant features, you do not need to reinvent the wheel of consistency checking and crash recovery mechanisms. In cases where you have additional software safeguards, ultra-reliable hardware, or an application that can tolerate a small amount of data loss or inconsistency, you can adjust MySQL settings to trade some of the ACID reliability for greater performance or throughput. 
+
+The following sections discuss how MySQL features, in particular the InnoDB storage engine, interact with the categories of the ACID model: 
+
+Atomicity
+
+The atomicity aspect of the ACID model mainly involves InnoDB transactions. Related MySQL features include: 
+
+- Autocommit setting. 
+- COMMIT statement. 
+- ROLLBACK statement. 
+- Operational data from the INFORMATION_SCHEMA tables. 
+
+Consistency
+
+The consistency aspect of the ACID model mainly involves internal InnoDB processing to protect data from crashes. Related MySQL features include: 
+
+- InnoDB doublewrite buffer. 
+- InnoDB crash recovery. 
+
+Isolation
+
+The isolation aspect of the ACID model mainly involves InnoDB transactions, in particular the isolation level that applies to each transaction. Related MySQL features include: 
+
+- Autocommit setting. 
+- SET ISOLATION LEVEL statement. 
+- The low-level details of InnoDB locking. During performance tuning, you see these details through INFORMATION_SCHEMA tables. 
+
+Durability
+
+The durability aspect of the ACID model involves MySQL software features interacting with your particular hardware configuration. Because of the many possibilities depending on the capabilities of your CPU, network, and storage devices, this aspect is the most complicated to provide concrete guidelines for. Related MySQL features include: 
+
+- InnoDB doublewrite buffer, turned on and off by the innodb_doublewrite configuration option. 
+- Configuration option innodb_flush_log_at_trx_commit. 
+- Configuration option sync_binlog. 
+- Configuration option innodb_file_per_table. 
+- Write buffer in a storage device, such as a disk drive, SSD, or RAID array. 
+- Battery-backed cache in a storage device. 
+- The operating system used to run MySQL, in particular its support for the fsync() system call. 
+- Uninterruptible power supply (UPS) protecting the electrical power to all computer servers and storage devices that run MySQL servers and store MySQL data. 
+- Your backup strategy, such as frequency and types of backups, and backup retention periods. 
+- For distributed or hosted data applications, the particular characteristics of the data centers where the hardware for the MySQL servers is located, and network connections between the data centers. 
+
+### The InnoDB Transaction Model and Locking
+
+In the InnoDB transaction model, the goal is to combine the best properties of a multi-versioning database with traditional two-phase locking. InnoDB does locking on the row level and runs queries as nonlocking consistent reads by default, in the style of Oracle. The lock information in InnoDB is stored so space-efficiently that lock escalation is not needed: Typically, several users are permitted to lock every row in InnoDB tables, or any random subset of the rows, without causing InnoDB memory exhaustion.
+
+In InnoDB, all user activity occurs inside a transaction. If autocommit mode is enabled, each SQL statement forms a single transaction on its own. By default, MySQL starts the session for each new connection with autocommit enabled, so MySQL does a commit after each SQL statement if that statement did not return an error. If a statement returns an error, the commit or rollback behavior depends on the error.
+
+A session that has autocommit enabled can perform a multiple-statement transaction by starting it with an explicit START TRANSACTION or BEGIN statement and ending it with a COMMIT or ROLLBACK statement.
+
+If autocommit mode is disabled within a session with SET autocommit = 0, the session always has a transaction open. A COMMIT or ROLLBACK statement ends the current transaction and a new one starts.
+
+A COMMIT means that the changes made in the current transaction are made permanent and become visible to other sessions. A ROLLBACK statement, on the other hand, cancels all modifications made by the current transaction. Both COMMIT and ROLLBACK release all InnoDB locks that were set during the current transaction. 
+
+In terms of the SQL:1992 transaction isolation levels, the default InnoDB level is REPEATABLE READ. InnoDB offers all four transaction isolation levels described by the SQL standard: READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, and SERIALIZABLE. 
+
+A user can change the isolation level for a single session or for all subsequent connections with the SET TRANSACTION statement. To set the server's default isolation level for all connections, use the --transaction-isolation option on the command line or in an option file.
+
+
+
+
+
