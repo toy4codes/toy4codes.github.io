@@ -33,13 +33,15 @@ Obtaining information about the current user
 
 Inside the SecurityContextHolder we store details of the principal currently interacting with the application. Spring Security uses an Authentication object to represent this information. You won’t normally need to create an Authentication object yourself, but it is fairly common for users to query the Authentication object. You can use the following code block - from anywhere in your application - to obtain the name of the currently authenticated user, for example:
 
-    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+{% highlight java %}
+Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    if (principal instanceof UserDetails) {
-        String username = ((UserDetails)principal).getUsername();
-    } else {
-        String username = principal.toString();
-    }
+if (principal instanceof UserDetails) {
+  String username = ((UserDetails)principal).getUsername();
+} else {
+  String username = principal.toString();
+}
+{% endhighlight %}
 
 The object returned by the call to getContext() is an instance of the SecurityContext interface. This is the object that is kept in thread-local storage. As we’ll see below, most authentication mechanisms withing Spring Security return an instance of UserDetails as the principal.
 
@@ -49,7 +51,9 @@ Another item to note from the above code fragment is that you can obtain a princ
 
 By now you’re probably wondering, so when do I provide a UserDetails object? How do I do that? I thought you said this thing was declarative and I didn’t need to write any Java code - what gives? The short answer is that there is a special interface called UserDetailsService. The only method on this interface accepts a String-based username argument and returns a UserDetails:
 
-    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+{% highlight java %}
+UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+{% endhighlight %}
 
 This is the most common approach to loading information for a user within Spring Security and you will see it used throughout the framework whenever information on a user is required.
 
@@ -111,7 +115,7 @@ The first three items constitute the authentication process so we’ll take a lo
 
 From that point on, the user is considered to be authenticated. Let’s look at some code as an example.
 
-```java
+{% highlight java %}
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -157,9 +161,34 @@ class SampleAuthenticationManager implements AuthenticationManager {
       throw new BadCredentialsException("Bad Credentials");
   }
 }
-```
+{% endhighlight %}
+
+Here we have written a little program that asks the user to enter a username and password and performs the above sequence. The AuthenticationManager which we’ve implemented here will authenticate any user whose username and password are the same. It assigns a single role to every user. The output from the above will be something like:
+
+{% highlight java %}
+Please enter your username:
+bob
+Please enter your password:
+password
+Authentication failed: Bad Credentials
+Please enter your username:
+bob
+Please enter your password:
+bob
+Successfully authenticated. Security context contains:
+org.springframework.security.authentication.UsernamePasswordAuthenticationToken@441d0230:
+Principal: bob; Password: [PROTECTED];
+Authenticated: true; Details: null; 
+Granted Authorities: ROLE_USER
+{% endhighlight %}
+
+Note that you don’t normally need to write any code like this. The process will normally occur internally, in a web authentication filter for example. We’ve just included the code here to show that the question of what actually constitutes authentication in Spring Security has quite a simple answer. A user is authenticated when the SecurityContextHolder contains a fully populated Authentication object.
 
 #### Setting the SecurityContextHolder Contents Directly
+
+In fact, Spring Security doesn’t mind how you put the Authentication object inside the SecurityContextHolder. The only critical requirement is that the SecurityContextHolder contains an Authentication which represents a principal before the AbstractSecurityInterceptor (which we’ll see more about later) needs to authorize a user operation.
+
+You can (and many users do) write their own filters or MVC controllers to provide interoperability with authentication systems that are not based on Spring Security. For example, you might be using Container-Managed Authentication which makes the current user available from a ThreadLocal or JNDI location. Or you might work for a company that has a legacy proprietary authentication system, which is a corporate "standard" over which you have little control. In situations like this it’s quite easy to get Spring Security to work, and still provide authorization capabilities. All you need to do is write a filter (or equivalent) that reads the third-party user information from a location, build a Spring Security-specific Authentication object, and put it into the SecurityContextHolder. In this case you also need to think about things which are normally taken care of automatically by the built-in authentication infrastructure. For example, you might need to pre-emptively create an HTTP session to cache the context between requests, before you write the response to the client.
 
 ### Authentication in a Web Application
 
