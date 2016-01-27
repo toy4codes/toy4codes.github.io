@@ -5,8 +5,6 @@ date:   2016-01-01 12:00:00
 categories: help
 ---
 
-# Help Docs
-
 bootstrap : [http://getbootstrap.com/](http://getbootstrap.com/)
 
 git docs : [https://git-scm.com/doc](https://git-scm.com/doc)
