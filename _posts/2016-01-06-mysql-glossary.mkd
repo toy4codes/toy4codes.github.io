@@ -1,0 +1,61 @@
+---
+layout: post
+title:  "MySQL Glossary"
+date:   2016-01-06 12:00:00
+categories: mysql innodb
+---
+
+### system tablespace
+
+One or more data files (ibdata files) containing the metadata for InnoDB-related objects (the data dictionary), and the storage areas for one or more undo logs, the change buffer, and the doublewrite buffer. It may also contain table and index data for InnoDB tables if tables were created in the system tablespace instead of a file-per-table or general tablespaces. The data and metadata in the system tablespace apply to all the databases in a MySQL instance. 
+
+Prior to MySQL 5.6.7, the default was to keep all InnoDB tables and indexes inside the system tablespace, often causing this file to become very large. Because the system tablespace never shrinks, storage problems could arise if large amounts of temporary data were loaded and then deleted. In MySQL 5.7, the default is file-per-table mode, where each table and its associated indexes are stored in a separate .ibd file. This new default makes it easier to use InnoDB features that rely on the Barracuda file format, such as table compression, off-page storage for long variable-length column values, and large index key prefixes (innodb_large_prefix). 
+
+Keeping all table data in the system tablespace or in separate .ibd files has implications for storage management in general. The MySQL Enterprise Backup product might back up a small set of large files, or many smaller files. On systems with thousands of tables, the file system operations to process thousands of .ibd files can cause bottlenecks. 
+
+The innodb_undo_tablespaces option allows you to configure separate tablespace files for undo logs. These files are still considered part of the system tablespace. 
+
+InnoDB introduced general tablespaces in MySQL 5.7.6, which are also represented by .ibd files. General tablespaces are shared tablespaces created using CREATE TABLESPACE syntax. They can be created outside of the MySQL data directory, are capable of holding multiple tables, and support tables of all row formats. 
+
+### general tablespace
+
+A shared InnoDB tablespace created using CREATE TABLESPACE syntax. General tablespaces can be created outside of the MySQL data directory, are capable of holding multiple tables, and support tables of all row formats. General tablespaces were introduced in MySQL 5.7.6.
+
+Tables are added to a general tablespace using CREATE TABLE tbl_name ... TABLESPACE [=] tablespace_name or ALTER TABLE tbl_name TABLESPACE [=] tablespace_name syntax. 
+
+### barracuda 
+
+The code name for an InnoDB file format that supports the COMPRESSED row format that enables InnoDB table compression, and the DYNAMIC row format that improves the storage layout for long variable-length columns. 
+
+The MySQL Enterprise Backup product version 3.5 and above supports backing up tablespaces that use the Barracuda file format. 
+
+### dynamic row format
+
+A row format introduced in the InnoDB Plugin, available as part of the Barracuda file format. Because long variable-length column values are stored outside of the page that holds the row data, it is very efficient for rows that include large objects. Since the large fields are typically not accessed to evaluate query conditions, they are not brought into the buffer pool as often, resulting in fewer I/O operations and better utilization of cache memory. 
+
+As of MySQL 5.7.9, the default row format is defined by innodb_default_row_format, which has a default value of DYNAMIC. 
+
+### compression
+
+A feature with wide-ranging benefits from using less disk space, performing less I/O, and using less memory for caching. 
+
+InnoDB supports both table-level and page-level compression. InnoDB page compression was introduced in MySQL 5.7.8 and is also referred to as transparent page compression.
+
+Another type of compression is the compressed backup feature of the MySQL Enterprise Backup product. 
+
+### instance
+
+A single mysqld daemon managing a data directory representing one or more databases with a set of tables. It is common in development, testing, and some replication scenarios to have multiple instances on the same server machine, each managing its own data directory and listening on its own port or socket. With one instance running a disk-bound workload, the server might still have extra CPU and memory capacity to run additional instances. 
+
+### database
+
+Within the MySQL data directory, each database is represented by a separate directory. The InnoDB system tablespace, which can hold table data from multiple databases within a MySQL instance, is kept in data files that reside outside of individual database directories. When file-per-table mode is enabled, the .ibd files representing individual InnoDB tables are stored inside the database directories unless created elsewhere using the DATA DIRECTORY clause. General tablespaces, introduced in MySQL 5.7.6, also hold table data in .ibd files. Unlike file-per-table .ibd files, general tablespace .ibd files can hold table data from multiple databases within a MySQL instance, and can be assigned to directories relative to or independent of the MySQL data directory.
+
+For long-time MySQL users, a database is a familiar notion. Users coming from an Oracle Database background will find that the MySQL meaning of a database is closer to what Oracle Database calls a schema. 
+
+### data dictionary
+
+Metadata that keeps track of InnoDB-related objects such as tables, indexes, and table columns. This metadata is physically located in the InnoDB system tablespace. For historical reasons, it overlaps to some degree with information stored in the .frm files. 
+
+Because the MySQL Enterprise Backup product always backs up the system tablespace, all backups include the contents of the data dictionary. 
+

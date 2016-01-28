@@ -1,0 +1,8 @@
+---
+layout: post
+title:  "Checking InnoDB Availability"
+date:   2016-01-04 12:00:00
+categories: mysql innodb
+---
+
+To determine whether your server supports InnoDB, use the SHOW ENGINES statement. (Now that InnoDB is the default MySQL storage engine, only very specialized environments might not support it.) 

@@ -1,0 +1,72 @@
+---
+layout: post
+title:  "InnoDB as the Default MySQL Storage Engine"
+date:   2016-01-03 12:00:00
+categories: mysql innodb
+---
+
+InnoDB is the default storage engine in MySQL 5.7. InnoDB is a transaction-safe (ACID compliant) storage engine for MySQL that has commit, rollback, and crash-recovery capabilities to protect user data. InnoDB row-level locking (without escalation to coarser granularity locks) and Oracle-style consistent nonlocking reads increase multi-user concurrency and performance. InnoDB stores user data in clustered indexes to reduce I/O for common queries based on primary keys. To maintain data integrity, InnoDB also supports FOREIGN KEY referential-integrity constraints. 
+
+Unless you have configured a different default storage engine, issuing the CREATE TABLE statement without an ENGINE= clause creates an InnoDB table. 
+
+## Benefits of InnoDB Tables
+
+If you use MyISAM tables but are not committed to them for technical reasons, you may find InnoDB tables beneficial for the following reasons: 
+
+- If your server crashes because of a hardware or software issue, regardless of what was happening in the database at the time, you don't need to do anything special after restarting the database. InnoDB crash recovery automatically finalizes any changes that were committed before the time of the crash, and undoes any changes that were in process but not committed. Just restart and continue where you left off. 
+- The InnoDB buffer pool caches table and index data as the data is accessed. Frequently used data is processed directly from memory. This cache applies to many types of information, and speeds up processing. 
+- If you split up related data into different tables, you can set up foreign keys that enforce referential integrity. Update or delete data, and the related data in other tables is updated or deleted automatically. Try to insert data into a secondary table without corresponding data in the primary table, and the bad data gets kicked out automatically. 
+-  If data becomes corrupted on disk or in memory, a checksum mechanism alerts you to the bogus data before you use it. 
+- When you design your database with appropriate primary key columns for each table, operations involving those columns are automatically optimized. It is very fast to reference the primary key columns in WHERE clauses, ORDER BY clauses, GROUP BY clauses, and join operations. 
+- Inserts, updates, and deletes are optimized by an automatic mechanism called change buffering. InnoDB not only allows concurrent read and write access to the same table, it caches changed data to streamline disk I/O. 
+- Performance benefits are not limited to giant tables with long-running queries. When the same rows are accessed over and over from a table, a feature called the Adaptive Hash Index takes over to make these lookups even faster, as if they came out of a hash table. 
+- You can compress tables and associated indexes. 
+- You can create and drop indexes with much less impact on performance and availability. 
+- Truncating a file_per_table tablespace is very fast, and can free up disk space for the operating system to reuse, rather than freeing up space within the system tablespace that only InnoDB could reuse. 
+- The storage layout for table data is more efficient for BLOB and long text fields, with the DYNAMIC row format. 
+- You can monitor the internal workings of the storage engine by querying INFORMATION_SCHEMA tables. 
+- You can monitor the performance details of the storage engine by querying Performance Schema tables. 
+
+## Recent Improvements for InnoDB Tables
+
+MySQL continues to work on addressing use cases that formerly required MyISAM tables. In MySQL 5.6 and higher: 
+
+- InnoDB can perform full-text search using the FULLTEXT index type.
+- InnoDB now performs better with read-only or read-mostly workloads. Automatic optimizations apply to InnoDB queries in autocommit mode, and you can explicitly mark transactions as read-only with the syntax START TRANSACTION READ ONLY.
+- Applications distributed on read-only media can now use InnoDB tables.
+
+## Best Practices for InnoDB Tables
+
+- Specifying a primary key for every table using the most frequently queried column or columns, or an auto-increment value if there is no obvious primary key. 
+- Using joins wherever data is pulled from multiple tables based on identical ID values from those tables. For fast join performance, define foreign keys on the join columns, and declare those columns with the same data type in each table. Adding foreign keys ensures that referenced columns are indexed, which can improve performance. Foreign keys also propagate deletes or updates to all affected tables, and prevent insertion of data in a child table if the corresponding IDs are not present in the parent table. 
+-  Grouping sets of related DML operations into transactions, by bracketing them with START TRANSACTION and COMMIT statements. While you don't want to commit too often, you also don't want to issue huge batches of INSERT, UPDATE, or DELETE statements that run for hours without committing. 
+- Not using LOCK TABLES statements. InnoDB can handle multiple sessions all reading and writing to the same table at once, without sacrificing reliability or high performance. To get exclusive write access to a set of rows, use the SELECT ... FOR UPDATE syntax to lock just the rows you intend to update. 
+- Enabling the innodb_file_per_table option to put the data and indexes for individual tables into separate files, instead of in a single giant system tablespace. This setting is required to use some of the other features, such as table compression and fast truncation. The innodb_file_per_table option is enabled by default as of MySQL 5.6.6. 
+- Evaluating whether your data and access patterns benefit from the InnoDB table compression feature (ROW_FORMAT=COMPRESSED) on the CREATE TABLE statement. You can compress InnoDB tables without sacrificing read/write capability. 
+- Running your server with the option --sql_mode=NO_ENGINE_SUBSTITUTION to prevent tables being created with a different storage engine if there is an issue with the engine specified in the ENGINE= clause of CREATE TABLE. 
+
+## Testing and Benchmarking with InnoDB as Default Storage Engine
+
+If InnoDB is not your default storage engine, you can determine if your database server or applications work correctly with InnoDB by restarting the server with --default-storage-engine=InnoDB defined on the command line or with default-storage-engine=innodb defined in the [mysqld] section of the my.cnf configuration file.
+
+Since changing the default storage engine only affects new tables as they are created, run all your application installation and setup steps to confirm that everything installs properly. Then exercise all the application features to make sure all the data loading, editing, and querying features work. If a table relies on some MyISAM-specific feature, you'll receive an error; add the ENGINE=MyISAM clause to the CREATE TABLE statement to avoid the error. 
+
+If you did not make a deliberate decision about the storage engine, and you just want to preview how certain tables work when they're created under InnoDB, issue the command ALTER TABLE table_name ENGINE=InnoDB; for each table. Or, to run test queries and other statements without disturbing the original table, make a copy like so: 
+
+{% highlight sql %}
+CREATE TABLE InnoDB_Table (...) ENGINE=InnoDB AS SELECT * FROM MyISAM_Table;
+{% endhighlight %}
+
+To get a true idea of the performance with a full application under a realistic workload, install the latest MySQL server and run benchmarks.
+
+Test the full application lifecycle, from installation, through heavy usage, and server restart. Kill the server process while the database is busy to simulate a power failure, and verify that the data is recovered successfully when you restart the server.
+
+Test any replication configurations, especially if you use different MySQL versions and options on the master and the slaves. 
+
+## Verifying that InnoDB is the Default Storage Engine
+
+To verify that InnoDB is the default storage engine: 
+
+- Issue the SHOW ENGINES command to view the different MySQL storage engines. Look for DEFAULT in the InnoDB line. Alternatively, query the INFORMATION_SCHEMA ENGINES table.
+- If InnoDB is not present, you have a mysqld binary that was compiled without InnoDB support and you need to get a different one.
+- If InnoDB is present but disabled, go back through your startup options and configuration file and get rid of any skip-innodb option. 
