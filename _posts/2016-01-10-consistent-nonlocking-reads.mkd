@@ -18,7 +18,7 @@ Suppose that you are running in the default REPEATABLE READ isolation level. Whe
 > Note
 > 
 > The snapshot of the database state applies to SELECT statements within a transaction, not necessarily to DML statements. If you insert or modify some rows and then commit that transaction, a DELETE or UPDATE statement issued from another concurrent REPEATABLE READ transaction could affect those just-committed rows, even though the session could not query them. If a transaction does update or delete rows committed by a different transaction, those changes do become visible to the current transaction. For example, you might encounter a situation like the following: 
-> 
+
 {% highlight sql %}
 SELECT COUNT(c1) FROM t1 WHERE c1 = 'xyz'; -- Returns 0: no rows match.
 DELETE FROM t1 WHERE c1 = 'xyz'; -- Deletes several rows recently committed by other transaction.
