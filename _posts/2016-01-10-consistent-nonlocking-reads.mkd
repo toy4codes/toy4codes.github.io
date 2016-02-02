@@ -38,9 +38,9 @@ In the following example, session A sees the row inserted by B only when B has c
 
 If you want to see the “freshest” state of the database, use either the READ COMMITTED isolation level or a locking read: 
 
-{% hihglight sql %}
+{% highlight sql %}
 SELECT * FROM t LOCK IN SHARE MODE;
-{% endhihglight %}
+{% endhighlight %}
 
 With READ COMMITTED isolation level, each consistent read within a transaction sets and reads its own fresh snapshot. With LOCK IN SHARE MODE, a locking read occurs instead: A SELECT blocks until the transaction containing the freshest rows ends.
 
