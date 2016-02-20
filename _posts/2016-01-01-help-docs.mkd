@@ -29,6 +29,8 @@ markdown docs : [https://daringfireball.net/projects/markdown/](https://daringfi
 
 mysql docs : [http://dev.mysql.com/doc/](http://dev.mysql.com/doc/)
 
+nginx docs : [http://nginx.org/en/docs/](http://nginx.org/en/docs/)
+
 struts : [http://struts.apache.org/](http://struts.apache.org/)
 
 spring : [http://projects.spring.io/spring-framework/](http://projects.spring.io/spring-framework/)
