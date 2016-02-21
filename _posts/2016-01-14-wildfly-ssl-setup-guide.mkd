@@ -1,0 +1,70 @@
+---
+layout: post
+title:  "SSL Setup Guide"
+date:   2016-01-14 12:00:00
+categories: wildfly
+---
+
+### SSL-Setup using keytool
+
+We will generate a secret key/certificate and store it in a file called a "key store". The certificate is valid for 10 years = 3650 days. The password use for encryption is "secret".
+
+One important issue is the common name (CN) of the certificate. For some reason this is referred to as "first and last name". It should however match the name of the web server, or some browsers like IE will claim the certificate to be invalid although you may have accepted it already.
+
+#### Generate key
+
+{% highlight java %}
+$ keytool -genkey -alias jboss -keyalg RSA -keystore jboss.keystore -validity 3650
+
+Enter keystore password: secret
+Re-enter new password: secret
+What is your first and last name?
+  [Unknown]:  ubuntu
+What is the name of your organizational unit?
+  [Unknown]:  toy4codes
+What is the name of your organization?
+  [Unknown]:  jboss
+What is the name of your City or Locality?
+  [Unknown]:  ShenZhen
+What is the name of your State or Province?
+  [Unknown]:  GuangDong
+What is the two-letter country code for this unit?
+  [Unknown]:  CN
+Is CN=ubuntu, OU=toy4codes, O=jboss, L=ShenZhen, ST=GuangDong, C=CN correct?
+  [no]:  yes
+
+Enter key password for <jboss> secret
+    (RETURN if same as keystore password):  
+Re-enter new password: secret
+
+{% endhighlight %}
+
+#### Configure WildFly
+
+{% highlight java %}
+<security-realm name="SecureRealm">
+    <server-identities>
+        <ssl>
+            <keystore path="jboss.keystore" relative-to="jboss.server.config.dir" keystore-password="secret"/>
+        </ssl>
+    </server-identities>
+</security-realm>
+{% endhighlight %}
+
+and
+
+{% highlight java %}
+<https-listener name="https" socket-binding="https" security-realm="SecureRealm"/>
+{% endhighlight %}
+
+#### Port configuration
+
+The above example assumes that you have configured WildFly to use the standard ports 80 (HTTP) and 443 (HTTPS). Accesses to the HTTP port will be redirected HTTPS.
+
+{% highlight java %}
+<socket-binding-group name="standard-sockets" default-interface="public" ...>
+<socket-binding name="http" port="80" />
+<socket-binding name="https" port="443" />
+...
+</socket-binding-group>
+{% endhighlight %}
