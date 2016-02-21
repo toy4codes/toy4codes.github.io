@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Enable Wildfly Remote Access"
+title:  "Wildfly Enable Remote Access"
 date:   2016-01-13 12:00:00
 categories: wildfly
 ---
