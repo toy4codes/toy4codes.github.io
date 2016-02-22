@@ -44,7 +44,7 @@ Download a stable release of ZooKeeper from the Apache ZooKeeper releases page, 
 ZooKeeper provides a few binaries to run and interact with the service, and it’s convenient to put the directory containing the binaries on your command-line path:
 
 {% highlight java %}
-% export ZOOKEEPER_HOME=~/home/tos/zookeeper-3.4.8
+% export ZOOKEEPER_HOME=/home/tos/zookeeper-3.4.8
 % export PATH=$PATH:$ZOOKEEPER_HOME/bin
 {% endhighlight %}
 
