@@ -68,7 +68,7 @@ You might be wondering where the login form came from when you were prompted to 
 <http>
   <intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
   <intercept-url pattern="/**" access="ROLE_USER" />
-  <form-login login-page='/login.jsp'/>
+  <form-login login-page="/login.jsp"/>
 </http>
 {% endhighlight %}
 
@@ -80,7 +80,7 @@ Also note that we’ve added an extra intercept-url element to say that any requ
 
 <http>
   <intercept-url pattern="/**" access="ROLE_USER" />
-  <form-login login-page='/login.jsp'/>
+  <form-login login-page="/login.jsp"/>
 </http>
 {% endhighlight %}
 
