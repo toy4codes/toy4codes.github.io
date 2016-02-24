@@ -2,7 +2,7 @@
 layout: post
 title:  "Locking Reads"
 date:   2016-01-11 12:00:00
-categories: mysql innodb
+categories: mysql-innodb
 ---
 
 If you query data and then insert or update related data within the same transaction, the regular SELECT statement does not give enough protection. Other transactions can update or delete the same rows you just queried. InnoDB supports two types of locking reads that offer extra safety: 

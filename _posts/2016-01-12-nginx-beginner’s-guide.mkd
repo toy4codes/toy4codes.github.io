@@ -15,6 +15,12 @@ The way nginx and its modules work is determined in the configuration file. By d
 
 Installing nginx : [http://nginx.org/en/docs/install.html](http://nginx.org/en/docs/install.html)
 
+### Enable, Disable nginx automatically starts
+
+> sudo update-rc.d -f nginx enable
+
+> sudo update-rc.d -f nginx disable
+
 ### Starting, Stopping, and Reloading Configuration
 
 To start nginx, run the executable file. Once nginx is started, it can be controlled by invoking the executable with the -s parameter. Use the following syntax: 

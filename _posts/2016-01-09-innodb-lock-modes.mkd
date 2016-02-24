@@ -2,7 +2,7 @@
 layout: post
 title:  "InnoDB Lock Modes"
 date:   2016-01-09 12:00:00
-categories: mysql innodb
+categories: mysql-innodb
 ---
 
 InnoDB implements standard row-level locking where there are two types of locks, shared (S) locks and exclusive (X) locks.

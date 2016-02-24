@@ -2,7 +2,7 @@
 layout: post
 title:  "Introduction to InnoDB"
 date:   2016-01-02 12:00:00
-categories: mysql innodb
+categories: mysql-innodb
 ---
 
 InnoDB is a general-purpose storage engine that balances high reliability and high performance. In MySQL 5.7, InnoDB is the default MySQL storage engine. Issuing the CREATE TABLE statement without an ENGINE= clause creates an InnoDB table. 

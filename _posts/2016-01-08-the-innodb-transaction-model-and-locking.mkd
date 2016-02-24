@@ -2,7 +2,7 @@
 layout: post
 title:  "The InnoDB Transaction Model and Locking"
 date:   2016-01-08 12:00:00
-categories: mysql innodb
+categories: mysql-innodb
 ---
 
 To implement a large-scale, busy, or highly reliable database application, to port substantial code from a different database system, or to tune MySQL performance, you must understand the notions of transactions and locking as they relate to the InnoDB storage engine. 
