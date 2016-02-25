@@ -1,0 +1,74 @@
+---
+layout: post
+title:  "Advanced Web Features"
+date:   2016-01-20 12:00:00
+categories: spring-security-namespace-configuration
+---
+
+### Adding HTTP/HTTPS Channel Security
+
+If your application supports both HTTP and HTTPS, and you require that particular URLs can only be accessed over HTTPS, then this is directly supported using the requires-channel attribute on <intercept-url>:
+
+{% highlight java %}
+<http>
+  <intercept-url pattern="/secure/**" access="ROLE_USER" requires-channel="https"/>
+  <intercept-url pattern="/**" access="ROLE_USER" requires-channel="any"/>
+  ...
+</http>
+{% endhighlight %}
+
+With this configuration in place, if a user attempts to access anything matching the "/secure/**" pattern using HTTP, they will first be redirected to an HTTPS URL. The available options are "http", "https" or "any". Using the value "any" means that either HTTP or HTTPS can be used.
+
+If your application uses non-standard ports for HTTP and/or HTTPS, you can specify a list of port mappings as follows:
+
+{% highlight java %}
+<http>
+  ...
+  <port-mappings>
+    <port-mapping http="9080" https="9443"/>
+  </port-mappings>
+</http>
+{% endhighlight %}
+
+Note that in order to be truly secure, an application should not use HTTP at all or switch between HTTP and HTTPS. It should start in HTTPS (with the user entering an HTTPS URL) and use a secure connection throughout to avoid any possibility of man-in-the-middle attacks.
+
+### Session Management
+
+#### Detecting Timeouts
+
+You can configure Spring Security to detect the submission of an invalid session ID and redirect the user to an appropriate URL. This is achieved through the session-management element:
+
+{% highlight java %}
+<http>
+  ...
+  <session-management invalid-session-url="/invalidSession.htm" />
+</http>
+{% endhighlight %}
+
+Note that if you use this mechanism to detect session timeouts, it may falsely report an error if the user logs out and then logs back in without closing the browser. This is because the session cookie is not cleared when you invalidate the session and will be resubmitted even if the user has logged out. You may be able to explicitly delete the JSESSIONID cookie on logging out, for example by using the following syntax in the logout handler:
+
+{% highlight java %}
+<http>
+  <logout delete-cookies="JSESSIONID" />
+</http>
+{% endhighlight %}
+
+Unfortunately this can’t be guaranteed to work with every servlet container, so you will need to test it in your environment
+
+> If you are running your application behind a proxy, you may also be able to remove the session cookie by configuring the proxy server. For example, using Apache HTTPD’s mod_headers, the following directive would delete the JSESSIONID cookie by expiring it in the response to a logout request (assuming the application is deployed under the path /tutorial):
+> 
+> <LocationMatch "/tutorial/j_spring_security_logout">
+>     Header always set Set-Cookie "JSESSIONID=;Path=/tutorial;Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+> </LocationMatch>
+
+#### Concurrent Session Control
+
+#### Session Fixation Attack Protection
+
+
+
+
+
+
+
+
