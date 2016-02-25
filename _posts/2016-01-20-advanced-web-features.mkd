@@ -58,8 +58,8 @@ Unfortunately this can’t be guaranteed to work with every servlet container, s
 > If you are running your application behind a proxy, you may also be able to remove the session cookie by configuring the proxy server. For example, using Apache HTTPD’s mod_headers, the following directive would delete the JSESSIONID cookie by expiring it in the response to a logout request (assuming the application is deployed under the path /tutorial):
 > 
 > <LocationMatch "/tutorial/j_spring_security_logout">
->     Header always set Set-Cookie "JSESSIONID=;Path=/tutorial;Expires=Thu, 01 Jan 1970 00:00:00 GMT"
-> </LocationMatch>
+  Header always set Set-Cookie "JSESSIONID=;Path=/tutorial;Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+</LocationMatch>
 
 #### Concurrent Session Control
 
