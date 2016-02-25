@@ -2,7 +2,7 @@
 layout: post
 title:  "Getting Started with Security Namespace Configuration"
 date:   2016-01-18 12:00:00
-categories: security-namespace-configuration
+categories: spring-security-namespace-configuration
 ---
 
 In this section, we’ll look at how you can build up a namespace configuration to use some of the main features of the framework. Let’s assume you initially want to get up and running as quickly as possible and add authentication support and access control to an existing web application. Then we’ll look at how to change over to authenticating against a database or other security repository
@@ -98,3 +98,88 @@ If you want to use basic authentication instead of form login, then change the c
 {% endhighlight %}
 
 Basic authentication will then take precedence and will be used to prompt for a login when a user attempts to access a protected resource. Form login is still available in this configuration if you wish to use it, for example through a login form embedded in another web page.
+
+#### Setting a Default Post-Login Destination
+
+If a form login isn’t prompted by an attempt to access a protected resource, the default-target-url option comes into play. This is the URL the user will be taken to after successfully logging in, and defaults to "/". You can also configure things so that the user always ends up at this page (regardless of whether the login was "on-demand" or they explicitly chose to log in) by setting the always-use-default-target attribute to "true". This is useful if your application always requires that the user starts at a "home" page, for example:
+
+{% highlight java %}
+<http pattern="/login.htm*" security="none"/>
+<http>
+  <intercept-url pattern='/**' access='ROLE_USER' />
+  <form-login login-page='/login.htm' default-target-url='/home.htm'
+          always-use-default-target='true' />
+</http>
+{% endhighlight %}
+
+For even more control over the destination, you can use the authentication-success-handler-ref attribute as an alternative to default-target-url. The referenced bean should be an instance of AuthenticationSuccessHandler.
+
+### Logout Handling
+
+The logout element adds support for logging out by navigating to a particular URL. The default logout URL is /j_spring_security_logout, but you can set it to something else using the logout-url attribute.
+
+### Using other Authentication Providers
+
+In practice you will need a more scalable source of user information than a few names added to the application context file. Most likely you will want to store your user information in something like a database or an LDAP server. If you have a custom implementation of Spring Security’s UserDetailsService, called "myUserDetailsService" in your application context, then you can authenticate against this using
+
+{% highlight java %}
+<authentication-manager>
+    <authentication-provider user-service-ref='myUserDetailsService'/>
+</authentication-manager>
+{% endhighlight %}
+
+If you want to use a database, then you can use
+
+{% highlight java %}
+<authentication-manager>
+  <authentication-provider>
+    <jdbc-user-service data-source-ref="securityDataSource"/>
+  </authentication-provider>
+</authentication-manager>
+{% endhighlight %}
+
+Where "securityDataSource" is the name of a DataSource bean in the application context, pointing at a database containing the standard Spring Security user data tables. Alternatively, you could configure a Spring Security JdbcDaoImpl bean and point at that using the user-service-ref attribute:
+
+{% highlight java %}
+<authentication-manager>
+  <authentication-provider user-service-ref='myUserDetailsService'/>
+</authentication-manager>
+
+<beans:bean id="myUserDetailsService"
+    class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+  <beans:property name="dataSource" ref="dataSource"/>
+</beans:bean>
+{% endhighlight %}
+
+You can also use standard AuthenticationProvider beans as follows
+
+{% highlight java %}
+<authentication-manager>
+    <authentication-provider ref='myAuthenticationProvider'/>
+</authentication-manager>
+{% endhighlight %}
+
+where myAuthenticationProvider is the name of a bean in your application context which implements AuthenticationProvider. You can use multiple authentication-provider elements, in which case the providers will be queried in the order they are declared.
+
+#### Adding a Password Encoder
+
+Passwords should always be encoded using a secure hashing algorithm designed for the purpose (not a standard algorithm like SHA or MD5). This is supported by the <password-encoder> element. With bcrypt encoded passwords, the original authentication provider configuration would look like this:
+
+{% highlight java %}
+<beans:bean name="bcryptEncoder"
+    class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+<authentication-manager>
+  <authentication-provider>
+    <password-encoder ref="bcryptEncoder"/>
+    <user-service>
+      <user name="tos" password="d7e6351eaa13189a5a3641bab846c8e8c69ba39f"
+            authorities="ROLE_USER, ROLE_ADMIN" />
+      <user name="toy4codes" password="4e7421b1b8765d8f9406d87e7cc6aa784c4ab97f"
+            authorities="ROLE_USER" />
+    </user-service>
+  </authentication-provider>
+</authentication-manager>
+{% endhighlight %}
+
+Bcrypt is a good choice for most cases, unless you have a legacy system which forces you to use a different algorithm. If you are using a simple hashing algorithm or, even worse, storing plain text passwords, then you should consider migrating to a more secure option like bcrypt.

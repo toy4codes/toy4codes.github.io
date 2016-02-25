@@ -2,7 +2,7 @@
 layout: post
 title:  "Introduction"
 date:   2016-01-17 12:00:00
-categories: security-namespace-configuration
+categories: spring-security-namespace-configuration
 ---
 
 Namespace configuration has been available since version 2.0 of the Spring framework. It allows you to supplement the traditional Spring beans application context syntax with elements from additional XML schema. A namespace element can be used simply to allow a more concise way of configuring an individual bean or, more powerfully, to define an alternative configuration syntax which more closely matches the problem domain and hides the underlying complexity from the user. A simple element may conceal the fact that multiple beans and processing steps are being added to the application context. For example, adding the following element from the security namespace to an application context will start up an embedded LDAP server for testing use within the application:
