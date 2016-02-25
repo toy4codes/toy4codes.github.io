@@ -106,9 +106,9 @@ If a form login isn’t prompted by an attempt to access a protected resource, t
 {% highlight java %}
 <http pattern="/login.htm*" security="none"/>
 <http>
-  <intercept-url pattern='/**' access='ROLE_USER' />
-  <form-login login-page='/login.htm' default-target-url='/home.htm'
-          always-use-default-target='true' />
+  <intercept-url pattern="/**" access="ROLE_USER" />
+  <form-login login-page="/login.htm" default-target-url="/home.htm"
+          always-use-default-target="true" />
 </http>
 {% endhighlight %}
 
@@ -124,7 +124,7 @@ In practice you will need a more scalable source of user information than a few 
 
 {% highlight java %}
 <authentication-manager>
-    <authentication-provider user-service-ref='myUserDetailsService'/>
+    <authentication-provider user-service-ref="myUserDetailsService"/>
 </authentication-manager>
 {% endhighlight %}
 
@@ -142,7 +142,7 @@ Where "securityDataSource" is the name of a DataSource bean in the application c
 
 {% highlight java %}
 <authentication-manager>
-  <authentication-provider user-service-ref='myUserDetailsService'/>
+  <authentication-provider user-service-ref="myUserDetailsService"/>
 </authentication-manager>
 
 <beans:bean id="myUserDetailsService"
@@ -155,7 +155,7 @@ You can also use standard AuthenticationProvider beans as follows
 
 {% highlight java %}
 <authentication-manager>
-    <authentication-provider ref='myAuthenticationProvider'/>
+    <authentication-provider ref="myAuthenticationProvider"/>
 </authentication-manager>
 {% endhighlight %}
 
