@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Changing the Number or Size of InnoDB Redo Log Files"
-date:   2016-01-21 12:00:00
+date:   2016-01-22 12:00:00
 categories: innoDB-tablespace-management
 ---
 
