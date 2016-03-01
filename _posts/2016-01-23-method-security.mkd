@@ -1,0 +1,7 @@
+---
+layout: post
+title:  "Method Security"
+date:   2016-01-01 12:00:00
+categories: spring-security-namespace-configuration
+---
+
