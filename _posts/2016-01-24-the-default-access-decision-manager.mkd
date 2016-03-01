@@ -1,0 +1,30 @@
+---
+layout: post
+title:  "The Default AccessDecisionManager"
+date:   2016-01-24 12:00:00
+categories: spring-security-namespace-configuration
+---
+
+When you use a namespace configuration, a default instance of AccessDecisionManager is automatically registered for you and will be used for making access decisions for method invocations and web URL access, based on the access attributes you specify in your intercept-url and protect-pointcut declarations (and in annotations if you are using annotation secured methods).
+
+The default strategy is to use an AffirmativeBased AccessDecisionManager with a RoleVoter and an AuthenticatedVoter.
+
+### Customizing the AccessDecisionManager
+
+If you need to use a more complicated access control strategy then it is easy to set an alternative for both method and web security.
+
+For method security, you do this by setting the access-decision-manager-ref attribute on global-method-security to the id of the appropriate AccessDecisionManager bean in the application context:
+
+{% highlight java %}
+<global-method-security access-decision-manager-ref="accessDecisionManagerBean">
+  ...
+</global-method-security>
+{% endhighlight %}
+
+The syntax for web security is the same, but on the http element:
+
+{% highlight java %}
+<http access-decision-manager-ref="accessDecisionManagerBean">
+  ...
+</http>
+{% endhighlight %}
