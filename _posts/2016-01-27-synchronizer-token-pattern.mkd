@@ -2,7 +2,7 @@
 layout: post
 title:  "Synchronizer Token Pattern"
 date:   2016-01-27 12:00:00
-categories: cross-site-request-forgery
+categories: spring-security-cross-site-request-forgery
 ---
 
 The issue is that the HTTP request from the bank’s website and the request from the evil website are exactly the same. This means there is no way to reject requests coming from the evil website and allow requests coming from the bank’s website. To protect against CSRF attacks we need to ensure there is something in the request that the evil site is unable to provide.

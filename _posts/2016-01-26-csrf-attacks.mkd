@@ -2,7 +2,7 @@
 layout: post
 title:  "CSRF Attacks"
 date:   2016-01-26 12:00:00
-categories: cross-site-request-forgery
+categories: spring-security-cross-site-request-forgery
 ---
 
 Before we discuss how Spring Security can protect applications from CSRF attacks, we will explain what a CSRF attack is. Let’s take a look at a concrete example to get a better understanding.

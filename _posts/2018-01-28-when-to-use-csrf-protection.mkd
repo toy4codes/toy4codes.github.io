@@ -2,18 +2,18 @@
 layout: post
 title:  "When to use CSRF protection"
 date:   2016-01-28 12:00:00
-categories: cross-site-request-forgery
+categories: spring-security-cross-site-request-forgery
 ---
 
 When you use CSRF protection? Our recommendation is to use CSRF protection for any request that could be processed by a browser by normal users. If you are only creating a service that is used by non-browser clients, you will likely want to disable CSRF protection.
 
 ### CSRF protection and JSON
 
-A common question is, but do I need to protect JSON requests made by javascript? The short answer is, it depends. However, you must be very careful as there are CSRF exploits that can impact JSON requests. For example, a malicious user can create a CSRF with JSON using the following form:
+A common question is, but do I need to protect JSON requests made by javascript? The short answer is, it depends. However, you must be very careful as there are CSRF exploits that can impact JSON requests. For example, a malicious user can create a [CSRF with JSON](http://itsecurityconcepts.com/2014/04/22/csrf-on-json-requests/) using the following form:
 
 {% highlight java %}
 <form action="https://bank.example.com/transfer" method="post" enctype="text/plain">
-  <input name='{"amount":100,"routingNumber":"evilsRoutingNumber","account":"evilsAccountNumber"}' type="hidden">
+  <input name='{"amount":100,"routingNumber":"evilsRoutingNumber","account":"evilsAccountNumber", "ignore_me":"' value='test"}' type='hidden'>
   <input type="submit"
       value="Win Money!"/>
 </form>
@@ -33,7 +33,7 @@ If an application were not validating the Content-Type, then it would be exposed
 
 {% highlight java %}
 <form action="https://bank.example.com/transfer.json" method="post" enctype="text/plain">
-  <input name='{"amount":100,"routingNumber":"evilsRoutingNumber","account":"evilsAccountNumber"}' type="hidden">
+  <input name='{"amount":100,"routingNumber":"evilsRoutingNumber","account":"evilsAccountNumber", "ignore_me":"' value='test"}' type='hidden'>
   <input type="submit"
       value="Win Money!"/>
 </form>
