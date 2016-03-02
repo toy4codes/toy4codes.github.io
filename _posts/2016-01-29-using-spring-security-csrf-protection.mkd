@@ -1,0 +1,105 @@
+---
+layout: post
+title:  "Using Spring Security CSRF Protection"
+date:   2016-01-29 12:00:00
+categories: spring-security-cross-site-request-forgery
+---
+
+So what are the steps necessary to use Spring Security’s to protect our site against CSRF attacks? The steps to using Spring Security’s CSRF protection are outlined below:
+
+### Use proper HTTP verbs
+
+The first step to protecting against CSRF attacks is to ensure your website uses proper HTTP verbs. Specifically, before Spring Security’s CSRF support can be of use, you need to be certain that your application is using PATCH, POST, PUT, and/or DELETE for anything that modifies state.
+
+This is not a limitation of Spring Security’s support, but instead a general requirement for proper CSRF prevention. The reason is that including private information in an HTTP GET can cause the information to be leaked. See RFC 2616 Section 15.1.3 Encoding Sensitive Information in URI’s for general guidance on using POST instead of GET for sensitive information.
+
+### Configure CSRF Protection
+
+The next step is to include Spring Security’s CSRF protection within your application. Spring Security’s CSRF protection will produce an HTTP 403 access denied. This can be customized by configuring the AccessDeniedHandler to process InvalidCsrfTokenException differently.
+
+For passivity reasons, if you are using the XML configuration, CSRF protection must be explicitly enabled using the <csrf> element. Refer to the <csrf> element’s documentation for additional customizations.
+
+> [SEC-2347](https://jira.springsource.org/browse/SEC-2347) is logged to ensure Spring Security 4.x’s XML namespace configuration will enable CSRF protection by default.
+
+{% highlight java %}
+<http>
+    <!-- ... -->
+    <csrf />
+</http>
+{% endhighlight %}
+
+CSRF protection is enabled by default with Java configuration. If you would like to disable CSRF, the corresponding Java configuration can be seen below. Refer to the Javadoc of csrf() for additional customizations in how CSRF protection is configured.
+
+{% highlight java %}
+@EnableWebSecurity
+@Configuration
+public class WebSecurityConfig extends
+   WebSecurityConfigurerAdapter {
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http
+      .csrf().disable();
+  }
+}
+{% endhighlight %}
+
+### Include the CSRF Token
+
+#### Form Submissions
+
+The last step is to ensure that you include the CSRF token in all PATCH, POST, PUT, and DELETE methods. One way to approach this is to use the _csrf request attribute to obtain the current CsrfToken. An example of doing this with a JSP is shown below:
+
+{% highlight java %}
+<c:url var="logoutUrl" value="/logout"/>
+<form action="${logoutUrl}"
+    method="post">
+  <input type="submit"
+    value="Log out" />
+  <input type="hidden"
+    name="${_csrf.parameterName}"
+    value="${_csrf.token}"/>
+</form>
+{% endhighlight %}
+
+> If you are using Spring MVC <form:form> tag, and you replace @EnableWebSecurity with @EnableWebMvcSecurity, the CsrfToken is automatically included for you (using the CsrfRequestDataValueProcessor).
+
+#### Ajax and JSON Requests
+
+If you using JSON, then it is not possible to submit the CSRF token within an HTTP parameter. Instead you can submit the token within a HTTP header. A typical pattern would be to include the CSRF token within your meta tags. An example with a JSP is shown below:
+
+{% highlight java %}
+<html>
+  <head>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <!-- ... -->
+  </head>
+  <!-- ... -->
+{% endhighlight %}
+
+Instead of manually creating the meta tags, you can use the simpler csrfMetaTags tag from the Spring Security JSP tag library.
+
+You can then include the token within all your Ajax requests. If you were using jQuery, this could be done with the following:
+
+{% highlight java %}
+$(function () {
+  var token = $("meta[name='_csrf']").attr("content");
+  var header = $("meta[name='_csrf_header']").attr("content");
+  $(document).ajaxSend(function(e, xhr, options) {
+    xhr.setRequestHeader(header, token);
+  });
+});
+{% endhighlight %}
+
+As a alternative to jQuery, we recommend using [cujoJS’s](http://cujojs.com/) rest.js. The [rest.js](https://github.com/cujojs/rest) module provides advanced support for working with HTTP request and responses in RESTful ways. A core capability is the ability to contextualize the HTTP client adding behavior as needed by chaining interceptors on to the client.
+
+{% highlight java %}
+var client = rest.chain(csrf, {
+  token: $("meta[name='_csrf']").attr("content"),
+  name: $("meta[name='_csrf_header']").attr("content")
+});
+{% endhighlight %}
+
+The configured client can be shared with any component of the application that needs to make a request to the CSRF protected resource. One significant different between rest.js and jQuery is that only requests made with the configured client will contain the CSRF token, vs jQuery where all requests will include the token. The ability to scope which requests receive the token helps guard against leaking the CSRF token to a third party. Please refer to the [rest.js reference documentation](https://github.com/cujojs/rest/tree/master/docs) for more information on rest.js.

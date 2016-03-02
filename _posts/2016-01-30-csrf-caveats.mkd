@@ -1,0 +1,18 @@
+---
+layout: post
+title:  "CSRF Caveats"
+date:   2016-01-30 12:00:00
+categories: spring-security-cross-site-request-forgery
+---
+
+There are a few caveats when implementing CSRF.
+
+### Timeouts
+
+### Logging In
+
+### Logging Out
+
+### Multipart (file upload)
+
+### HiddenHttpMethodFilter
