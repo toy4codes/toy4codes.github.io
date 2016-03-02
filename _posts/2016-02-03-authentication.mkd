@@ -1,0 +1,29 @@
+---
+layout: post
+title:  "Authentication"
+date:   2016-02-03 12:00:00
+categories: spring-security-architecture-and-implementation
+---
+
+### What is authentication in Spring Security?
+
+Let’s consider a standard authentication scenario that everyone is familiar with.
+
+### Setting the SecurityContextHolder Contents Directly
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,18 @@
+---
+layout: post
+title:  "Access-Control in Spring Security"
+date:   2016-02-05 12:00:00
+categories: spring-security-architecture-and-implementation
+---
+
+### Security and AOP Advice
+
+### Secure Objects and the AbstractSecurityInterceptor
+
+#### What are Configuration Attributes?
+
+#### RunAsManager
+
+#### AfterInvocationManager
+
+#### Extending the Secure Object Model

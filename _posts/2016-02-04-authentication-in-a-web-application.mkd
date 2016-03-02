@@ -1,0 +1,15 @@
+---
+layout: post
+title:  "Authentication in a Web Application"
+date:   2016-02-04 12:00:00
+categories: spring-security-architecture-and-implementation
+---
+
+### ExceptionTranslationFilter
+
+### AuthenticationEntryPoint
+
+### Authentication Mechanism
+
+### Storing the SecurityContext between requests
+
