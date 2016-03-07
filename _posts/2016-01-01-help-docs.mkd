@@ -19,6 +19,8 @@ git-the simple guide : [http://rogerdudler.github.io/git-guide/index.html](http:
 
 hibernate : [http://hibernate.org/](http://hibernate.org/)
 
+hibernate-3.6.10 : [https://docs.jboss.org/hibernate/orm/3.6/reference/en-US/html/](https://docs.jboss.org/hibernate/orm/3.6/reference/en-US/html/)
+
 jekyll docs : [http://jekyllrb.com/](http://jekyllrb.com/)
 
 Java EE 7 : [http://docs.oracle.com/javaee/7/index.html](http://docs.oracle.com/javaee/7/index.html)
