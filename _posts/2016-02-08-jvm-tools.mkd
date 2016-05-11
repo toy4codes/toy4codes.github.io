@@ -1,0 +1,50 @@
+---
+layout: post
+title:  "Jvm"
+date:   2016-02-08 12:00:00
+categories: jvm
+---
+
+### JVM Runtime Data Areas
+
+![JVM Runtime Data Areas](/images/JVM-runtime-data-area.png)
+
+#### Java Virtual Machine Stacks 
+
+If the computation in a thread requires a larger Java Virtual Machine stack than is permitted, the Java Virtual Machine throws a StackOverflowError.
+
+If Java Virtual Machine stacks can be dynamically expanded, and expansion is attempted but insufficient memory can be made available to effect the expansion, or if insufficient memory can be made available to create the initial Java Virtual Machine stack for a new thread, the Java Virtual Machine throws an OutOfMemoryError.
+
+#### Native Method Stacks 
+
+If the computation in a thread requires a larger native method stack than is permitted, the Java Virtual Machine throws a StackOverflowError.
+
+If native method stacks can be dynamically expanded and native method stack expansion is attempted but insufficient memory can be made available, or if insufficient memory can be made available to create the initial native method stack for a new thread, the Java Virtual Machine throws an OutOfMemoryError.
+
+#### Heap (-Xms -Xmx)
+
+If a computation requires more heap than can be made available by the automatic storage management system, the Java Virtual Machine throws an OutOfMemoryError. 
+
+#### Method Area (-XX:MaxPermSize)
+
+If memory in the method area cannot be made available to satisfy an allocation request, the Java Virtual Machine throws an OutOfMemoryError.
+
+#### Runtime Constant Pool 
+
+When creating a class or interface, if the construction of the run-time constant pool requires more memory than can be made available in the method area of the Java Virtual Machine, the Java Virtual Machine throws an OutOfMemoryError. 
+
+### JVM Tools
+
+jps : [https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jps.html](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jps.html)
+
+jstack : [https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jstack.html](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jstack.html)
+
+jmap : [https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jmap.html](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jmap.html)
+
+jhat : [https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jhat.html](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jhat.html)
+
+jstat : [https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jstat.html](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jstat.html)
+
+jinfo : [https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jinfo.html](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jinfo.html)
+
+javap : [https://docs.oracle.com/javase/8/docs/technotes/tools/unix/javap.html](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/javap.html)
