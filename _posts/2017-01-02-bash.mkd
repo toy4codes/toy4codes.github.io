@@ -11,7 +11,7 @@ This indicates that that the script should be run in the bash shell regardless o
 
 ### Using quotes to enclose your variables, Using braces to protect your variables
 
-{% highlight sh %}
+{% highlight shell %}
 echo "\$USER=${USER}"
 echo "${PWD}"
 {% endhighlight %}
@@ -26,6 +26,7 @@ then
 fi
 {% endhighlight %}
 
+{% highlight shell %}
 if condition
 then
     statement
@@ -34,7 +35,9 @@ else
     statement
     .........        
 fi
+{% endhighlight %}
 
+{% highlight shell %}
 if condition
 then
     statement
@@ -48,6 +51,7 @@ then
     statement
     .........        
 fi
+{% endhighlight %}
 
 ### A brife summary of test operators
 
@@ -66,16 +70,19 @@ fi
 
 ### Loop
 
+{% highlight shell %}
 for file in *
 do 
     echo "${file}"
 done
+{% endhighlight %}
 
+{% highlight shell %}
 while condition
 do 
     statement
 done
-
+{% endhighlight %}
 
 
 
