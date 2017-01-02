@@ -1,0 +1,82 @@
+---
+layout: post
+title:  "Bash"
+date:   2017-01-02 12:00:00
+categories: bash
+---
+
+### #!/bin/bash
+
+This indicates that that the script should be run in the bash shell regardless of which interactive shell the user has chosen. This is very important, since the syntax of different shells can vary greatly.
+
+### Using quotes to enclose your variables, Using braces to protect your variables
+
+echo "\$USER=${USER}"
+echo "${PWD}"
+
+### Conditions
+
+if condition
+then
+    statement
+    .........
+fi
+
+if condition
+then
+    statement
+    .........
+else
+    statement
+    .........        
+fi
+
+if condition
+then
+    statement
+    .........
+elif condition
+then
+    statement
+    .........        
+elif condition
+then
+    statement
+    .........        
+fi
+
+### A brife summary of test operators
+
+-n   operand non zero length
+-z   operand has zero length
+-d   there exists a directory whose name is operand
+-f   there exists a file whose name is operand
+-eq  the operands are integer and they are equal
+-neq the opposite of -eq
+=    the operands are equal (as string)
+!=   the opposite of =
+-lt  strictly less (both operands should be integer)
+-gt  strictly greater (both operands should be integer)
+-ge  greater than or equal (both operands should be integer)
+-le  less than or equal (both operands should be integer)
+
+### Loop
+
+for file in *
+do 
+    echo "${file}"
+done
+
+while condition
+do 
+    statement
+done
+
+
+
+
+
+
+
+
+
