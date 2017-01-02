@@ -11,8 +11,10 @@ This indicates that that the script should be run in the bash shell regardless o
 
 ### Using quotes to enclose your variables, Using braces to protect your variables
 
+{% highlight sh %}
 echo "\$USER=${USER}"
 echo "${PWD}"
+{% endhighlight %}
 
 ### Conditions
 
