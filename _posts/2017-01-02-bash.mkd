@@ -18,11 +18,13 @@ echo "${PWD}"
 
 ### Conditions
 
+{% highlight shell %}
 if condition
 then
     statement
     .........
 fi
+{% endhighlight %}
 
 if condition
 then
