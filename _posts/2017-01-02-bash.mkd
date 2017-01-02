@@ -56,16 +56,27 @@ fi
 ### A brife summary of test operators
 
 -n   operand non zero length
+
 -z   operand has zero length
+
 -d   there exists a directory whose name is operand
+
 -f   there exists a file whose name is operand
+
 -eq  the operands are integer and they are equal
+
 -neq the opposite of -eq
+
 =    the operands are equal (as string)
+
 !=   the opposite of =
+
 -lt  strictly less (both operands should be integer)
+
 -gt  strictly greater (both operands should be integer)
+
 -ge  greater than or equal (both operands should be integer)
+
 -le  less than or equal (both operands should be integer)
 
 ### Loop
