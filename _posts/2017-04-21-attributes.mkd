@@ -1,0 +1,29 @@
+---
+layout: post
+title:  "Attributes"
+date:   2017-04-21 12:00:00
+categories: jquery-beginner-guide
+---
+
+An element's attributes can contain useful information for your application, so it's important to be able to get and set them.
+
+### The .attr() method
+
+The .attr() method acts as both a getter and a setter. As a setter, .attr() can accept either a key and a value, or an object containing one or more key/value pairs.
+
+.attr() as a setter:
+
+{% highlight java %}
+$( "a" ).attr( "href", "allMyHrefsAreTheSameNow.html" );
+$( "a" ).attr({
+    title: "all titles are the same too!",
+    href: "somethingNew.html"
+});
+{% endhighlight %}
+
+.attr() as a getter:
+
+{% highlight java %}
+// Returns the href for the first a element in the document
+$( "a" ).attr( "href" ); 
+{% endhighlight %}

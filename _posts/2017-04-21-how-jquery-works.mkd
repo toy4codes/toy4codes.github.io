@@ -1,0 +1,116 @@
+---
+layout: post
+title:  "How jQuery Works"
+date:   2017-04-21 12:00:00
+categories: jquery-beginner-guide
+---
+
+### Launching Code on Document Ready
+
+To ensure that their code runs after the browser finishes loading the document, many JavaScript programmers wrap their code in an onload function:
+
+{% highlight java %}
+window.onload = function() {
+
+    // Your code here.
+
+};
+{% endhighlight %}
+
+Unfortunately, the code doesn't run until all images are finished downloading, including banner ads. To run code as soon as the document is ready to be manipulated, jQuery has a statement known as the ready event:
+
+{% highlight java %}
+$( document ).ready(function() {
+
+    // Your code here.
+
+});
+{% endhighlight %}
+
+> Note: The jQuery library exposes its methods and properties via two properties of the window object called jQuery and $. $ is simply an alias for jQuery and it's often employed because it's shorter and faster to write.
+
+### Adding and Removing an HTML Class
+
+First, add some style information into the <head> of the document, like this:
+
+{% highlight java %}
+<style>
+a.test {
+    font-weight: bold;
+}
+</style>
+{% endhighlight %}
+
+Next, add the .addClass() call to the script:
+
+{% highlight java %}
+$( "a" ).addClass( "test" );
+{% endhighlight %}
+
+All a elements are now bold.
+
+To remove an existing class, use .removeClass():
+
+{% highlight java %}
+$( "a" ).removeClass( "test" );
+{% endhighlight %}
+
+#### Special Effects
+
+jQuery also provides some handy effects to help you make your web sites stand out. For example, if you create a click handler of:
+
+{% highlight java %}
+$( "a" ).click(function( event ) {
+ 
+    event.preventDefault();
+ 
+    $( this ).hide( "slow" );
+ 
+});
+{% endhighlight %}
+
+Then the link slowly disappears when clicked.
+
+### Callbacks and Functions
+
+Unlike many other programming languages, JavaScript enables you to freely pass functions around to be executed at a later time. A callback is a function that is passed as an argument to another function and is executed after its parent function has completed. Callbacks are special because they patiently wait to execute until their parent finishes. 
+
+To use callbacks, it is important to know how to pass them into their parent function.
+
+#### Callback without Arguments
+
+If a callback has no arguments, you can pass it in like this:
+
+{% highlight java %}
+$.get( "myhtmlpage.html", myCallBack );
+{% endhighlight %}
+
+When $.get() finishes getting the page myhtmlpage.html, it executes the myCallBack() function.
+
+> Note: The second parameter here is simply the function name (but not as a string, and without parentheses).
+
+#### Callback with Arguments
+
+Executing callbacks with arguments can be tricky.
+
+Wrong
+
+This code example will not work:
+
+{% highlight java %}
+$.get( "myhtmlpage.html", myCallBack( param1, param2 ) );
+{% endhighlight %}
+
+The reason this fails is that the code executes myCallBack( param1, param2 ) immediately and then passes myCallBack()'s return value as the second parameter to $.get(). We actually want to pass the function myCallBack(), not myCallBack( param1, param2 )'s return value (which might or might not be a function). So, how to pass in myCallBack() and include its arguments?
+
+Right
+
+To defer executing myCallBack() with its parameters, you can use an anonymous function as a wrapper. Note the use of function() {}. The anonymous function does exactly one thing: calls myCallBack(), with the values of param1 and param2.
+
+{% highlight java %}
+$.get( "myhtmlpage.html", function() {
+    myCallBack( param1, param2 ); 
+});
+{% endhighlight %}
+
+When $.get() finishes getting the page myhtmlpage.html, it executes the anonymous function, which executes myCallBack( param1, param2 ).

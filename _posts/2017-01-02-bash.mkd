@@ -95,10 +95,10 @@ do
 done
 {% endhighlight %}
 
+### Command Substitution
 
+If you want to set the variable X to the output of a command, the way you do this is via command substitution. There are two means of command substitution: brace expansion and backtick expansion.
 
+Brace expansion works as follows: $(commands) expands to the output of commands
 
-
-
-
-
+Backtick expansion expands `commands` to the output of commands

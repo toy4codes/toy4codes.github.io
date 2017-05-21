@@ -1,0 +1,31 @@
+---
+layout: post
+title:  "Java Concurrency in Practice"
+date:   2017-03-22 12:00:00
+categories: java-concurrency-in-practice
+---
+
+### Risks of Threads
+
+![risks of threads](/images/risks-of-threads.png)
+
+
+### Synchronization in Java
+
+![synchronization-in-java](/images/synchronization-in-java.png)
+
+### Memory Visibility
+
+We want not only to prevent one thread from modifying the state of an object when another is using it, but also to ensure that when a thread modifies the state of an object, other threads can actually see the changes that were made. But without synchronization, this may not happen.
+
+there is no guarantee that the reading thread will see a value written by another thread on a timely basis, or even at all. In order to ensure visibility of memory writes across threads, you must use synchronization.
+
+### Reordering
+
+In the absence of synchronization, the compiler, processor, and runtime can do some downright weird things to the order in which operations appear to execute.
+
+### Nonatomic 64-bit Operations
+
+The Java Memory Model requires fetch and store operations to be atomic, but for nonvolatile long and double variables, the JVM is permitted to treat a 64-bit read or write as two separate 32-bit operations. If the reads and writes occur in different threads, it is therefore possible to read a nonvolatile long and get back the high 32 bits of one value and the low 32 bits of another.
+
+it is not safe to use shared mutable long and double variables in multi-threaded programs unless they are declared volatile or guarded by a lock.
