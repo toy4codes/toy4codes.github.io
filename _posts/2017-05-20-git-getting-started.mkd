@@ -1,0 +1,89 @@
+---
+layout: post
+title:  "Git Getting Started"
+date:   2017-05-20 12:00:00
+categories: git-pro
+---
+
+### About Version Control
+
+#### Local Version Control Systems
+
+![local-version-control](/images/local-version-control.png)
+
+#### Centralized Version Control Systems (Subversion)
+
+![centralized-version-control](/images/centralized-version-control.png)
+
+#### Distributed Version Control Systems (Git)
+
+![distributed-version-control](/images/distributed-version-control.png)
+
+#### Storing data as changes to a base version of each file (Subversion)
+
+![deltas](/images/deltas.png)
+
+#### Storing data as snapshots of the project over time (Git)
+
+![snapshots](/images/snapshots.png)
+
+#### Git Has Integrity (SHA-1)
+
+> 24b9da6552252987aa493b52f8696cd6d3b00373
+
+#### The Three States (committed/modified/staged)
+
+![areas](/images/areas.png)
+
+#### Installing on Linux
+
+> $ sudo apt-get install git-all
+
+#### Git Configuration
+
+Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+
+1. /etc/gitconfig file: Contains values for every user on the system and all their repositories. If you pass the option --system to git config, it reads and writes from this file specifically.
+
+2. ~/.gitconfig or ~/.config/git/config file: Specific to your user. You can make Git read and write to this file specifically by passing the --global option.
+
+3. config file in the Git directory (that is, .git/config) of whatever repository you’re currently using: Specific to that single repository.
+
+Each level overrides values in the previous level, so values in .git/config trump those in /etc/gitconfig.
+
+#### Your Identity
+
+{% highlight java %}
+$ git config --global user.name "John Doe"
+$ git config --global user.email johndoe@example.com
+{% endhighlight %}
+
+you need to do this only once if you pass the --global option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or email address for specific projects, you can run the command without the --global option when you’re in that project.
+
+#### Checking Your Settings
+
+{% highlight java %}
+$ git config --list
+user.name=John Doe
+user.email=johndoe@example.com
+color.status=auto
+color.branch=auto
+color.interactive=auto
+color.diff=auto
+...
+{% endhighlight %}
+
+{% highlight java %}
+$ git config user.name
+John Doe
+{% endhighlight %}
+
+#### Getting Help
+
+{% highlight java %}
+$ git help <verb>
+$ git <verb> --help
+$ man git-<verb>
+{% endhighlight %}
+
+
