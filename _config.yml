@@ -1,8 +1,6 @@
 # Site settings
 title: toy4codes
 email: toy4codes@sina.com
-baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://yourdomain.com" # the base hostname & protocol for your site
 
 # Build settings
 markdown: kramdown
