@@ -13,5 +13,5 @@ categories: security
 
 ![Public Key Encryption](/images/security/Public Key Encryption.png)
 
-# sign-then-encrypt VS encrypt-then-sign
+# Sign-Then-Encrypt VS Encrypt-Then-Sign
 
