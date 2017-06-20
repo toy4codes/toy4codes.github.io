@@ -99,8 +99,8 @@ Take into account that the commit message, commit date, or any other variable ra
 ### History
 
 ```
-git log --pretty=oneline --graph  --decorate
-git log --pretty=format:"%h - %an : %s" --graph  --decorate
+git log --pretty=oneline --graph --decorate
+git log --pretty=format:"%h - %an : %s" --graph --decorate
 ```
 
 ### Branch
@@ -308,6 +308,24 @@ git apply [--ignore-space-change | --ignore-whitespace] [--verbose] [patch-file]
 If patching goes well, no message will be displayed (if you haven’t used the --verbose flag). If the patch is not applicable, Git will show which are the files causing problems.
 
 Is quite common to get errors due to just whitespace differences. These errors can be ignored with --ignore-space-change and --ignore-whitespace flags.
+
+# How to Init Git Flow
+
+```
+git init
+git remote add origin [repo-url] # origin as default remote-name
+git pull origin master
+git branch --set-upstream-to=origim/master
+git flow init -d
+
+  Remote branch:
+    master tracked
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push':
+    master pushes to master (up to date)
+
+```
 
 # Resources
 
