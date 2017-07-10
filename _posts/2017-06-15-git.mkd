@@ -110,6 +110,7 @@ git branch [branch-name]                                  # creating a branch
 git branch -vv                                            # list branch
 git checkout [branch-name]                                # switching branchs
 git branch --set-upstream-to=[remote-name]/[branch-name]  # track remote branch
+git push origin --delete [branch-name]                    # delete remote branch
 ```
 
 ### Merge
