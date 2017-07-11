@@ -110,7 +110,6 @@ git branch [branch-name]                                  # creating a branch
 git branch -vv                                            # list branch
 git checkout [branch-name]                                # switching branchs
 git branch --set-upstream-to=[remote-name]/[branch-name]  # track remote branch
-git push origin --delete [branch-name]                    # delete remote branch
 ```
 
 ### Merge
@@ -280,8 +279,7 @@ git branch -r
 ##### Deleting things in remote repository
 
 ```
-git push [remote-name] :[branch-name]      # deleting branches, push nothing
-git push [remote-name] --tags :[tag-name]  # deleting tags, push nothing
+git push [remote-name] --delete [branch-name]    # delete remote branch
 ```
 
 # Patches
