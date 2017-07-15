@@ -19,6 +19,6 @@ The ideal cryptographic hash function has five main properties:
 
 * it is impossible to find two different messages with the same hash value
 
-# Hashing
+## Hashing
 
 ![Hash](/images/security/Hash.png)

@@ -5,13 +5,13 @@ date:   2017-06-09 12:00:00
 categories: security
 ---
 
-# Digital Signatures
+## Digital Signatures
 
 ![Digital Signatures](/images/security/Digital Signatures.png)
 
-# Public Key Encryption
+## Public Key Encryption
 
 ![Public Key Encryption](/images/security/Public Key Encryption.png)
 
-# Sign-Then-Encrypt VS Encrypt-Then-Sign
+## Sign-Then-Encrypt VS Encrypt-Then-Sign
 
