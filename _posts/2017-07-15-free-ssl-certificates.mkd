@@ -5,7 +5,7 @@ date:   2017-07-15 12:00:00
 categories: security
 ---
 
-Free Trial SSL Certificates are normally, full blown SSL Certificates but they only work for a few days or a few weeks. A few [Certificate Authorities](www.instantssl.com/ssl-certificate-products/free-ssl-certificate.html) even offer them for up to three months.
+Free Trial SSL Certificates are normally, full blown SSL Certificates but they only work for a few days or a few weeks. A few [Certificate Authorities](https://www.sslshopper.com/article-free-ssl-certificates-from-a-free-certificate-authority.html) even offer them for up to three months.
 
 ## DV OV and EV Certificates
 
