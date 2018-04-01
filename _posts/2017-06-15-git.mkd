@@ -314,7 +314,7 @@ Is quite common to get errors due to just whitespace differences. These errors c
 git init
 git remote add origin [repo-url] # origin as default remote-name
 git pull origin master
-git branch --set-upstream-to=origim/master
+git branch --set-upstream-to=origin/master
 git flow init -d
 
   Remote branch:
