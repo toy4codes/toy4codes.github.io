@@ -5,17 +5,17 @@ date:   2017-06-15 12:00:00
 categories: git
 ---
 
-# What is version control?
+## What is version control?
 
 The VCSs solve one of the most common problems of software development: the fear for changing the software. A VCS will help you to get rid of being scared about changing your code.
 
-# What is Git?
+## What is Git?
 
 Git is a distributed version control system (DVCS), also known as decentralized. This means that every developer has a full copy of the repository.
 
-# Install and Config Git
+## Install and Config Git
 
-### Installing on Linux
+### Installing on Ubuntu
 
 ```
 sudo apt-get update
@@ -34,7 +34,7 @@ Git comes with a tool called git config that lets you get and set configuration 
 
 Each level overrides values in the previous level, so values in .git/config trump those in /etc/gitconfig.
 
-### Your Identity
+### Identity
 
 ```
 git config --global user.name "John Doe"
@@ -43,7 +43,7 @@ git config --global user.email johndoe@example.com
 
 you need to do this only once if you pass the --global option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or email address for specific projects, you can run the command without the --global option when you’re in that project.
 
-### Checking Your Settings
+### Checking Settings
 
 ```
 git config --list
@@ -56,7 +56,7 @@ git config user.name
 git [verb] --help
 ```
 
-# Git Usage
+## Git Usage
 
 ### Creating a repository
 
@@ -99,8 +99,7 @@ Take into account that the commit message, commit date, or any other variable ra
 ### History
 
 ```
-git log --pretty=oneline --graph --decorate
-git log --pretty=format:"%h - %an : %s" --graph --decorate
+git log --pretty=oneline --graph
 ```
 
 ### Branch
@@ -110,48 +109,7 @@ git branch [branch-name]                                  # creating a branch
 git branch -vv                                            # list branch
 git checkout [branch-name]                                # switching branchs
 git branch --set-upstream-to=[remote-name]/[branch-name]  # track remote branch
-```
-
-### Merge
-
-##### Knowing in advance which version to stay with
-
-It may happen that we know beforehand which version we want to choose in case of conflicts. In these cases, we can tell Git which version use, to make it apply it directly.
-
-To do this, we have to pass the -X option to merge, indicating which version use:
-
-```
-git merge -X [ours|theirs] [branch-name]
-```
-
-So, for using HEAD version, we would have to use ours option; instead, for using the version that is not HEAD’s, theirs has to be passed.
-
-##### Avoid using fast-forward mode
-
-When we are merging branches, is always advisable not to use the fast-forward mode. This is achieved passing --noff flag while merging, since the history is reflected as it is actually is. The no fast-forward mode should be always used.
-
-```
-git merge --no-ff branch-name
-```
-
-### Diff
-
-##### Differences between working-directory and staged
-
-```
-git diff
-```
-
-##### Differences between staged and last-commited
-
-```
-git diff -staged
-```
-
-##### Differences between exact points in history
-
-```
-git diff [original]..[modified] # hashcode/branch-name/HEAD/tags
+git branch -r                                             # list remote branch
 ```
 
 ### Tag
@@ -165,7 +123,7 @@ git checkout -b [branch-name] [tag-name]  # checkout tags
 
 ### Undoing
 
-##### Removing files
+#### Removing files
 
 To remove a file from Git, you have to remove it from your staging area and then commit.
 
@@ -181,32 +139,32 @@ Another useful thing you may want to do is to keep the file in your working tree
 git rm --cached [file]
 ```
 
-##### Moving files
+#### Moving files
 
 ```
 git mv [file-from] [file-to]
 ```
 
-##### Modifying the last commit
+#### Modifying the last commit
 
 ```
 git add forgotten_file
 git commit --amend -m "comment"
 ```
 
-##### Discard changes in working directory
+#### Discard changes in working directory
 
 ```
 git checkout [file]
 ```
 
-##### Unstaging a Staged File
+#### Unstaging a Staged File
 
 ```
 git reset HEAD [file]
 ```
 
-##### Deleting commits
+#### Deleting commits
 
 That is, if you make a soft reset, the commit(s) will be removed, but the modifications saved in that/those commit(s) will remain; and a hard reset, won't leave change made in the commit(s). If no flag is specified, the reset will be done softly.
 
@@ -217,20 +175,20 @@ git reset [--hard|--soft] HEAD~n
 
 ### Remote repositories
 
-##### Add a remote
+#### Add a remote
 
 ```
 git remote add [remote-name] [repo-url] # origin as default remote-name
 ```
 
-##### Showing Your Remotes
+#### Showing Your Remotes
 
 ```
 git remote -v
 git remote show [remote-name]
 ```
 
-##### Fetch: updating remote references
+#### Fetch: updating remote references
 
 Updated the reference to remote’s branch, but the changes have not been applied in the repository
 
@@ -246,23 +204,23 @@ Merge the remote branch, which has just been updated; with the local branch.
 git merge [remote-name]/[branch-name] # no fast-forward merge
 ```
 
-##### Pull: fetching and merging remotes at once
+#### Pull: fetching and merging remotes at once
 
 ```
 git pull [remote-name] [branch-name]
 ```
 
-##### Push: writing changes into the remote
+#### Push: writing changes into the remote
 
 ```
 git push [remote-name] --all                   # Updates the remote with all the local branches
-git push [remote-name] [branch-name]           # Updates remote’s mater and dev branches
+git push [remote-name] [branch-name]           # Updates remote’s branches
 git push [remote-name] [tag-name]              # push tag
 git push [remote-name] --tags                  # Sends tags to remotes
 git push [remote-name] --delete [branch-name]  # delete remote branch
 ```
 
-##### Clone a repository
+#### Clone a repository
 
 ```
 git clone [repo-url]
@@ -270,19 +228,49 @@ git clone [repo-url]
 
 By default, when cloning a repository, only the default branch is created (master, generally). The way to create the other branches locally is making a checkout to them.
 
-Remote branches can be shown with branch option with -r flag:
+### Merge
+
+#### Knowing in advance which version to stay with
+
+It may happen that we know beforehand which version we want to choose in case of conflicts. In these cases, we can tell Git which version use, to make it apply it directly.
+
+To do this, we have to pass the -X option to merge, indicating which version use:
 
 ```
-git branch -r
+git merge -X [ours|theirs] [branch-name]
 ```
 
-##### Deleting things in remote repository
+So, for using HEAD version, we would have to use ours option; instead, for using the version that is not HEAD’s, theirs has to be passed.
+
+#### Avoid using fast-forward mode
+
+When we are merging branches, is always advisable not to use the fast-forward mode. This is achieved passing --noff flag while merging, since the history is reflected as it is actually is. The no fast-forward mode should be always used.
 
 ```
-git push [remote-name] --delete [branch-name]    # delete remote branch
+git merge --no-ff branch-name
 ```
 
-# Patches
+### Diff
+
+#### Differences between working-directory and staged
+
+```
+git diff
+```
+
+#### Differences between staged and last-commited
+
+```
+git diff -staged
+```
+
+#### Differences between exact points in history
+
+```
+git diff [original]..[modified] # hashcode/branch-name/HEAD/tags
+```
+
+## Patches
 
 A patch is just a file that describes the changes that have to be made over a program, indicating which code lines have to be removed, and which have to be added. With Git, a path is just the output of a diff saved into a file.
 
@@ -308,7 +296,7 @@ If patching goes well, no message will be displayed (if you haven’t used the -
 
 Is quite common to get errors due to just whitespace differences. These errors can be ignored with --ignore-space-change and --ignore-whitespace flags.
 
-# How to Init Git Flow
+## How to Init Git Flow
 
 ```
 git init
@@ -326,7 +314,7 @@ git flow init -d
 
 ```
 
-# Resources
+## Resources
 
 [Git Pro](https://git-scm.com/book/en/v2)
 
