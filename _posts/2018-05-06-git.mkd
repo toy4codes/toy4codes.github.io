@@ -5,6 +5,9 @@ date:   2018-05-06 12:00:00
 categories: git
 ---
 
+* TOC
+{:toc}
+
 ## What is version control?
 
 The VCSs solve one of the most common problems of software development: the fear for changing the software. A VCS will help you to get rid of being scared about changing your code.
@@ -99,17 +102,18 @@ Take into account that the commit message, commit date, or any other variable ra
 ### History
 
 ```
-git log --pretty=oneline --graph
+git log --pretty=oneline --graph --decorate
 ```
 
 ### Branch
 
 ```
 git branch [branch-name]                                  # creating a branch
+git branch -d [branch-name]                               # delete a branch
 git branch -vv                                            # list branch
+git branch -r                                             # list remote branch
 git checkout [branch-name]                                # switching branchs
 git branch --set-upstream-to=[remote-name]/[branch-name]  # track remote branch
-git branch -r                                             # list remote branch
 ```
 
 ### Tag
@@ -230,18 +234,6 @@ By default, when cloning a repository, only the default branch is created (maste
 
 ### Merge
 
-#### Knowing in advance which version to stay with
-
-It may happen that we know beforehand which version we want to choose in case of conflicts. In these cases, we can tell Git which version use, to make it apply it directly.
-
-To do this, we have to pass the -X option to merge, indicating which version use:
-
-```
-git merge -X [ours|theirs] [branch-name]
-```
-
-So, for using HEAD version, we would have to use ours option; instead, for using the version that is not HEAD’s, theirs has to be passed.
-
 #### Avoid using fast-forward mode
 
 When we are merging branches, is always advisable not to use the fast-forward mode. This is achieved passing --noff flag while merging, since the history is reflected as it is actually is. The no fast-forward mode should be always used.
@@ -261,42 +253,21 @@ git diff
 #### Differences between staged and last-commited
 
 ```
-git diff -staged
+git diff --cached
 ```
 
-#### Differences between exact points in history
+### Rebasing
 
 ```
-git diff [original]..[modified] # hashcode/branch-name/HEAD/tags
+git checkout branch-name                        # switch to branch-name
+git rebase target-branch-name                   # rebase onto target-branch-name
+git checkout target-branch-name                 # switch to target-branch-name
+git merge branch-name                           # do a fast-forward merge
 ```
 
-## Patches
+## Git Flow
 
-A patch is just a file that describes the changes that have to be made over a program, indicating which code lines have to be removed, and which have to be added. With Git, a path is just the output of a diff saved into a file.
-
-Patches are thought for hotfixes, or also critical features that have to be fixed or implemented right now, not for being the common update and deploying strategy.
-
-### Creating patches
-
-As said, a patch for Git is just the output of a diff. So, we would have to redirect that output to a file:
-
-```
-git diff [original]..[modified] > [patch-name.patch] # hashcode/branch-name/HEAD/tags
-```
-
-A patch cannot be modified. If a patch file suffers any modification, Git will mark it as corrupt and it won’t apply it.
-
-### Applying patches
-
-```
-git apply [--ignore-space-change | --ignore-whitespace] [--verbose] [patch-file]
-```
-
-If patching goes well, no message will be displayed (if you haven’t used the --verbose flag). If the patch is not applicable, Git will show which are the files causing problems.
-
-Is quite common to get errors due to just whitespace differences. These errors can be ignored with --ignore-space-change and --ignore-whitespace flags.
-
-## How to Init Git Flow
+### How to Init Git Flow
 
 ```
 git init
@@ -304,14 +275,6 @@ git remote add origin [repo-url] # origin as default remote-name
 git pull origin master
 git branch --set-upstream-to=origin/master
 git flow init -d
-
-  Remote branch:
-    master tracked
-  Local branch configured for 'git pull':
-    master merges with remote master
-  Local ref configured for 'git push':
-    master pushes to master (up to date)
-
 ```
 
 ## Resources
