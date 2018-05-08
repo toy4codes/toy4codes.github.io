@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Machine Learning"
-date:   2018-05-06 12:00:00
+date:   2018-05-09 12:00:00
 categories: machine-learning
 ---
 
