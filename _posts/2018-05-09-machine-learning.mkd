@@ -42,37 +42,37 @@ When the target variable that we’re trying to predict is continuous, we call t
 
 To perform linear regression, we must decide how we’re going to represent functions/hypotheses $h$ in a computer. As an initial choice, lets say we decide to approximate $y$ as a linear function of $x$:
 
-$$ h_{θ}(x) = θ_0 + θ_1 x_1 + θ_2 x_2 + \enspace ... \enspace + θ_n x_n $$
+$$ h_{\theta}(x) = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + \enspace ... \enspace + \theta_n x_n $$
 
-Here, the $θ_i$ 's are the **parameters** (also called **weights**) parameterizing the space of linear functions mapping from $X$ to $Y$. To simplify our notation, we also introduce the convention of letting $x_0 = 1$ (this is the **intercept term**), so that
+Here, the $\theta_i$ 's are the **parameters** (also called **weights**) parameterizing the space of linear functions mapping from $X$ to $Y$. To simplify our notation, we also introduce the convention of letting $x_0 = 1$ (this is the **intercept term**), so that
 
-$$ h_{θ}(x) = \sum_{i=0}^{n} θ_i x_i = θ^T x $$
+$$ h_{\theta}(x) = \sum_{i=0}^{n} \theta_i x_i = \theta^T x $$
 
-where on the right-hand side above we are viewing $θ$ and $x$ both as vectors, and here $n$ is the number of input variables (not counting $x_0$).
+where on the right-hand side above we are viewing $\theta$ and $x$ both as vectors, and here $n$ is the number of input variables (not counting $x_0$).
 
-Now, given a training set, how do we pick, or learn, the parameters $θ$ ? One reasonable method seems to be to make $h(x)$ close to $y$, at least for the training examples we have. To formalize this, we will define a function that measures, for each value of the $θ$ 's, how close the $h_{θ}(x^{(i)})$ 's are to the corresponding $y^{(i)}$ 's. We define the **cost function**:
+Now, given a training set, how do we pick, or learn, the parameters $\theta$ ? One reasonable method seems to be to make $h(x)$ close to $y$, at least for the training examples we have. To formalize this, we will define a function that measures, for each value of the $\theta$ 's, how close the $h_{\theta}(x^{(i)})$ 's are to the corresponding $y^{(i)}$ 's. We define the **cost function**:
 
-$$ J(θ) = \frac{1}{2} \sum_{i=1}^{m} (h_{θ}(x^{(i)}) - y^{(i)})^2 $$
+$$ J(\theta) = \frac{1}{2} \sum_{i=1}^{m} (h_{\theta}(x^{(i)}) - y^{(i)})^2 $$
 
 ### Least Mean Squares
 
-We want to choose $θ$ so as to minimize $J(θ)$. To do so, lets use a search algorithm that starts with some "initial guess" for $θ$, and that repeatedly changes $θ$ to make $J(θ)$ smaller, until hopefully we converge to a value of $θ$ that minimizes $J(θ)$. Specifically, lets consider the **gradient descent** algorithm, which starts with some initial $θ$, and repeatedly performs the update:
+We want to choose $\theta$ so as to minimize $J(\theta)$. To do so, lets use a search algorithm that starts with some "initial guess" for $\theta$, and that repeatedly changes $\theta$ to make $J(\theta)$ smaller, until hopefully we converge to a value of $\theta$ that minimizes $J(\theta)$. Specifically, lets consider the **gradient descent** algorithm, which starts with some initial $\theta$, and repeatedly performs the update:
 
-$$ θ_j = θ_j - \alpha \frac{\partial}{\partial θ_j} J(θ)  $$
+$$ \theta_j = \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta)  $$
 
 (This update is simultaneously performed for all values of $j = 0, . . . , n$.)
 
 Here, $\alpha$ is called the **learning rate**. This is a very natural algorithm that repeatedly takes a step in the direction of steepest decrease of $J$.
 
-$$ \frac{\partial}{\partial θ_j} J(θ) = \sum_{i=1}^{m} (h_{θ}(x^{(i)}) - y^{(i)}) x_j^{(i)} $$
+$$ \frac{\partial}{\partial \theta_j} J(\theta) = \sum_{i=1}^{m} (h_{\theta}(x^{(i)}) - y^{(i)}) x_j^{(i)} $$
 
 Repeat until convergence {
 
-$\quad θ_j = θ_j + \alpha \displaystyle\sum_{i=1}^{m} (y^{(i)} - h_{θ}(x^{(i)})) x_j^{(i)} \enspace (for \enspace every \enspace j)$
+$\quad \theta_j = \theta_j + \alpha \displaystyle\sum_{i=1}^{m} (y^{(i)} - h_{\theta}(x^{(i)})) x_j^{(i)} \enspace (for \enspace every \enspace j)$
 
 }
 
-The rule is called the **LMS** update rule (LMS stands for "least mean squares"), and is also known as the **Widrow-Hoff** learning rule, the magnitude of the update is proportional to the **error term** $(y^{(i)} − h_θ (x^{(i)}))$.
+The rule is called the **LMS** update rule (LMS stands for "least mean squares"), and is also known as the **Widrow-Hoff** learning rule, the magnitude of the update is proportional to the **error term** $(y^{(i)} − h_\theta (x^{(i)}))$.
 
 This method looks at every example in the entire training set on every step, and is called **batch gradient descent**. Note that, while gradient descent can be a local minima in general, the optimization problem for linear regression has only one global(assuming the learning rate $\alpha$ is not too large), and no other local, optima; Indeed, $J$ is a convex quadratic function.
 
@@ -82,69 +82,69 @@ the contours of a quadratic function and the trajectory taken by batch gradient 
 
 There is an alternative to batch gradient descent that also works very well. Consider the following algorithm:
 
-Loop for i=1 to m {
+Loop for $i=1$ to $m$ {
 
-$\quad θ_j = θ_j + \alpha (y^{(i)} - h_{θ}(x^{(i)})) x_j^{(i)} \enspace (for \enspace every \enspace j)$
+$\quad \theta_j = \theta_j + \alpha (y^{(i)} - h_{\theta}(x^{(i)})) x_j^{(i)} \enspace (for \enspace every \enspace j)$
 
 }
 
-In this algorithm, we repeatedly run through the training set, and each time we encounter a training example, we update the parameters according to the gradient of the error with respect to that single training example only. This algorithm is called **stochastic gradient descent** (also **incremental gradient descent**). Whereas batch gradient descent has to scan through the entire training set before taking a single step - a costly operation if $m$ is large - stochastic gradient descent can start making progress right away, and continues to make progress with each example it looks at. Often, stochastic gradient descent gets $θ$ "close" to the minimum much faster than batch gradient descent. For these reasons, particularly when the training set is large, stochastic gradient descent is often preferred over batch gradient descent.
+In this algorithm, we repeatedly run through the training set, and each time we encounter a training example, we update the parameters according to the gradient of the error with respect to that single training example only. This algorithm is called **stochastic gradient descent** (also **incremental gradient descent**). Whereas batch gradient descent has to scan through the entire training set before taking a single step - a costly operation if $m$ is large - stochastic gradient descent can start making progress right away, and continues to make progress with each example it looks at. Often, stochastic gradient descent gets $\theta$ "close" to the minimum much faster than batch gradient descent. For these reasons, particularly when the training set is large, stochastic gradient descent is often preferred over batch gradient descent.
 
-Note however that stochastic gradient descent may never "converge" to the minimum, and the parameters $θ$ will keep oscillating around the minimum of $J(θ)$; but in practice most of the values near the minimum will be reasonably good approximations to the true minimum. While it is more common to run stochastic gradient descent as we have described it and with a fixed learning rate $\alpha$, by slowly letting the learning rate $\alpha$ decrease to zero as the algorithm runs, it is also possible to ensure that the parameters will converge to the global minimum rather then merely oscillate around the minimum.
+Note however that stochastic gradient descent may never "converge" to the minimum, and the parameters $\theta$ will keep oscillating around the minimum of $J(\theta)$; but in practice most of the values near the minimum will be reasonably good approximations to the true minimum. While it is more common to run stochastic gradient descent as we have described it and with a fixed learning rate $\alpha$, by slowly letting the learning rate $\alpha$ decrease to zero as the algorithm runs, it is also possible to ensure that the parameters will converge to the global minimum rather then merely oscillate around the minimum.
 
 ### Least Squares
 
-Gradient descent gives one way of minimizing $J$. Lets discuss a second way of doing so, this time performing the minimization explicitly and without resorting to an iterative algorithm. In this method, we will minimize $J$ by explicitly taking its derivatives with respect to the $θ_j$ 's, and setting them to zero.
+Gradient descent gives one way of minimizing $J$. Lets discuss a second way of doing so, this time performing the minimization explicitly and without resorting to an iterative algorithm. In this method, we will minimize $J$ by explicitly taking its derivatives with respect to the $\theta_j$ 's, and setting them to zero.
 
-Giving a training set, define the **design matrix** $X$ to be the $m×n$ matrix, actually $m×(n + 1)$ if we include the intercept term, that contains the training examples input values in its rows; Also, let $Y$ be the $m$-dimensional vector containing all the target values from the training set;
+Giving a training set, define the **design matrix** $X$ to be the $m \times n$ matrix, actually $m \times (n + 1)$ if we include the intercept term, that contains the training examples input values in its rows; Also, let $Y$ be the $m$-dimensional vector containing all the target values from the training set;
 
 Then
 
-$$ J(θ) = \frac{1}{2} \sum_{i=1}^{m} (h_{θ}(x^{(i)}) - y^{(i)})^2 = \frac{1}{2} ||Xθ-Y||_2^2 = \frac{1}{2} (Xθ-Y)^T (Xθ-Y) $$
+$$ J(\theta) = \frac{1}{2} \sum_{i=1}^{m} (h_{\theta}(x^{(i)}) - y^{(i)})^2 = \frac{1}{2} ||X\theta-Y||_2^2 = \frac{1}{2} (X\theta-Y)^T (X\theta-Y) $$
 
-$$ \nabla_θ J(θ) = X^T X θ − X^T Y $$
+$$ \nabla_\theta J(\theta) = X^T X \theta − X^T Y $$
 
 To minimize $J$, we set its derivatives to zero, and obtain the **normal equations**:
 
-$$ X^T X θ = X^T Y $$
+$$ X^T X \theta = X^T Y $$
 
-Thus, the value of $θ$ that minimizes $J(θ)$ is given in closed form by the equation
+Thus, the value of $\theta$ that minimizes $J(\theta)$ is given in closed form by the equation
 
-$$ θ = (X^T X)^{−1} X^T Y $$
+$$ \theta = (X^T X)^{−1} X^T Y $$
 
-<div hidden>_</div>
+<div hidden></div>
 
 ### Probabilistic Interpretation
 
 Let us assume that the target variables and the inputs are related via the equation
 
-$$ y^{(i)} = θ^T x^{(i)} + \epsilon^{(i)} $$
+$$ y^{(i)} = \theta^T x^{(i)} + \epsilon^{(i)} $$
 
-where $\epsilon^{(i)}$ is an error term that captures either unmodeled effects, or random noise. Let us further assume that the $\epsilon^{(i)}$ are distributed IID (independently and identically distributed) according to a Gaussian distribution with mean zero and variance $σ^2$. We can write this assumption as $\epsilon^{(i)} ∼ N(0, σ^2)$. I.e., the density of $\epsilon^{(i)}$ is given by
+where $\epsilon^{(i)}$ is an error term that captures either unmodeled effects, or random noise. Let us further assume that the $\epsilon^{(i)}$ are distributed IID (independently and identically distributed) according to a Gaussian distribution with mean zero and variance $\sigma^2$. We can write this assumption as $\epsilon^{(i)} ∼ N(0, \sigma^2)$. I.e., the density of $\epsilon^{(i)}$ is given by
 
-$$ p(\epsilon^{(i)}) = \frac{1}{\sqrt{2\pi} σ} exp \bigg(-\frac{(\epsilon^{(i)})^2}{2σ^2}\bigg) $$
+$$ p(\epsilon^{(i)}) = \frac{1}{\sqrt{2\pi} \sigma} exp \bigg(-\frac{(\epsilon^{(i)})^2}{2\sigma^2}\bigg) $$
 
 Then
 
-$$ p(y^{(i)}|x^{(i)};θ) = \frac{1}{\sqrt{2\pi} σ} exp\bigg(-\frac{(y^{(i)} - θ^T x^{(i)})^2}{2σ^2}\bigg) $$
+$$ p(y^{(i)}|x^{(i)};\theta) = \frac{1}{\sqrt{2\pi} \sigma} exp\bigg(-\frac{(y^{(i)} - \theta^T x^{(i)})^2}{2\sigma^2}\bigg) $$
 
 <div>
-The notation $p(y^{(i)}|x^{(i)};θ)$ indicates that this is the distribution of $y^{(i)}$ given $x^{(i)}$ and parameterized by $θ$. We can also write the distribution of $y^{(i)}$ as $(y^{(i)}|x^{(i)};θ) ∼ N(θ^T x^{(i)}, σ^2)$
+The notation $p(y^{(i)}|x^{(i)};\theta)$ indicates that this is the distribution of $y^{(i)}$ given $x^{(i)}$ and parameterized by $\theta$. We can also write the distribution of $y^{(i)}$ as $(y^{(i)}|x^{(i)};\theta) ∼ N(\theta^T x^{(i)}, \sigma^2)$
 </div>
 
-Given the design matrix $X$ and outputs $Y$, then the **likelihood** function of $θ$
+Given the design matrix $X$ and outputs $Y$, then the **likelihood** function of $\theta$
 
-$$ L(θ) = L(θ;X,Y) = P(Y|X;θ) = \prod_{i=1}^{m} p(y^{(i)}|x^{(i)};θ) = \prod_{i=1}^{m} \frac{1}{\sqrt{2\pi} σ} exp\bigg(-\frac{(y^{(i)} - θ^T x^{(i)})^2}{2σ^2}\bigg) $$
+$$ L(\theta) = L(\theta;X,Y) = P(Y|X;\theta) = \prod_{i=1}^{m} p(y^{(i)}|x^{(i)};\theta) = \prod_{i=1}^{m} \frac{1}{\sqrt{2\pi} \sigma} exp\bigg(-\frac{(y^{(i)} - \theta^T x^{(i)})^2}{2\sigma^2}\bigg) $$
 
-The principal of **maximum likelihood** says that we should choose $θ$ so as to make the data as high probability as possible. I.e., we should choose $θ$ to maximize $L(θ)$. Instead of maximizing $L(θ)$, we maximize the **log likelihood** $\ell(θ)$:
+The principal of **maximum likelihood** says that we should choose $\theta$ so as to make the data as high probability as possible. I.e., we should choose $\theta$ to maximize $L(\theta)$. Instead of maximizing $L(\theta)$, we maximize the **log likelihood** $\ell(\theta)$:
 
-$$ \ell(θ) = log L(θ) = log \prod_{i=1}^{m} \frac{1}{\sqrt{2\pi} σ} exp\bigg(-\frac{(y^{(i)} - θ^T x^{(i)})^2}{2σ^2}\bigg) \\ = \sum_{i=1}^{m} log \frac{1}{\sqrt{2\pi} σ} exp\bigg(-\frac{(y^{(i)} - θ^T x^{(i)})^2}{2σ^2}\bigg) \\ = m log \frac{1}{\sqrt{2\pi} σ} - \frac{1}{σ^2} \frac{1}{2} \sum_{i=1}^{m} (y^{(i)} - θ^T x^{(i)})^2 $$
+$$ \ell(\theta) = log L(\theta) = log \prod_{i=1}^{m} \frac{1}{\sqrt{2\pi} \sigma} exp\bigg(-\frac{(y^{(i)} - \theta^T x^{(i)})^2}{2\sigma^2}\bigg) \\ = \sum_{i=1}^{m} log \frac{1}{\sqrt{2\pi} \sigma} exp\bigg(-\frac{(y^{(i)} - \theta^T x^{(i)})^2}{2\sigma^2}\bigg) \\ = m log \frac{1}{\sqrt{2\pi} \sigma} - \frac{1}{\sigma^2} \frac{1}{2} \sum_{i=1}^{m} (y^{(i)} - \theta^T x^{(i)})^2 $$
 
-Hence, maximizing $\ell(θ)$ gives the same answer as minimizing
+Hence, maximizing $\ell(\theta)$ gives the same answer as minimizing
 
-$$ \frac{1}{2} \sum_{i=1}^{m} (y^{(i)} - θ^T x^{(i)})^2 $$
+$$ \frac{1}{2} \sum_{i=1}^{m} (y^{(i)} - \theta^T x^{(i)})^2 $$
 
-which we recognize to be $J(θ)$, our original least-squares cost function.
+which we recognize to be $J(\theta)$, our original least-squares cost function.
 
 ### Locally Weighted Linear Regression
 
@@ -154,10 +154,10 @@ The choice of features is important to ensuring good performance of a learning a
 
 The locally weighted linear regression algorithm does the following:
 
-* Fit $θ$ to minimize $\displaystyle\sum_{i=1}^{m} w^{(i)} (y^{(i)} - θ^T x^{(i)})^2$
-* Output $θ^T x$
+* Fit $\theta$ to minimize $\displaystyle\sum_{i=1}^{m} w^{(i)} (y^{(i)} - \theta^T x^{(i)})^2$
+* Output $\theta^T x$
 
-Here, the $w^{(i)}$ ’s are non-negative valued **weights**. Intuitively, if $w^{(i)}$ is large for a particular value of $i$, then in picking $θ$, we’ll try hard to make $(y^{(i)} − θ^T x^{(i)})^2$ small. If $w^{(i)}$ is small, then the $(y^{(i)} − θ^T x^{(i)})^2$ error term will be pretty much ignored in the fit.
+Here, the $w^{(i)}$ ’s are non-negative valued **weights**. Intuitively, if $w^{(i)}$ is large for a particular value of $i$, then in picking $\theta$, we’ll try hard to make $(y^{(i)} − \theta^T x^{(i)})^2$ small. If $w^{(i)}$ is small, then the $(y^{(i)} − \theta^T x^{(i)})^2$ error term will be pretty much ignored in the fit.
 
 A fairly standard choice for the weights is
 
@@ -168,10 +168,10 @@ If $x$ is vector-valued, this is generalized for an appropriate choice of $\tau$
 $$ w^{(i)} = exp\bigg(−\frac{(x^{(i)} − x)^T (x^{(i)} − x)}{2 \tau^2}\bigg) \quad or \quad w^{(i)} = exp\bigg(-\frac{(x^{(i)} − x)^T \sum^{−1} (x^{(i)} − x)}{2}\bigg) $$
 
 <div>
-Note that the weights depend on the particular point $x$ at which we’re trying to evaluate $x$. Moreover, if $|x^{(i)} - x|$ is small, then $w^{(i)}$ is close to $1$; and if $|x^{(i)} - x|$ is large, then $w^{(i)}$ is close to $0$. Hence, $θ$ is chosen giving a much higher weight to the errors on training examples close to the query point $x$. The parameter $\tau$ controls how quickly the weight of a training example falls off with distance of its $x^{(i)}$ from the query point $x$. $\tau$ is called the <b>bandwidth parameter</b>.
+Note that the weights depend on the particular point $x$ at which we’re trying to evaluate $x$. Moreover, if $|x^{(i)} - x|$ is small, then $w^{(i)}$ is close to $1$; and if $|x^{(i)} - x|$ is large, then $w^{(i)}$ is close to $0$. Hence, $\theta$ is chosen giving a much higher weight to the errors on training examples close to the query point $x$. The parameter $\tau$ controls how quickly the weight of a training example falls off with distance of its $x^{(i)}$ from the query point $x$. $\tau$ is called the <b>bandwidth parameter</b>.
 </div>
 
-Locally weighted linear regression is a **non-parametric** algorithm. The linear regression algorithm that we saw earlier is known as a **parametric** learning algorithm, because it has a fixed, finite number of parameters $θ_i$ 's, which are fit to the data. Once we’ve fit the $θ_i$ 's and stored them away, we no longer need to keep the training data around to make future predictions. In contrast, to make predictions using locally weighted linear regression, we need to keep the entire training set around. The term non-parametric roughly refers to the fact that the amount of stuff we need to keep in order to represent the hypothesis $h$ grows linearly with the size of the training set.
+Locally weighted linear regression is a **non-parametric** algorithm. The linear regression algorithm that we saw earlier is known as a **parametric** learning algorithm, because it has a fixed, finite number of parameters $\theta_i$ 's, which are fit to the data. Once we’ve fit the $\theta_i$ 's and stored them away, we no longer need to keep the training data around to make future predictions. In contrast, to make predictions using locally weighted linear regression, we need to keep the entire training set around. The term non-parametric roughly refers to the fact that the amount of stuff we need to keep in order to represent the hypothesis $h$ grows linearly with the size of the training set.
 
 ## Classification and Logistic Regression
 
@@ -181,7 +181,7 @@ Classification problem is just like the regression problem, except that the valu
 
 In logistic regression we will choose
 
-$$ h_θ(x) = g(θ^T x) = \frac{1}{1 + e^{-θ^T x}} \quad where \quad g(z) = \frac{1}{1 + e^{-z}} \quad with \quad z = θ^T x $$
+$$ h_\theta(x) = g(\theta^T x) = \frac{1}{1 + e^{-\theta^T x}} \quad where \quad g(z) = \frac{1}{1 + e^{-z}} \quad with \quad z = \theta^T x $$
 
 $g(z)$ is called the **logistic function** or the **sigmoid function**. The plot of $g(z)$:
 
@@ -196,45 +196,45 @@ $$ g'(z) = g(z)(1 - g(z)) $$
 assume that
 
 $$ \begin{align*}
-P(y=1|x;θ) &= h_θ(x) \\
-P(y=0|x;θ) &= 1 - h_θ(x)
+P(y=1|x;\theta) &= h_\theta(x) \\
+P(y=0|x;\theta) &= 1 - h_\theta(x)
 \end{align*} $$
 
 so that
 
-$$ P(y|x;θ) = (h_θ(x))^y (1 - h_θ(x))^{1-y} $$
+$$ P(y|x;\theta) = (h_\theta(x))^y (1 - h_\theta(x))^{1-y} $$
 
 so the likelihood of the parameters as
 
 $$ \begin{align*}
-L(θ) &= P(Y|X;θ) \\
-     &= \prod_{i=1}^{m} P(y^{(i)}|x^{(i)};θ) \\
-     &= \prod_{i=1}^{m} (h_θ(x^{(i)}))^{y^{(i)}} (1 - h_θ(x^{(i)}))^{1-y^{(i)}}
+L(\theta) &= P(Y|X;\theta) \\
+     &= \prod_{i=1}^{m} P(y^{(i)}|x^{(i)};\theta) \\
+     &= \prod_{i=1}^{m} (h_\theta(x^{(i)}))^{y^{(i)}} (1 - h_\theta(x^{(i)}))^{1-y^{(i)}}
 \end{align*} $$
 
 to maximize the log likelihood
 
 $$ \begin{align*}
-\ell (θ) &= log \text{ } L(θ) \\
-         &= \sum_{i=1}^{m} ( y^{(i)} log \text{ } h_θ(x^{(i)}) + (1 - y^{(i)}) log(1 - h_θ(x^{(i)})) )
+\ell (\theta) &= log \text{ } L(\theta) \\
+         &= \sum_{i=1}^{m} ( y^{(i)} log \text{ } h_\theta(x^{(i)}) + (1 - y^{(i)}) log(1 - h_\theta(x^{(i)})) )
 \end{align*} $$
 
 we can use **gradient ascent**:
 
-$$ θ = θ + \alpha \nabla_θ \ell (θ) $$
+$$ \theta = \theta + \alpha \nabla_\theta \ell (\theta) $$
 
 take derivatives to derive the stochastic gradient ascent rule:
 
 $$ \begin{align*}
-\frac{\partial}{\partial θ_j} \ell(θ) &= \bigg(y \frac{1}{g(θ^T x)} - (1 - y) \frac{1}{1 - g(θ^T x)}\bigg) \frac{\partial}{\partial θ_j} g(θ^T x) \\
-&= \bigg(y \frac{1}{g(θ^T x)} - (1 - y) \frac{1}{1 - g(θ^T x)}\bigg) g(θ^T x) (1 - g(θ^T x)) \frac{\partial}{\partial θ_j} θ^T x \\
-&= (y(1 - g(θ^T x)) - (1 - y)g(θ^T x)) x_j \\
-&= (y - h_θ(x)) x_j
+\frac{\partial}{\partial \theta_j} \ell(\theta) &= \bigg(y \frac{1}{g(\theta^T x)} - (1 - y) \frac{1}{1 - g(\theta^T x)}\bigg) \frac{\partial}{\partial \theta_j} g(\theta^T x) \\
+&= \bigg(y \frac{1}{g(\theta^T x)} - (1 - y) \frac{1}{1 - g(\theta^T x)}\bigg) g(\theta^T x) (1 - g(\theta^T x)) \frac{\partial}{\partial \theta_j} \theta^T x \\
+&= (y(1 - g(\theta^T x)) - (1 - y)g(\theta^T x)) x_j \\
+&= (y - h_\theta(x)) x_j
 \end{align*} $$
 
 so that:
 
-$$ θ_j = θ_j + \alpha (y^{(i)} - h_θ(x^{(i)})) x_j^{(i)} $$
+$$ \theta_j = \theta_j + \alpha (y^{(i)} - h_\theta(x^{(i)})) x_j^{(i)} $$
 
 ### Perceptron Learning Algorithm
 
@@ -248,9 +248,9 @@ $$
   \end{cases}
 $$
 
-let $h_θ (x) = g(θ^T x)$ and use the update rule
+let $h_\theta (x) = g(\theta^T x)$ and use the update rule
 
-$$ θ_j = θ_j + \alpha (y^{(i)} - h_θ(x^{(i)})) x_j^{(i)} $$
+$$ \theta_j = \theta_j + \alpha (y^{(i)} - h_\theta(x^{(i)})) x_j^{(i)} $$
 
 then we have the **perceptron learning algorithm**.
 
@@ -258,45 +258,45 @@ Note however that even though the perceptron may be cosmetically similar to the 
 
 ### Newton Method For Maximizing Log Likelihood
 
-**Newton method** for finding a zero of a function. Specifically, suppose we have some function $f : R \to R$, and we wish to find a value of $θ$ so that $f(θ) = 0$. Here, $θ ∈ R$ is a real number. Newton method performs the following update:
+**Newton method** for finding a zero of a function. Specifically, suppose we have some function $f : R \to R$, and we wish to find a value of $\theta$ so that $f(\theta) = 0$. Here, $\theta ∈ R$ is a real number. Newton method performs the following update:
 
-$$ θ = θ - \frac{f(θ)}{f'(θ)} $$
+$$ \theta = \theta - \frac{f(\theta)}{f'(\theta)} $$
 
-Approximating the function $f$ via a linear function that is tangent to $f$ at the current guess $θ$, solving for where that linear function equals to zero, and letting the next guess for $θ$ be where that linear function is zero.
+Approximating the function $f$ via a linear function that is tangent to $f$ at the current guess $\theta$, solving for where that linear function equals to zero, and letting the next guess for $\theta$ be where that linear function is zero.
 
 Picture of the Newton method in action:
 
 ![newton method](/images/machine-learning/newton-method.png)
 
-The maxima of $\ell$ correspond to points where its derivative $\ell'(θ)$ is zero. So, by letting $f(θ) = \ell'(θ)$, we can use the same algorithm to maximize $\ell$, and we obtain update rule:
+The maxima of $\ell$ correspond to points where its derivative $\ell'(\theta)$ is zero. So, by letting $f(\theta) = \ell'(\theta)$, we can use the same algorithm to maximize $\ell$, and we obtain update rule:
 
-$$ θ = θ - \frac{\ell'(θ)}{\ell''(θ)} $$
+$$ \theta = \theta - \frac{\ell'(\theta)}{\ell''(\theta)} $$
 
-In logistic regression setting, $θ$ is vector-valued, so we need to generalize Newton method to this setting. The generalization of Newton method to this multidimensional setting also called the **Newton-Raphson method** is given by
+In logistic regression setting, $\theta$ is vector-valued, so we need to generalize Newton method to this setting. The generalization of Newton method to this multidimensional setting also called the **Newton-Raphson method** is given by
 
-$$ θ = θ - H^{-1} \nabla_θ \ell(θ) $$
+$$ \theta = \theta - H^{-1} \nabla_\theta \ell(\theta) $$
 
-Here, $\nabla_θ \ell(θ)$ is, as usual, the vector of partial derivatives of $\ell(θ)$ with respect to the $θ_i$ 's; and $H$ is a $(n+1)×(n+1)$ matrix that include the intercept term called the **Hessian**, whose entries are given by
+Here, $\nabla_\theta \ell(\theta)$ is, as usual, the vector of partial derivatives of $\ell(\theta)$ with respect to the $\theta_i$ 's; and $H$ is a $(n+1) \times (n+1)$ matrix that include the intercept term called the **Hessian**, whose entries are given by
 
-$$ H_{ij} = \frac{\partial^2 \ell(θ)}{\partial θ_i \partial θ_j} $$
+$$ H_{ij} = \frac{\partial^2 \ell(\theta)}{\partial \theta_i \partial \theta_j} $$
 
-Newton-Raphson method typically faster convergence than batch gradient descent, and requires many fewer iterations to get very close to the minimum. One iteration of Newton-Raphson method can, however, be more expensive than one iteration of batch gradient descent, since it requires finding and inverting a $(n+1)×(n+1)$ Hessian matrix; but so long as $n$ is not too large, it is usually much faster overall. When Newton-Raphson method is applied to maximize the logistic regression log likelihood function $\ell(θ)$, the resulting method is also called **Fisher scoring**.
+Newton-Raphson method typically faster convergence than batch gradient descent, and requires many fewer iterations to get very close to the minimum. One iteration of Newton-Raphson method can, however, be more expensive than one iteration of batch gradient descent, since it requires finding and inverting a $(n+1) \times (n+1)$ Hessian matrix; but so long as $n$ is not too large, it is usually much faster overall. When Newton-Raphson method is applied to maximize the logistic regression log likelihood function $\ell(\theta)$, the resulting method is also called **Fisher scoring**.
 
 ## Generalized Linear Models
 
 <div>
-In the regression, we had $(y^{(i)}|x^{(i)};θ) ∼ N(μ, σ^2)$, and in the classification, we had $(y^{(i)}|x^{(i)};θ) ∼ Bernoulli(\phi)$, the definitions of $μ$ and $\phi$ as functions of $x$ and $θ$. Both of these methods are special cases of a broader family of models, called <b>Generalized Linear Models (GLMs)</b>.
+In the regression, we had $(y^{(i)}|x^{(i)};\theta) ∼ N(\mu, \sigma^2)$, and in the classification, we had $(y^{(i)}|x^{(i)};\theta) ∼ Bernoulli(\phi)$, the definitions of $\mu$ and $\phi$ as functions of $x$ and $\theta$. Both of these methods are special cases of a broader family of models, called <b>Generalized Linear Models (GLMs)</b>.
 </div>
 
 ### The Exponential Family
 
 To defining exponential family distributions. We say that a class of distributions is in the exponential family if it can be written in the form
 
-$$ p(y;η) = b(y) exp(η^T T(y) - a(η)) $$
+$$ p(y;\eta) = b(y) exp(\eta^T T(y) - a(\eta)) $$
 
-$η$ is called the **natural parameter** (also called the **canonical parameter**) of the distribution; $T(y)$ is the **sufficient statistic** (for the distributions we consider, it will often be the case that $T(y) = y$); and $a(η)$ is the **log partition function**. The quantity $e^{-a(η)}$ essentially plays the role of a normalization constant, that makes sure the distribution $p(y;η)$ sums/integrates over $y$ to $1$.
+$\eta$ is called the **natural parameter** (also called the **canonical parameter**) of the distribution; $T(y)$ is the **sufficient statistic** (for the distributions we consider, it will often be the case that $T(y) = y$); and $a(\eta)$ is the **log partition function**. The quantity $e^{-a(\eta)}$ essentially plays the role of a normalization constant, that makes sure the distribution $p(y;\eta)$ sums/integrates over $y$ to $1$.
 
-A fixed choice of $T$, $a$ and $b$ defines a family (or set) of distributions that is parameterized by $η$; as we vary $η$, we then get different distributions within this family.
+A fixed choice of $T$, $a$ and $b$ defines a family (or set) of distributions that is parameterized by $\eta$; as we vary $\eta$, we then get different distributions within this family.
 
 We now show that the Bernoulli and the Gaussian distributions are exponential family distributions.
 
@@ -312,30 +312,30 @@ P(y;\phi) &= \phi^y (1 - \phi)^{1 - y} \\
           &= exp((log(\frac{\phi}{1 - \phi}))y + log(1 - \phi))
 \end{align*} $$
 
-Thus, the natural parameter is given by $η^T = η = log(\phi/(1 − \phi))$. Invert this definition for $η$ by solving for $\phi$ in terms of $η$, we obtain $\phi = 1/(1 + e^{-η})$. To complete the formulation of the Bernoulli distribution as an exponential family distribution, we also have
+Thus, the natural parameter is given by $\eta^T = \eta = log(\phi/(1 − \phi))$. Invert this definition for $\eta$ by solving for $\phi$ in terms of $\eta$, we obtain $\phi = 1/(1 + e^{-\eta})$. To complete the formulation of the Bernoulli distribution as an exponential family distribution, we also have
 
 $$ \begin{align*}
 T(y) &= y \\
-a(η) &= -log(1 - \phi) \\
-     &= log(1 + e^η) \\
+a(\eta) &= -log(1 - \phi) \\
+     &= log(1 + e^\eta) \\
 b(y) &= 1
 \end{align*} $$
 
-The Gaussian distribution $N(μ, σ^2)$ with mean $μ$ and variance $σ^2$:
+The Gaussian distribution $N(\mu, \sigma^2)$ with mean $\mu$ and variance $\sigma^2$:
 
 $$ \begin{align*}
-p(y;η) = p(y;μ,σ) &= \frac{1}{\sqrt{2\pi} σ} exp\bigg(-\frac{(y - μ)^2}{2σ^2}\bigg) \\
-                  &= \frac{1}{\sqrt{2\pi} σ} exp\bigg(-\frac{y^2}{2σ^2}\bigg) exp\bigg(-\frac{μ^2-2μy}{2σ^2}\bigg) \\
-                  &= \frac{1}{\sqrt{2\pi} σ} exp\bigg(-\frac{y^2}{2σ^2}\bigg) exp\bigg(\frac{μ}{σ}\frac{y}{σ} - \frac{μ^2}{2σ^2}\bigg)
+p(y;\eta) = p(y;\mu,\sigma) &= \frac{1}{\sqrt{2\pi} \sigma} exp\bigg(-\frac{(y - \mu)^2}{2\sigma^2}\bigg) \\
+                  &= \frac{1}{\sqrt{2\pi} \sigma} exp\bigg(-\frac{y^2}{2\sigma^2}\bigg) exp\bigg(-\frac{\mu^2-2\mu y}{2\sigma^2}\bigg) \\
+                  &= \frac{1}{\sqrt{2\pi} \sigma} exp\bigg(-\frac{y^2}{2\sigma^2}\bigg) exp\bigg(\frac{\mu}{\sigma}\frac{y}{\sigma} - \frac{\mu^2}{2\sigma^2}\bigg)
 \end{align*} $$
 
 so the Gaussian is in the exponential family, with
 
 $$ \begin{align*}
-η^T = η &= \frac{μ}{σ} \quad invert \quad μ = ση \\
-   T(y) &= \frac{y}{σ} \\
-   a(η) &= \frac{μ^2}{2σ^2} = \frac{η^2}{2} \\
-   b(y) &= \frac{1}{\sqrt{2\pi} σ} exp\bigg(-\frac{y^2}{2σ^2}\bigg)
+\eta^T = \eta &= \frac{\mu}{\sigma} \quad invert \quad \mu = \sigma\eta \\
+   T(y) &= \frac{y}{\sigma} \\
+   a(\eta) &= \frac{\mu^2}{2\sigma^2} = \frac{\eta^2}{2} \\
+   b(y) &= \frac{1}{\sqrt{2\pi} \sigma} exp\bigg(-\frac{y^2}{2\sigma^2}\bigg)
 \end{align*} $$
 
 ### Constructing GLMs
@@ -345,7 +345,7 @@ Make the following assumptions/design choices about the conditional distribution
 <div>
 <ul>
 <li>
-$y | x; θ ∼ ExponentialFamily(η)$. I.e., given $x$ and $θ$, the distribution of $y$ follows some exponential family distribution, with parameter $η$.
+$y | x; \theta ∼ ExponentialFamily(\eta)$. I.e., given $x$ and $\theta$, the distribution of $y$ follows some exponential family distribution, with parameter $\eta$.
 </li>
 
 <li>
@@ -353,34 +353,34 @@ Given $x$, our goal is to predict the expected value of $T(y)$. So the predictio
 </li>
 
 <li>
-The natural parameter $η$ and the inputs $x$ are related linearly: $η = θ^T x$. Or, if $η$ is vector-valued, then $η_i = θ_i^T x$.
+The natural parameter $\eta$ and the inputs $x$ are related linearly: $\eta = \theta^T x$. Or, if $\eta$ is vector-valued, then $\eta_i = \theta_i^T x$.
 </li>
 </ul>
 </div>
 
 #### Constructing GLMs - Ordinary Least Squares
 
-To show that ordinary least squares is a special case of the GLM family of models, consider the setting where the target variable $y$ (also called the **response variable** in GLM terminology) is continuous, and we model the conditional distribution of $y$ given $x$ as a Gaussian $N(μ, σ^2)$. So, we let the $ExponentialFamily(η)$ distribution be the Gaussian distribution. In the formulation of the Gaussian as an exponential family distribution, $μ/σ = η$. So:
+To show that ordinary least squares is a special case of the GLM family of models, consider the setting where the target variable $y$ (also called the **response variable** in GLM terminology) is continuous, and we model the conditional distribution of $y$ given $x$ as a Gaussian $N(\mu, \sigma^2)$. So, we let the $ExponentialFamily(\eta)$ distribution be the Gaussian distribution. In the formulation of the Gaussian as an exponential family distribution, $\mu/\sigma = \eta$. So:
 
 $$ \begin{align*}
-h_θ (x) &= E[T(y)|x;θ] = E[\frac{y}{σ}|x;θ] \\
-        &= \frac{u}{σ} = η = θ^T x
+h_\theta (x) &= E[T(y)|x;\theta] = E[\frac{y}{\sigma}|x;\theta] \\
+        &= \frac{u}{\sigma} = \eta = \theta^T x
 \end{align*} $$
 
 #### Constructing GLMs - Logistic Regression
 
 <div>
-Consider logistic regression. Here we are interested in binary classification, so $y ∈ \{0, 1\}$. Given that $y$ is binary-valued, it therefore seems natural to choose the Bernoulli family of distributions to model the conditional distribution of $y$ given $x$. In our formulation of the Bernoulli distribution as an exponential family distribution, we had $\phi = 1/(1 + e^{-η})$. Furthermore, note that if $(y|x;θ) ∼ Bernoulli(\phi)$, then $E[T(y)|x;θ] = E[y|x;θ] = \phi$. So:
+Consider logistic regression. Here we are interested in binary classification, so $y ∈ \{0, 1\}$. Given that $y$ is binary-valued, it therefore seems natural to choose the Bernoulli family of distributions to model the conditional distribution of $y$ given $x$. In our formulation of the Bernoulli distribution as an exponential family distribution, we had $\phi = 1/(1 + e^{-\eta})$. Furthermore, note that if $(y|x;\theta) ∼ Bernoulli(\phi)$, then $E[T(y)|x;\theta] = E[y|x;\theta] = \phi$. So:
 </div>
 
 $$ \begin{align*}
-h_θ (x) &= E[T(y)|x;θ] = E[y|x;θ] \\
+h_\theta (x) &= E[T(y)|x;\theta] = E[y|x;\theta] \\
         &= \phi \\
-        &= \frac{1}{1 + e^{-η}} \\
-        &= \frac{1}{1 + e^{-θ^T x}}
+        &= \frac{1}{1 + e^{-\eta}} \\
+        &= \frac{1}{1 + e^{-\theta^T x}}
 \end{align*} $$
 
-To introduce a little more terminology, the function $g$ giving the distribution’s mean as a function of the natural parameter $g(η) = E[T(y); η]$ is called the **canonical response function**. Its inverse, $g^{-1}$, is called the **canonical link function**. Thus, the canonical response function for the Gaussian family is just the identify function $g(η) = η$; and the canonical response function for the Bernoulli is the logistic function $g(η) = 1/(1 + e^{-η})$.
+To introduce a little more terminology, the function $g$ giving the distribution’s mean as a function of the natural parameter $g(\eta) = E[T(y); \eta]$ is called the **canonical response function**. Its inverse, $g^{-1}$, is called the **canonical link function**. Thus, the canonical response function for the Gaussian family is just the identify function $g(\eta) = \eta$; and the canonical response function for the Bernoulli is the logistic function $g(\eta) = 1/(1 + e^{-\eta})$.
 
 #### Constructing GLMs - Softmax Regression
 
@@ -451,13 +451,13 @@ P(y;\phi_1,...,\phi_{k−1}) &= \phi_1^{1\{y=1\}} \phi_2^{1\{y=2\}} ... \phi_k^{
         &= \phi_1^{(T(y))_1} \phi_2^{(T(y))_2} ... \phi_k^{1 - \sum_{i=1}^{k-1} (T(y))_i} \\
         &= exp( (T(y))_1 log(\phi_1) + (T(y))_2 log(\phi_2) + ... + (1 - \sum_{i=1}^{k-1} (T(y))_i) log(\phi_k) ) \\
         &= exp( (T(y))_1 log({\phi_1}/{\phi_k}) + (T(y))_2 log({\phi_2}/{\phi_k}) + ... + (T(y))_{k-1} log({\phi_{k-1}}/{\phi_k}) + log(\phi_k) ) \\
-        &= b(y)exp(η^T T(y) - a(η))
+        &= b(y)exp(\eta^T T(y) - a(\eta))
 \end{align*} $$
 
 where
 
 $$ \begin{align*}
-η &=
+\eta &=
 \begin{bmatrix}
   log(\phi_1/\phi_k) \\
   log(\phi_2/\phi_k) \\
@@ -473,7 +473,7 @@ T(y) &=
   1\{y=k-1\}
 \end{bmatrix} \\
 \\
-a(η) &= -log(\phi_k) \\
+a(\eta) &= -log(\phi_k) \\
 \\
 b(y) &= 1
 \end{align*} $$
@@ -482,32 +482,32 @@ This completes our formulation of the multinomial as an exponential family distr
 
 The canonical link function is given (for $i = 1, . . . , k$) by
 
-$$ η_i = log \frac{\phi_i}{\phi_k} $$
+$$ \eta_i = log \frac{\phi_i}{\phi_k} $$
 
-For convenience, we have also defined $η_k = log(\phi_k/\phi_k) = 0$. To invert the canonical link function and derive the canonical response function, we therefore have that
+For convenience, we have also defined $\eta_k = log(\phi_k/\phi_k) = 0$. To invert the canonical link function and derive the canonical response function, we therefore have that
 
 $$ \begin{align*}
-e^{η_i} &= \frac{\phi_i}{\phi_k} \\
+e^{\eta_i} &= \frac{\phi_i}{\phi_k} \\
 \\
-\phi_i &= \phi_k e^{η_i}\\
+\phi_i &= \phi_k e^{\eta_i}\\
 \\
-\sum_{i=1}^{k} \phi_i &= \phi_k \sum_{i=1}^{k} e^{η_i} = 1 \\
+\sum_{i=1}^{k} \phi_i &= \phi_k \sum_{i=1}^{k} e^{\eta_i} = 1 \\
 \\
-\phi_k &= \frac{1}{\sum_{i=1}^{k} e^{η_i}} \\
+\phi_k &= \frac{1}{\sum_{i=1}^{k} e^{\eta_i}} \\
 \\
-\phi_i &= \frac{e^{η_i}}{\sum_{j=1}^{k} e^{η_j}}
+\phi_i &= \frac{e^{\eta_i}}{\sum_{j=1}^{k} e^{\eta_j}}
 \end{align*} $$
 
-This function mapping from the $η$ 's to the $\phi$ 's is called the **softmax** function.
+This function mapping from the $\eta$ 's to the $\phi$ 's is called the **softmax** function.
 
-To complete our model, so, have $η_i = θ_i^T x$ (for $i = 1, . . . , k − 1$), where $θ_1 , . . . , θ_{k−1} ∈ R^{n+1}$ are the parameters of our model. For notational convenience, we can also define $θ_k = 0$, so that $η_k = θ_k^T x = 0$, as given previously. Hence, our model assumes that the conditional distribution of $y$ given $x$ is given by
+To complete our model, so, have $\eta_i = \theta_i^T x$ (for $i = 1, . . . , k − 1$), where $\theta_1 , . . . , \theta_{k−1} ∈ R^{n+1}$ are the parameters of our model. For notational convenience, we can also define $\theta_k = 0$, so that $\eta_k = \theta_k^T x = 0$, as given previously. Hence, our model assumes that the conditional distribution of $y$ given $x$ is given by
 
 $$ \begin{align*}
-P(y = i|x; θ) &= \phi_i \\
+P(y = i|x; \theta) &= \phi_i \\
               \\
-              &= \frac{e^{η_i}}{\sum_{j=1}^{k} e^{η_j}} \\
+              &= \frac{e^{\eta_i}}{\sum_{j=1}^{k} e^{\eta_j}} \\
               \\
-              &= \frac{e^{θ_i^T x}}{\sum_{j=1}^{k} e^{θ_j^T x}} \\
+              &= \frac{e^{\theta_i^T x}}{\sum_{j=1}^{k} e^{\theta_j^T x}} \\
 \end{align*} $$
 
 <div>
@@ -517,14 +517,14 @@ This model, which applies to classification problems where $y ∈ \{1, . . . , k
 Our hypothesis will output
 
 $$ \begin{align*}
-h_θ(x) &= E[T(y)|x;θ] \\
+h_\theta(x) &= E[T(y)|x;\theta] \\
        \\
        &= E
        \left[
        \begin{array}{c|c}
          1\{y=1\} \\
          1\{y=2\} \\
-         \vdots & x;θ \\
+         \vdots & x;\theta \\
          1\{y=k-1\} \\
        \end{array}
        \right] \\
@@ -539,27 +539,27 @@ h_θ(x) &= E[T(y)|x;θ] \\
        \\
        &=
        \begin{bmatrix}
-         \frac{exp(θ_1^T x)}{\sum_{j=1}^{k} exp(θ_j^T x)} \\
-         \frac{exp(θ_2^T x)}{\sum_{j=1}^{k} exp(θ_j^T x)} \\
+         \frac{exp(\theta_1^T x)}{\sum_{j=1}^{k} exp(\theta_j^T x)} \\
+         \frac{exp(\theta_2^T x)}{\sum_{j=1}^{k} exp(\theta_j^T x)} \\
          \vdots \\
-         \frac{exp(θ_{k-1}^T x)}{\sum_{j=1}^{k} exp(θ_j^T x)} \\
+         \frac{exp(\theta_{k-1}^T x)}{\sum_{j=1}^{k} exp(\theta_j^T x)} \\
        \end{bmatrix} \\
 \end{align*} $$
 
 <div>
-In other words, our hypothesis will output the estimated probability that $P(y = i|x; θ)$, for every value of $i = 1,...,k$. (Even though $h_θ (x)$ as defined above is only $k − 1$ dimensional, clearly $P(y = k|x; θ)$ can be obtained as $1 - \sum_{i=1}^{k−1} \phi_i$.)
+In other words, our hypothesis will output the estimated probability that $P(y = i|x; \theta)$, for every value of $i = 1,...,k$. (Even though $h_\theta (x)$ as defined above is only $k − 1$ dimensional, clearly $P(y = k|x; \theta)$ can be obtained as $1 - \sum_{i=1}^{k−1} \phi_i$.)
 </div>
 <p/>
 <div>
-Lastly, lets discuss parameter fitting. Similar to our original derivation of ordinary least squares and logistic regression, if we have a training set of $m$ examples $\{(x^{(i)}, y^{(i)}); i = 1,...,m\}$ and would like to learn the parameters $θ_i$ of this model, we would begin by writing down the log-likelihood
+Lastly, lets discuss parameter fitting. Similar to our original derivation of ordinary least squares and logistic regression, if we have a training set of $m$ examples $\{(x^{(i)}, y^{(i)}); i = 1,...,m\}$ and would like to learn the parameters $\theta_i$ of this model, we would begin by writing down the log-likelihood
 </div>
 
 $$ \begin{align*}
-\ell (θ) &= \sum_{i=1}^{m} log P(y^{(i)}|x^{(i)}, θ) \\
-         &= \sum_{i=1}^{m} log \prod_{l=1}^{k} \bigg(\frac{e^{θ_l^T x^{(i)}}}{\sum_{j=1}^{k} e^{θ_j^T x^{(i)}}}\bigg)^{1\{y^{(i)}=l\}}
+\ell (\theta) &= \sum_{i=1}^{m} log P(y^{(i)}|x^{(i)}, \theta) \\
+         &= \sum_{i=1}^{m} log \prod_{l=1}^{k} \bigg(\frac{e^{\theta_l^T x^{(i)}}}{\sum_{j=1}^{k} e^{\theta_j^T x^{(i)}}}\bigg)^{1\{y^{(i)}=l\}}
 \end{align*} $$
 
-We can now obtain the maximum likelihood estimate of the parameters by maximizing $\ell (θ)$ in terms of $θ$, using a method such as gradient ascent or Newton method.
+We can now obtain the maximum likelihood estimate of the parameters by maximizing $\ell (\theta)$ in terms of $\theta$, using a method such as gradient ascent or Newton method.
 
 ## Generative Learning Algorithms
 
@@ -587,15 +587,15 @@ In Gaussian discriminant analysis (GDA), we’ll assume that $p(x|y)$ is distrib
 
 #### The Multivariate Normal Distribution
 
-The multivariate normal distribution in $n$-dimensions, also called the multivariate Gaussian distribution, is parameterized by a **mean vector** $μ ∈ R^n$ and a **covariance matrix** $Σ ∈ R^{n×n}$, where $Σ ≥ 0$ is symmetric and positive semi-definite. Also written $N (μ, Σ)$, its density is given by:
+The multivariate normal distribution in $n$-dimensions, also called the multivariate Gaussian distribution, is parameterized by a **mean vector** $\mu ∈ R^n$ and a **covariance matrix** $Σ ∈ R^{n \times n}$, where $Σ ≥ 0$ is symmetric and positive semi-definite. Also written $N (\mu, Σ)$, its density is given by:
 
-$$ p(x; μ, Σ) = \frac{1}{(2π)^{n/2} |Σ|^{1/2}} exp(-\frac{1}{2} (x − μ)^T Σ^{-1} (x − μ)) $$
+$$ p(x; \mu, Σ) = \frac{1}{(2π)^{n/2} |Σ|^{1/2}} exp(-\frac{1}{2} (x − \mu)^T Σ^{-1} (x − \mu)) $$
 
-For a vector-valued random variable $X$ distributed $N(μ, Σ)$, the mean is given by $μ$:
+For a vector-valued random variable $X$ distributed $N(\mu, Σ)$, the mean is given by $\mu$:
 
-$$ E[X] = \int_x x \text{ } p(x; μ, Σ) \text{ } dx = μ $$
+$$ E[X] = \int_x x \text{ } p(x; \mu, Σ) \text{ } dx = \mu $$
 
-The **covariance** of a vector-valued random variable $Z$ is defined as $Cov(Z) = E[(Z − E[Z])(Z − E[Z])^T ]$. This generalizes the notion of the variance of a real-valued random variable. The covariance can also be defined as $Cov(Z) = E[ZZ^T] − (E[Z])(E[Z])^T$. If $X ∼ N (μ, Σ)$, then
+The **covariance** of a vector-valued random variable $Z$ is defined as $Cov(Z) = E[(Z − E[Z])(Z − E[Z])^T ]$. This generalizes the notion of the variance of a real-valued random variable. The covariance can also be defined as $Cov(Z) = E[ZZ^T] − (E[Z])(E[Z])^T$. If $X ∼ N (\mu, Σ)$, then
 
 $$ Cov(X) = Σ $$
 
@@ -607,23 +607,23 @@ When we have a classification problem in which the input features $x$ are contin
 
 $$ \begin{align*}
 y &∼ Bernoulli(\phi) \\
-(x|y = 0) &∼ N (μ_0, Σ) \\
-(x|y = 1) &∼ N (μ_1, Σ)
+(x|y = 0) &∼ N (\mu_0, Σ) \\
+(x|y = 1) &∼ N (\mu_1, Σ)
 \end{align*} $$
 
 Writing out the distributions, this is:
 
 $$ \begin{align*}
 P(y) &= \phi^{y} (1 − \phi)^{1−y} \\
-p(x|y = 0) &= \frac{1}{(2π)^{n/2} |Σ|^{1/2}} exp(-\frac{1}{2} (x − μ_0)^T Σ^{-1} (x − μ_0)) \\
-p(x|y = 1) &= \frac{1}{(2π)^{n/2} |Σ|^{1/2}} exp(-\frac{1}{2} (x − μ_1)^T Σ^{-1} (x − μ_1))
+p(x|y = 0) &= \frac{1}{(2π)^{n/2} |Σ|^{1/2}} exp(-\frac{1}{2} (x − \mu_0)^T Σ^{-1} (x − \mu_0)) \\
+p(x|y = 1) &= \frac{1}{(2π)^{n/2} |Σ|^{1/2}} exp(-\frac{1}{2} (x − \mu_1)^T Σ^{-1} (x − \mu_1))
 \end{align*} $$
 
-Here, the parameters of our model are $\phi, Σ, μ_0$ and $μ_1$. (Note that while there’re two different mean vectors $μ_0$ and $μ_1$, this model is usually applied using only one covariance matrix $Σ$.) The log-join-likelihood of the data is given by
+Here, the parameters of our model are $\phi, Σ, \mu_0$ and $\mu_1$. (Note that while there’re two different mean vectors $\mu_0$ and $\mu_1$, this model is usually applied using only one covariance matrix $Σ$.) The log-join-likelihood of the data is given by
 
 $$ \begin{align*}
-\ell (\phi, μ_0 , μ_1 , Σ) &= log \prod_{i=1}^{m} p(x^{(i)}, y^{(i)};\phi, μ_0 , μ_1 , Σ) \\
-                           &= log \prod_{i=1}^{m} p(x^{(i)}|y^{(i)};μ_0 , μ_1 , Σ) p(y^{(i)};\phi)
+\ell (\phi, \mu_0 , \mu_1 , Σ) &= log \prod_{i=1}^{m} p(x^{(i)}, y^{(i)};\phi, \mu_0 , \mu_1 , Σ) \\
+                           &= log \prod_{i=1}^{m} p(x^{(i)}|y^{(i)};\mu_0 , \mu_1 , Σ) p(y^{(i)};\phi)
 \end{align*} $$
 
 By maximizing $\ell$ with respect to the parameters, we find the maximum likelihood estimate of the parameters to be:
@@ -631,11 +631,11 @@ By maximizing $\ell$ with respect to the parameters, we find the maximum likelih
 $$ \begin{align*}
 \phi &= \frac{1}{m} \sum_{i=1}^{m} 1\{y^{(i)}=1\} \\
 \\
-μ_0 &= \frac{\sum_{i=1}^{m} 1\{y^{(i)}=0\} x^{(i)}}{\sum_{i=1}^{m} 1\{y^{(i)}=0\}} \\
+\mu_0 &= \frac{\sum_{i=1}^{m} 1\{y^{(i)}=0\} x^{(i)}}{\sum_{i=1}^{m} 1\{y^{(i)}=0\}} \\
 \\
-μ_1 &= \frac{\sum_{i=1}^{m} 1\{y^{(i)}=1\} x^{(i)}}{\sum_{i=1}^{m} 1\{y^{(i)}=1\}} \\
+\mu_1 &= \frac{\sum_{i=1}^{m} 1\{y^{(i)}=1\} x^{(i)}}{\sum_{i=1}^{m} 1\{y^{(i)}=1\}} \\
 \\
-Σ &= \frac{1}{m} \sum_{i=1}^{m} (x^{(i)} - μ_{y^{(i)}}) (x^{(i)} - μ_{y^{(i)}})^T
+Σ &= \frac{1}{m} \sum_{i=1}^{m} (x^{(i)} - \mu_{y^{(i)}}) (x^{(i)} - \mu_{y^{(i)}})^T
 \end{align*} $$
 
 Pictorially, what the algorithm is doing can be seen in as follows:
@@ -643,16 +643,16 @@ Pictorially, what the algorithm is doing can be seen in as follows:
 ![gda](/images/machine-learning/gda.png)
 
 <div>
-Shown in the figure are the training set, as well as the contours of the two Gaussian distributions that have been fit to the data in each of the two classes. Note that the two Gaussians have contours that are the same shape and orientation, since they share a covariance matrix $Σ$, but they have different means $μ_0$ and $μ_1$. Also shown in the figure is the straight line giving the decision boundary at which $p(y = 1|x) = 0.5$. On one side of the boundary, we’ll predict $y = 1$ to be the most likely outcome, and on the other side, we’ll predict $y = 0$.
+Shown in the figure are the training set, as well as the contours of the two Gaussian distributions that have been fit to the data in each of the two classes. Note that the two Gaussians have contours that are the same shape and orientation, since they share a covariance matrix $Σ$, but they have different means $\mu_0$ and $\mu_1$. Also shown in the figure is the straight line giving the decision boundary at which $p(y = 1|x) = 0.5$. On one side of the boundary, we’ll predict $y = 1$ to be the most likely outcome, and on the other side, we’ll predict $y = 0$.
 </div>
 
 #### Discussion: GDA and Logistic Regression
 
 <div>
-The GDA model has an interesting relationship to logistic regression. If we view the quantity $P(y = 1|x; \phi, μ_0 , μ_1 , Σ)$ as a function of $x$, we’ll find that it can be expressed in the form of logistic regression
+The GDA model has an interesting relationship to logistic regression. If we view the quantity $P(y = 1|x; \phi, \mu_0 , \mu_1 , Σ)$ as a function of $x$, we’ll find that it can be expressed in the form of logistic regression
 </div>
 
-$$ P(y = 1|x; \phi, μ_0 , μ_1 , Σ) = \frac{1}{1 + exp(-θ^T x)} $$
+$$ P(y = 1|x; \phi, \mu_0 , \mu_1 , Σ) = \frac{1}{1 + exp(-\theta^T x)} $$
 
 because:
 
@@ -666,25 +666,25 @@ then:
 
 $$ \begin{align*}
 & \frac{p(x|y=0) p(y=0)}{p(x|y=1) p(y=1)} \\
-&= exp\bigg(-\frac{1}{2} (x − μ_0)^T Σ^{-1} (x − μ_0) + \frac{1}{2} (x − μ_1)^T Σ^{-1} (x − μ_1)\bigg) \times \frac{1 - \phi}{\phi} \\
-&= exp\bigg(\frac{1}{2} (x^T Σ^{-1} μ_0 − x^T Σ^{-1} μ_1 +  μ_0^T Σ^{-1} x − μ_1^T Σ^{-1} x − μ_0^T Σ^{-1} μ_0 + μ_1^T Σ^{-1} μ_1)\bigg) \times exp\bigg(\log(\frac{1-\phi}{\phi})\bigg) \\
-&= exp\bigg((μ_0 - μ_1)^T Σ^{-1} x - \frac{μ_0^T Σ^{-1} μ_0 - μ_1^T Σ^{-1} μ_1}{2} +\log(\frac{1-\phi}{\phi})\bigg) \\
-&= exp\bigg((μ_0 - μ_1)^T Σ^{-1} x + \Big(\log(\frac{1-\phi}{\phi}) - \frac{μ_0^T Σ^{-1} μ_0 - μ_1^T Σ^{-1} μ_1}{2}\Big) x_0 \bigg) \\
+&= exp\bigg(-\frac{1}{2} (x − \mu_0)^T Σ^{-1} (x − \mu_0) + \frac{1}{2} (x − \mu_1)^T Σ^{-1} (x − \mu_1)\bigg) \times \frac{1 - \phi}{\phi} \\
+&= exp\bigg(\frac{1}{2} (x^T Σ^{-1} \mu_0 − x^T Σ^{-1} \mu_1 +  \mu_0^T Σ^{-1} x − \mu_1^T Σ^{-1} x − \mu_0^T Σ^{-1} \mu_0 + \mu_1^T Σ^{-1} \mu_1)\bigg) \times exp\bigg(\log(\frac{1-\phi}{\phi})\bigg) \\
+&= exp\bigg((\mu_0 - \mu_1)^T Σ^{-1} x - \frac{\mu_0^T Σ^{-1} \mu_0 - \mu_1^T Σ^{-1} \mu_1}{2} +\log(\frac{1-\phi}{\phi})\bigg) \\
+&= exp\bigg((\mu_0 - \mu_1)^T Σ^{-1} x + \Big(\log(\frac{1-\phi}{\phi}) - \frac{\mu_0^T Σ^{-1} \mu_0 - \mu_1^T Σ^{-1} \mu_1}{2}\Big) x_0 \bigg) \\
 \end{align*} $$
 
 so:
 
-$$ θ = -
+$$ \theta = -
 \left[
 \begin{array}{c}
-  \log(\frac{1-\phi}{\phi}) - \frac{μ_0^T Σ^{-1} μ_0 - μ_1^T Σ^{-1} μ_1}{2} \\
-  Σ^{-1} (μ_0 - μ_1) \\
+  \log(\frac{1-\phi}{\phi}) - \frac{\mu_0^T Σ^{-1} \mu_0 - \mu_1^T Σ^{-1} \mu_1}{2} \\
+  Σ^{-1} (\mu_0 - \mu_1) \\
 \end{array}
 \right]
 $$
 
 <div>
-where $θ$ is some appropriate function of $\phi, μ_0 , μ_1 , Σ$. (uses the convention of redefining the $x^{(i)}$ ’s to be $n + 1$-dimensional vectors by adding the extra coordinate $x_0^{(i)} = 1$) This is exactly the form that logistic regression - a discriminative algorithm - used to model $P(y = 1|x)$.
+where $\theta$ is some appropriate function of $\phi, \mu_0 , \mu_1 , Σ$. (uses the convention of redefining the $x^{(i)}$ ’s to be $n + 1$-dimensional vectors by adding the extra coordinate $x_0^{(i)} = 1$) This is exactly the form that logistic regression - a discriminative algorithm - used to model $P(y = 1|x)$.
 </div>
 
 When would we prefer one model over another? GDA and logistic regression will, in general, give different decision boundaries when trained on the same dataset. Which is better?
@@ -694,11 +694,11 @@ We just argued that if $p(x|y)$ is multivariate gaussian (with shared $Σ$), the
 </div>
 <p/>
 <div>
-In contrast, by making significantly weaker assumptions, logistic regression is also more robust and less sensitive to incorrect modeling assumptions. There are many different sets of assumptions that would lead to $P(y|x)$ taking the form of a logistic function. For example, if $(x|y = 0) ∼ Poisson(λ_0)$, and $(x|y = 1) ∼ Poisson(λ_1)$, then $P(y|x)$ will be logistic. Logistic regression will also work well on Poisson data like this. But if we were to use GDA on such data - and fit Gaussian distributions to such non-Gaussian data - then the results will be less predictable, and GDA may or may not do well.
+In contrast, by making significantly weaker assumptions, logistic regression is also more robust and less sensitive to incorrect modeling assumptions. There are many different sets of assumptions that would lead to $P(y|x)$ taking the form of a logistic function. For example, if $(x|y = 0) ∼ Poisson(\lambda_0)$, and $(x|y = 1) ∼ Poisson(\lambda_1)$, then $P(y|x)$ will be logistic. Logistic regression will also work well on Poisson data like this. But if we were to use GDA on such data - and fit Gaussian distributions to such non-Gaussian data - then the results will be less predictable, and GDA may or may not do well.
 </div>
 <p/>
 <div>
-Turns out if you assume $p(x|y=1) ∼ ExponentialFamily(η_1)$ and $p(x|y=0) ∼ ExponentialFamily(η_0)$, then this implies that $P(y = 1|x)$ is also logistic. So the same exponential family distribution for the two classes with different natural parameters then the posterior $P(y = 1|x)$ would be logistic, and so this shows the robustness of logistic regression to the choice of modeling assumptions because it could be that the data can be anyone of exponential family distribution. So it’s the robustness of logistic regression to modeling assumptions.
+Turns out if you assume $p(x|y=1) ∼ ExponentialFamily(\eta_1)$ and $p(x|y=0) ∼ ExponentialFamily(\eta_0)$, then this implies that $P(y = 1|x)$ is also logistic. So the same exponential family distribution for the two classes with different natural parameters then the posterior $P(y = 1|x)$ would be logistic, and so this shows the robustness of logistic regression to the choice of modeling assumptions because it could be that the data can be anyone of exponential family distribution. So it’s the robustness of logistic regression to modeling assumptions.
 </div>
 
 To summarize: GDA makes stronger modeling assumptions, and is more data efficient (i.e., requires less training data to learn “well”) when the modeling assumptions are correct or at least approximately correct. Logistic regression makes weaker assumptions, and is significantly more robust to deviations from modeling assumptions. Specifically, when the data is indeed non-Gaussian, then in the limit of large datasets, logistic regression will almost always do better than GDA. For this reason, in practice logistic regression is used more often than GDA.
@@ -881,3 +881,5 @@ $$ \begin{align*}
 \end{align*} $$
 
 While not necessarily the very best classification algorithm, the Naive Bayes classifier often works surprisingly well. It is often also a very good “first thing to try,” given its simplicity and ease of implementation.
+
+### Support Vector Machines
