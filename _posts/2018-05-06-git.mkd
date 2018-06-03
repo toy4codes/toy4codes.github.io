@@ -110,6 +110,7 @@ git log --pretty=oneline --graph --decorate
 ```
 git branch [branch-name]                                  # creating a branch
 git branch -d [branch-name]                               # delete a branch
+git push origin --delete [branch-name]                    # delete a remote branch
 git branch -vv                                            # list branch
 git branch -r                                             # list remote branch
 git checkout [branch-name]                                # switching branchs
@@ -258,24 +259,72 @@ git diff --cached
 
 ### Rebasing
 
+**Do not rebase commits that exist outside your repository**
+
 ```
 git checkout branch-name                        # switch to branch-name
 git rebase target-branch-name                   # rebase onto target-branch-name
 git checkout target-branch-name                 # switch to target-branch-name
 git merge branch-name                           # do a fast-forward merge
+git branch -d branch-name                       # delete branch-name
 ```
 
 ## Git Flow
 
-### How to Init Git Flow
+### Installing on Ubuntu
 
 ```
-git init
-git remote add origin [repo-url] # origin as default remote-name
-git pull origin master
-git branch --set-upstream-to=origin/master
-git flow init -d
+apt-get install git-flow
 ```
+
+### Initialization
+
+```
+git flow init [-d]
+```
+
+### A successful Git branching model
+
+![A successful Git branching model](/images/git/branching-model.png)
+
+### Creating feature/release/hotfix/support branches
+
+#### To list/start/finish feature branches
+
+```
+git flow feature
+git flow feature start <name> [<base>]
+git flow feature finish <name>
+```
+
+For feature branches, the [base] arg must be a commit on develop
+
+#### To push/pull a feature branch to the remote repository
+
+```
+git flow feature publish <name>
+git flow feature pull <remote> <name>
+```
+
+#### To list/start/finish release branches
+
+```
+git flow release
+git flow release start <release> [<base>]
+git flow release finish <release>
+```
+
+For release branches, the [base] arg must be a commit on develop
+
+#### To list/start/finish hotfix branches
+
+```
+git flow hotfix
+git flow hotfix start <release> [<base>]
+git flow hotfix finish <release>
+```
+
+For hotfix branches, the [base] arg must be a commit on master
 
 ## Resources
 
