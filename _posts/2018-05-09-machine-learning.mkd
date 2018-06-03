@@ -883,3 +883,71 @@ $$ \begin{align*}
 While not necessarily the very best classification algorithm, the Naive Bayes classifier often works surprisingly well. It is often also a very good “first thing to try,” given its simplicity and ease of implementation.
 
 ### Support Vector Machines
+
+SVMs are among the best (and many believe is indeed the best) "off-the-shelf" supervised learning algorithm. To tell the SVM story, we’ll need to first talk about margins and the idea of separating data with a large "gap". Next, we’ll talk about the optimal margin classifier, which will lead us into a digression on Lagrange duality. We’ll also see kernels, which give a way to apply SVMs efficiently in very high dimensional (such as infinite-dimensional) feature spaces, and finally, we’ll close off the story with the SMO algorithm, which gives an efficient implementation of SVMs.
+
+#### Margins: Intuition
+
+We’ll start our story on SVMs by talking about margins. This section will give the intuitions about margins and about the "confidence" of our predictions;
+
+Consider logistic regression, where the probability $p(y = 1|x; \theta)$ is modeled by $h_\theta (x) = g(\theta^T x)$. We would then predict “1” on an input $x$ if and only if $h_\theta (x) \geq 0.5$, or equivalently, if and only if $\theta^T x \geq 0$. Consider a positive training example ($y = 1$). The larger $\theta^T x$ is, the larger also is $h_\theta (x) = p(y = 1|x; w, b)$, and thus also the higher our degree of “confidence” that the label is $1$. Thus, informally we can think of our prediction as being a very confident one that $y = 1$ if $\theta^T x \gg 0$. Similarly, we think of logistic regression as making a very confident prediction of $y = 0$, if $\theta^T x \ll 0$. Given a training set, again informally it seems that we’d have found a good fit to the training data if we can find $\theta$ so that $\theta^T x^{(i)} \gg 0$ whenever $y^{(i)} = 1$, and $\theta^T x^{(i)} \ll 0$ whenever $y^{(i)} = 0$, since this would reflect a very confident (and correct) set of classifications for all the training examples. This seems to be a nice goal to aim for, and we’ll soon formalize this idea using the notion of functional margins.
+
+For a different type of intuition, consider the following figure, in which x’s represent positive training examples, o’s denote negative training examples, a decision boundary (this is the line given by the equation $\theta^T x = 0$, and is also called the **separating hyperplane**) is also shown, and three points have also been labeled A, B and C.
+
+![hyperplane](/images/machine-learning/hyperplane.png)
+
+Notice that the point A is very far from the decision boundary. If we are asked to make a prediction for the value of $y$ at at A, it seems we should be quite confident that $y = 1$ there. Conversely, the point C is very close to the decision boundary, and while it’s on the side of the decision boundary on which we would predict $y = 1$, it seems likely that just a small change to the decision boundary could easily have caused out prediction to be $y = 0$. Hence, we’re much more confident about our prediction at A than at C. The point B lies in-between these two cases, and more broadly, we see that if a point is far from the separating hyperplane, then we may be significantly more confident in our predictions. Again, informally we think it’d be nice if, given a training set, we manage to find a decision boundary that allows us to make all correct and confident (meaning far from the decision boundary) predictions on the training examples. We’ll formalize this later using the notion of geometric margins.
+
+#### Notation
+
+To make our discussion of SVMs easier, we’ll first need to introduce a new notation for talking about classification. We will be considering a linear classifier for a binary classification problem with labels $y$ and features $x$. From now, we’ll use $y \in \{−1, 1\}$ (instead of $\{0, 1\}$) to denote the class labels. Also, rather than parameterizing our linear classifier with the vector $\theta$, we will use parameters $w$, $b$, and write our classifier as
+
+$$ h_{w,b} (x) = g(w^T x + b) $$
+
+Here, $g(z) = 1$ if $z \ge 0$, and $g(z) = -1$ otherwise. This "$w, b$" notation allows us to explicitly treat the intercept term $b$ separately from the other parameters. (We also drop the convention we had previously of letting $x_0 = 1$ be an extra coordinate in the input feature vector.) Thus, $b$ takes the role of what was previously $\theta_0$, and $w$ takes the role of $[\theta_1 . . . \theta_n]^T$.
+
+Note also that, from our definition of $g$ above, our classifier will directly predict either $1$ or $-1$ (cf. the perceptron algorithm), without first going through the intermediate step of estimating the probability of $y$ being $1$ (which was what logistic regression did).
+
+#### Functional and Geometric Margins
+
+Lets formalize the notions of the functional and geometric margins. Given a training example $(x^{(i)}, y^{(i)})$, we define the **functional margin** of $(w, b)$ with respect to the training example
+
+$$ \hat{\gamma}^{(i)} = y^{(i)} (w^T x + b) $$
+
+Note that if $y^{(i)} = 1$, then for the functional margin to be large (i.e., for our prediction to be confident and correct), then we need $w^T x + b$ to be a large positive number. Conversely, if $y^{(i)} = −1$, then for the functional margin to be large, then we need $w^T x + b$ to be a large negative number. Moreover, if $y^{(i)} (w^T x + b) > 0$, then our prediction on this example is correct. (Check this yourself.) Hence, a large functional margin represents a confident and a correct prediction.
+
+For a linear classifier with the choice of $g$ given above (taking values in $\{−1, 1\}$), there’s one property of the functional margin that makes it not a very good measure of confidence, however. Given our choice of $g$, we note that if we replace $w$ with $2w$ and $b$ with $2b$, then since $g(w^T x + b) = g(2w^T x + 2b)$, this would not change $h_{w,b} (x)$ at all. I.e., $g$, and hence also $h_{w,b} (x)$, depends only on the sign, but not on the magnitude, of $w^T x + b$. However, replacing $(w, b)$ with $(2w, 2b)$ also results in multiplying our functional margin by a factor of $2$. Thus, it seems that by exploiting our freedom to scale $w$ and $b$, we can make the functional margin arbitrarily large without really changing anything meaningful. Intuitively, it might therefore make sense to impose some sort of normalization condition such as that $||w||_2 = 1$; i.e., we might replace $(w, b)$ with  $(w/||w||_2 , b/||w||_2 )$, and instead consider the functional margin of $(w/||w||_2 , b/||w||_2)$. We’ll come back to this later.
+
+Given a training set $S = {(x^{(i)}, y^{(i)}); i = 1, . . . , m}$, we also define the  function margin of $(w, b)$ with respect to $S$ as the smallest of the functional margins of the individual training examples. Denoted by $\hat{\gamma}$, this can therefore be written:
+
+$$ \hat{\gamma} = min_{i=1,...,m} \hat{\gamma}^{(i)} $$
+
+Next, lets talk about **geometric margins**. Consider the picture below:
+
+![geometric-margins](/images/machine-learning/geometric-margins.png)
+
+The decision boundary corresponding to $(w, b)$ is shown, along with the vector $w$. Note that $w$ is orthogonal to the separating hyperplane. (You should convince yourself that this must be the case.) Consider the point at A, which represents the input $x^{(i)}$ of some training example with label $y^{(i)} = 1$. Its distance to the decision boundary, $\gamma^{(i)}$, is given by the line segment AB.
+
+How can we find the value of $\gamma^{(i)}$ ? Well, $w/||w||$ is a unit-length vector pointing in the same direction as $w$. Since A represents $x^{(i)}$, we therefore find that the point B is given by $x^{(i)} − \gamma^{(i)} · w/||w||$. But this point lies on the decision boundary, and all points $x$ on the decision boundary satisfy the equation $w^T x + b = 0$. Hence,
+
+$$ w^T (x^{(i)} - \gamma^{(i)} \frac{w}{||w||}) + b = 0 $$
+
+Solving for $\gamma^{(i)}$ yields
+
+$$ \gamma^{(i)} = \frac{w^T x^{(i)} + b}{||w||} = (\frac{w}{||w||})^T x^{(i)} + \frac{b}{||w||} $$
+
+This was worked out for the case of a positive training example at A in the figure, where being on the “positive” side of the decision boundary is good. More generally, we define the geometric margin of $(w, b)$ with respect to a training example $(x^{(i)}, y^{(i)})$ to be
+
+$$ \gamma^{(i)} = y^{(i)} \bigg((\frac{w}{||w||})^T x^{(i)} + \frac{b}{||w||}\bigg) $$
+
+Note that if $||w|| = 1$, then the functional margin equals the geometric margin - this thus gives us a way of relating these two different notions of margin. Also, the geometric margin is invariant to rescaling of the parameters; i.e., if we replace $w$ with $2w$ and $b$ with $2b$, then the geometric margin does not change. This will in fact come in handy later. Specifically, because of this invariance to the scaling of the parameters, when trying to fit $w$ and $b$ to training data, we can impose an arbitrary scaling constraint on $w$ without changing anything important; for instance, we can demand that $||w|| = 1$, or $|w_1| = 5$, or $|w_1 + b| + |w_2| = 2$, and any of these can be satisfied simply by rescaling $w$ and $b$.
+
+Finally, given a training set $S = \{(x^{(i)}, y^{(i)}); i = 1, . . . , m\}$, we also define the geometric margin of $(w, b)$ with respect to $S$ to be the smallest of the geometric margins on the individual training examples:
+
+$$ \gamma = min_{i=1,...,m} \gamma^{(i)} $$
+
+#### The optimal margin classifier
+
+
+
+#### Lagrange duality
