@@ -157,7 +157,7 @@ The locally weighted linear regression algorithm does the following:
 * Fit $\theta$ to minimize $\displaystyle\sum_{i=1}^{m} w^{(i)} (y^{(i)} - \theta^T x^{(i)})^2$
 * Output $\theta^T x$
 
-Here, the $w^{(i)}$ ’s are non-negative valued **weights**. Intuitively, if $w^{(i)}$ is large for a particular value of $i$, then in picking $\theta$, we’ll try hard to make $(y^{(i)} − \theta^T x^{(i)})^2$ small. If $w^{(i)}$ is small, then the $(y^{(i)} − \theta^T x^{(i)})^2$ error term will be pretty much ignored in the fit.
+Here, the $w^{(i)}$ 's are non-negative valued **weights**. Intuitively, if $w^{(i)}$ is large for a particular value of $i$, then in picking $\theta$, we’ll try hard to make $(y^{(i)} − \theta^T x^{(i)})^2$ small. If $w^{(i)}$ is small, then the $(y^{(i)} − \theta^T x^{(i)})^2$ error term will be pretty much ignored in the fit.
 
 A fairly standard choice for the weights is
 
@@ -254,11 +254,11 @@ $$ \theta_j = \theta_j + \alpha (y^{(i)} - h_\theta(x^{(i)})) x_j^{(i)} $$
 
 then we have the **perceptron learning algorithm**.
 
-Note however that even though the perceptron may be cosmetically similar to the other algorithms we talked about, it is actually a very different type of algorithm than logistic regression and least squares linear regression; in particular, it is difficult to endow the perceptron’s predictions with meaningful probabilistic interpretations, or derive the perceptron as a maximum likelihood estimation algorithm.
+Note however that even though the perceptron may be cosmetically similar to the other algorithms we talked about, it is actually a very different type of algorithm than logistic regression and least squares linear regression; in particular, it is difficult to endow the perceptron's predictions with meaningful probabilistic interpretations, or derive the perceptron as a maximum likelihood estimation algorithm.
 
 ### Newton Method For Maximizing Log Likelihood
 
-**Newton method** for finding a zero of a function. Specifically, suppose we have some function $f : R \to R$, and we wish to find a value of $\theta$ so that $f(\theta) = 0$. Here, $\theta ∈ R$ is a real number. Newton method performs the following update:
+**Newton method** for finding a zero of a function. Specifically, suppose we have some function $f : R \to R$, and we wish to find a value of $\theta$ so that $f(\theta) = 0$. Here, $\theta \in R$ is a real number. Newton method performs the following update:
 
 $$ \theta = \theta - \frac{f(\theta)}{f'(\theta)} $$
 
@@ -301,7 +301,7 @@ A fixed choice of $T$, $a$ and $b$ defines a family (or set) of distributions th
 We now show that the Bernoulli and the Gaussian distributions are exponential family distributions.
 
 <div>
-The Bernoulli distribution with mean $\phi$, written $Bernoulli(\phi)$, specifies a distribution over $y ∈ \{0, 1\}$, so that $P(y = 1; \phi) = \phi; P(y = 0; \phi) = 1 − \phi$. As we varying $\phi$, we obtain Bernoulli distributions with different means. We now show that this class of Bernoulli distributions, ones obtained by varying $\phi$, is in the exponential family; i.e., that there is a choice of $T$, $a$ and $b$ so that the exponential family becomes exactly the class of Bernoulli distributions.
+The Bernoulli distribution with mean $\phi$, written $Bernoulli(\phi)$, specifies a distribution over $y \in \{0, 1\}$, so that $P(y = 1; \phi) = \phi; P(y = 0; \phi) = 1 − \phi$. As we varying $\phi$, we obtain Bernoulli distributions with different means. We now show that this class of Bernoulli distributions, ones obtained by varying $\phi$, is in the exponential family; i.e., that there is a choice of $T$, $a$ and $b$ so that the exponential family becomes exactly the class of Bernoulli distributions.
 </div>
 
 Write the Bernoulli distribution as:
@@ -370,7 +370,7 @@ h_\theta (x) &= E[T(y)|x;\theta] = E[\frac{y}{\sigma}|x;\theta] \\
 #### Constructing GLMs - Logistic Regression
 
 <div>
-Consider logistic regression. Here we are interested in binary classification, so $y ∈ \{0, 1\}$. Given that $y$ is binary-valued, it therefore seems natural to choose the Bernoulli family of distributions to model the conditional distribution of $y$ given $x$. In our formulation of the Bernoulli distribution as an exponential family distribution, we had $\phi = 1/(1 + e^{-\eta})$. Furthermore, note that if $(y|x;\theta) ∼ Bernoulli(\phi)$, then $E[T(y)|x;\theta] = E[y|x;\theta] = \phi$. So:
+Consider logistic regression. Here we are interested in binary classification, so $y \in \{0, 1\}$. Given that $y$ is binary-valued, it therefore seems natural to choose the Bernoulli family of distributions to model the conditional distribution of $y$ given $x$. In our formulation of the Bernoulli distribution as an exponential family distribution, we had $\phi = 1/(1 + e^{-\eta})$. Furthermore, note that if $(y|x;\theta) ∼ Bernoulli(\phi)$, then $E[T(y)|x;\theta] = E[y|x;\theta] = \phi$. So:
 </div>
 
 $$ \begin{align*}
@@ -380,19 +380,19 @@ h_\theta (x) &= E[T(y)|x;\theta] = E[y|x;\theta] \\
         &= \frac{1}{1 + e^{-\theta^T x}}
 \end{align*} $$
 
-To introduce a little more terminology, the function $g$ giving the distribution’s mean as a function of the natural parameter $g(\eta) = E[T(y); \eta]$ is called the **canonical response function**. Its inverse, $g^{-1}$, is called the **canonical link function**. Thus, the canonical response function for the Gaussian family is just the identify function $g(\eta) = \eta$; and the canonical response function for the Bernoulli is the logistic function $g(\eta) = 1/(1 + e^{-\eta})$.
+To introduce a little more terminology, the function $g$ giving the distribution's mean as a function of the natural parameter $g(\eta) = E[T(y); \eta]$ is called the **canonical response function**. Its inverse, $g^{-1}$, is called the **canonical link function**. Thus, the canonical response function for the Gaussian family is just the identify function $g(\eta) = \eta$; and the canonical response function for the Bernoulli is the logistic function $g(\eta) = 1/(1 + e^{-\eta})$.
 
 #### Constructing GLMs - Softmax Regression
 
 <div>
-Consider a classification problem in which the response variable $y$ can take on any one of $k$ values, so $y ∈ \{1, 2, ... , k\}$. We will model it as distributed according to a multinomial distribution.
+Consider a classification problem in which the response variable $y$ can take on any one of $k$ values, so $y \in \{1, 2, ... , k\}$. We will model it as distributed according to a multinomial distribution.
 </div>
 
 Derive a GLM for modelling multinomial data. To do so, Begin by expressing the multinomial as an exponential family distribution.
 
-To parameterize a multinomial over $k$ possible outcomes, use $k$ parameters $\phi_1 , . . . , \phi_k$ specifying the probability of each of the outcomes. However, these parameters would be redundant, or more formally, they would not be independent (since knowing any $k − 1$ of the $\phi_i$ ’s uniquely determines the last one, as they must satisfy $\sum_{i=1}^{k} \phi_i = 1$). So, we will instead parameterize the multinomial with only $k − 1$ parameters, $\phi_1 , . . . , \phi_{k−1}$, where $\phi_i = P(y = i)$, and $P(y = k) = 1 − \sum_{i=1}^{k-1} \phi_i$. For notational convenience, we will also let $\phi_k = 1 − \sum_{i=1}^{k-1} \phi_i$, but we should keep in mind that this is not a parameter, and that it is fully specified by $\phi_1 , . . . , \phi_{k−1}$.
+To parameterize a multinomial over $k$ possible outcomes, use $k$ parameters $\phi_1 , . . . , \phi_k$ specifying the probability of each of the outcomes. However, these parameters would be redundant, or more formally, they would not be independent (since knowing any $k − 1$ of the $\phi_i$ 's uniquely determines the last one, as they must satisfy $\sum_{i=1}^{k} \phi_i = 1$). So, we will instead parameterize the multinomial with only $k − 1$ parameters, $\phi_1 , . . . , \phi_{k−1}$, where $\phi_i = P(y = i)$, and $P(y = k) = 1 − \sum_{i=1}^{k-1} \phi_i$. For notational convenience, we will also let $\phi_k = 1 − \sum_{i=1}^{k-1} \phi_i$, but we should keep in mind that this is not a parameter, and that it is fully specified by $\phi_1 , . . . , \phi_{k−1}$.
 
-To express the multinomial as an exponential family distribution, we will define $T(y) ∈ R^{k−1}$ as follows:
+To express the multinomial as an exponential family distribution, we will define $T(y) \in R^{k−1}$ as follows:
 
 $$
 T(1) =
@@ -500,7 +500,7 @@ e^{\eta_i} &= \frac{\phi_i}{\phi_k} \\
 
 This function mapping from the $\eta$ 's to the $\phi$ 's is called the **softmax** function.
 
-To complete our model, so, have $\eta_i = \theta_i^T x$ (for $i = 1, . . . , k − 1$), where $\theta_1 , . . . , \theta_{k−1} ∈ R^{n+1}$ are the parameters of our model. For notational convenience, we can also define $\theta_k = 0$, so that $\eta_k = \theta_k^T x = 0$, as given previously. Hence, our model assumes that the conditional distribution of $y$ given $x$ is given by
+To complete our model, so, have $\eta_i = \theta_i^T x$ (for $i = 1, . . . , k − 1$), where $\theta_1 , . . . , \theta_{k−1} \in R^{n+1}$ are the parameters of our model. For notational convenience, we can also define $\theta_k = 0$, so that $\eta_k = \theta_k^T x = 0$, as given previously. Hence, our model assumes that the conditional distribution of $y$ given $x$ is given by
 
 $$ \begin{align*}
 P(y = i|x; \theta) &= \phi_i \\
@@ -511,7 +511,7 @@ P(y = i|x; \theta) &= \phi_i \\
 \end{align*} $$
 
 <div>
-This model, which applies to classification problems where $y ∈ \{1, . . . , k\}$, is called <b>softmax regression</b>. It is a generalization of logistic regression.
+This model, which applies to classification problems where $y \in \{1, . . . , k\}$, is called <b>softmax regression</b>. It is a generalization of logistic regression.
 </div>
 
 Our hypothesis will output
@@ -587,7 +587,7 @@ In Gaussian discriminant analysis (GDA), we’ll assume that $p(x|y)$ is distrib
 
 #### The Multivariate Normal Distribution
 
-The multivariate normal distribution in $n$-dimensions, also called the multivariate Gaussian distribution, is parameterized by a **mean vector** $\mu ∈ R^n$ and a **covariance matrix** $Σ ∈ R^{n \times n}$, where $Σ ≥ 0$ is symmetric and positive semi-definite. Also written $N (\mu, Σ)$, its density is given by:
+The multivariate normal distribution in $n$-dimensions, also called the multivariate Gaussian distribution, is parameterized by a **mean vector** $\mu \in R^n$ and a **covariance matrix** $Σ \in R^{n \times n}$, where $Σ ≥ 0$ is symmetric and positive semi-definite. Also written $N (\mu, Σ)$, its density is given by:
 
 $$ p(x; \mu, Σ) = \frac{1}{(2π)^{n/2} |Σ|^{1/2}} exp(-\frac{1}{2} (x − \mu)^T Σ^{-1} (x − \mu)) $$
 
@@ -684,7 +684,7 @@ $$ \theta = -
 $$
 
 <div>
-where $\theta$ is some appropriate function of $\phi, \mu_0 , \mu_1 , Σ$. (uses the convention of redefining the $x^{(i)}$ ’s to be $n + 1$-dimensional vectors by adding the extra coordinate $x_0^{(i)} = 1$) This is exactly the form that logistic regression - a discriminative algorithm - used to model $P(y = 1|x)$.
+where $\theta$ is some appropriate function of $\phi, \mu_0 , \mu_1 , Σ$. (uses the convention of redefining the $x^{(i)}$ 's to be $n + 1$-dimensional vectors by adding the extra coordinate $x_0^{(i)} = 1$) This is exactly the form that logistic regression - a discriminative algorithm - used to model $P(y = 1|x)$.
 </div>
 
 When would we prefer one model over another? GDA and logistic regression will, in general, give different decision boundaries when trained on the same dataset. Which is better?
@@ -698,16 +698,16 @@ In contrast, by making significantly weaker assumptions, logistic regression is 
 </div>
 <p/>
 <div>
-Turns out if you assume $p(x|y=1) ∼ ExponentialFamily(\eta_1)$ and $p(x|y=0) ∼ ExponentialFamily(\eta_0)$, then this implies that $P(y = 1|x)$ is also logistic. So the same exponential family distribution for the two classes with different natural parameters then the posterior $P(y = 1|x)$ would be logistic, and so this shows the robustness of logistic regression to the choice of modeling assumptions because it could be that the data can be anyone of exponential family distribution. So it’s the robustness of logistic regression to modeling assumptions.
+Turns out if you assume $p(x|y=1) ∼ ExponentialFamily(\eta_1)$ and $p(x|y=0) ∼ ExponentialFamily(\eta_0)$, then this implies that $P(y = 1|x)$ is also logistic. So the same exponential family distribution for the two classes with different natural parameters then the posterior $P(y = 1|x)$ would be logistic, and so this shows the robustness of logistic regression to the choice of modeling assumptions because it could be that the data can be anyone of exponential family distribution. So it's the robustness of logistic regression to modeling assumptions.
 </div>
 
-To summarize: GDA makes stronger modeling assumptions, and is more data efficient (i.e., requires less training data to learn “well”) when the modeling assumptions are correct or at least approximately correct. Logistic regression makes weaker assumptions, and is significantly more robust to deviations from modeling assumptions. Specifically, when the data is indeed non-Gaussian, then in the limit of large datasets, logistic regression will almost always do better than GDA. For this reason, in practice logistic regression is used more often than GDA.
+To summarize: GDA makes stronger modeling assumptions, and is more data efficient (i.e., requires less training data to learn "well") when the modeling assumptions are correct or at least approximately correct. Logistic regression makes weaker assumptions, and is significantly more robust to deviations from modeling assumptions. Specifically, when the data is indeed non-Gaussian, then in the limit of large datasets, logistic regression will almost always do better than GDA. For this reason, in practice logistic regression is used more often than GDA.
 
 ### Naive Bayes
 
 #### Naive Bayes
 
-In GDA, the feature vectors $x$ were continuous, real-valued vectors. Lets now talk about a different learning algorithm to be used in **text classification** in which the $x_i$ ’s are discrete-valued.
+In GDA, the feature vectors $x$ were continuous, real-valued vectors. Lets now talk about a different learning algorithm to be used in **text classification** in which the $x_i$ 's are discrete-valued.
 
 We will represent the text via a feature vector whose length is equal to the number of words in the dictionary. Specifically, if the text contains the $i$-th word of the dictionary, then we will set $x_i = 1$; otherwise, we let $x_i = 0$.
 
@@ -737,16 +737,16 @@ x =
 \end{array}
 $$
 
-is used to represent the text that contains the words “a” and “buy,” but not “coat”, “cold” or “zoo”. The set of words encoded into the feature vector is called the **vocabulary**, so the dimension of $x$ is equal to the size of the vocabulary.
+is used to represent the text that contains the words "a" and "buy," but not "coat", "cold" or "zoo". The set of words encoded into the feature vector is called the **vocabulary**, so the dimension of $x$ is equal to the size of the vocabulary.
 
-Actually, rather than looking through an english dictionary for the list of all english words, in practice it is more common to look through our training set and encode in our feature vector only the words that occur at least once there. Apart from reducing the number of words modeled and hence reducing our computational and space requirements, this also has the advantage of allowing us to model/include as a feature many words that may appear in the text but that you won’t find in a dictionary. Sometimes, we also exclude the very high frequency words (which will be words like “the”, “of”, “and”; these high frequency, “content free” words are called **stop words**) since they occur in so many documents and do little to indicate the meaning of the text.
+Actually, rather than looking through an english dictionary for the list of all english words, in practice it is more common to look through our training set and encode in our feature vector only the words that occur at least once there. Apart from reducing the number of words modeled and hence reducing our computational and space requirements, this also has the advantage of allowing us to model/include as a feature many words that may appear in the text but that you won’t find in a dictionary. Sometimes, we also exclude the very high frequency words (which will be words like "the", "of", "and"; these high frequency, "content free" words are called **stop words**) since they occur in so many documents and do little to indicate the meaning of the text.
 
 <div>
-Having chosen our feature vector, we now want to build a discriminative model. So, we have to model $p(x|y)$. But if we have, say, a vocabulary of $50000$ words, then $x ∈ \{0, 1\}^{50000}$ ($x$ is a $50000$-dimensional vector of $0$ ’s and $1$ ’s), and if we were to model $x$ explicitly with a multinomial distribution over the $2^{50000}$ possible outcomes, then we’d end up with $(2^{50000} −1)$ parameter vectors. This is clearly too many parameters.
+Having chosen our feature vector, we now want to build a discriminative model. So, we have to model $p(x|y)$. But if we have, say, a vocabulary of $50000$ words, then $x \in \{0, 1\}^{50000}$ ($x$ is a $50000$-dimensional vector of $0$ 's and $1$ 's), and if we were to model $x$ explicitly with a multinomial distribution over the $2^{50000}$ possible outcomes, then we’d end up with $(2^{50000} −1)$ parameter vectors. This is clearly too many parameters.
 </div>
 <p/>
 <div>
-To model $p(x|y)$, we will therefore make a very strong assumption. We will assume that the $x_i$ ’s are conditionally independent given $y$. This assumption is called the <b>Naive Bayes (NB) assumption</b>, and the resulting algorithm is called the <b>Naive Bayes classifier</b>. (Note that this is not the same as saying that $x_i$ ’s are independent, which would have been written $p(x_i) = p(x_i|x_j)$; rather, we are only assuming that $x_i$ ’s are conditionally independent given $y$.)
+To model $p(x|y)$, we will therefore make a very strong assumption. We will assume that the $x_i$ 's are conditionally independent given $y$. This assumption is called the <b>Naive Bayes (NB) assumption</b>, and the resulting algorithm is called the <b>Naive Bayes classifier</b>. (Note that this is not the same as saying that $x_i$ 's are independent, which would have been written $p(x_i) = p(x_i|x_j)$; rather, we are only assuming that $x_i$ 's are conditionally independent given $y$.)
 </div>
 
 we now have:
@@ -817,11 +817,11 @@ Stating the problem more broadly, it is statistically a bad idea to estimate the
 
 $$ \phi_j = \frac{\sum_{i=1}^{m} 1\{z^{(i)}=j\}}{m} $$
 
-As we saw previously, if we were to use these maximum likelihood estimates, then some of the $\phi_j$ ’s might end up as zero, which was a problem. To avoid this, we can use **Laplace Smoothing**, which replaces the above estimate with
+As we saw previously, if we were to use these maximum likelihood estimates, then some of the $\phi_j$ 's might end up as zero, which was a problem. To avoid this, we can use **Laplace Smoothing**, which replaces the above estimate with
 
 $$ \phi_j = \frac{1 + \sum_{i=1}^{m} 1\{z^{(i)}=j\}}{k + m} $$
 
-Here, we’ve added $1$ to the numerator, and $k$ to the denominator. Note that $\sum_{j=1}^{k} \phi_j = 1$ still holds, which is a desirable property since the $\phi_j$ ’s are estimates for probabilities that we know must sum to $1$. Also, $\phi_j \neq 0$ for all values of $j$, solving our problem of probabilities being estimated as zero. Under certain (arguably quite strong) conditions, it can be shown that the Laplace smoothing actually gives the optimal estimator of the $\phi_j$ ’s.
+Here, we’ve added $1$ to the numerator, and $k$ to the denominator. Note that $\sum_{j=1}^{k} \phi_j = 1$ still holds, which is a desirable property since the $\phi_j$ 's are estimates for probabilities that we know must sum to $1$. Also, $\phi_j \neq 0$ for all values of $j$, solving our problem of probabilities being estimated as zero. Under certain (arguably quite strong) conditions, it can be shown that the Laplace smoothing actually gives the optimal estimator of the $\phi_j$ 's.
 
 Returning to our Naive Bayes classifier, with Laplace smoothing, we therefore obtain the following estimates of the parameters:
 
@@ -838,11 +838,11 @@ In practice, it usually doesn’t matter much whether we apply Laplace smoothing
 To close off our discussion of generative learning algorithms, lets talk about one more model that is specifically for text classification. While Naive Bayes as we’ve presented it will work well for many classification problems, for text classification, there is a related model that does even better.
 
 <div>
-In the specific context of text classification, Naive Bayes as presented uses the what’s called the <b>multivariate Bernoulli event model</b>. In this model, we assumed that the way a text is generated is that first it is randomly determined (according to the class priors $p(y)$) its classification. Then, runs through the dictionary, deciding whether to include each word $i$ in that text independently and according to the probabilities $p(x_i = 1|y) = \phi_i|_y$. Thus, the probability of a text was given by $p(y) \prod_{i=1}^{n} p(x_i|y)$.
+In the specific context of text classification, Naive Bayes as presented uses the what's called the <b>multivariate Bernoulli event model</b>. In this model, we assumed that the way a text is generated is that first it is randomly determined (according to the class priors $p(y)$) its classification. Then, runs through the dictionary, deciding whether to include each word $i$ in that text independently and according to the probabilities $p(x_i = 1|y) = \phi_i|_y$. Thus, the probability of a text was given by $p(y) \prod_{i=1}^{n} p(x_i|y)$.
 </div>
 <p/>
 <div>
-Here’s a different model, called the <b>multinomial event model</b>. To describe this model, we will use a different notation and set of features for representing texts. We let $x_i$ denote the identity of the $i$-th word in the text. Thus, $x_i$ is now an integer taking values in $\{1, . . . , |V|\}$, where $|V|$ is the size of our vocabulary (dictionary). A text of $n$ words is now represented by a vector $(x_1 , x_2 , . . . , x_n)$ of length $n$; note that $n$ can vary for different texts.
+Here's a different model, called the <b>multinomial event model</b>. To describe this model, we will use a different notation and set of features for representing texts. We let $x_i$ denote the identity of the $i$-th word in the text. Thus, $x_i$ is now an integer taking values in $\{1, . . . , |V|\}$, where $|V|$ is the size of our vocabulary (dictionary). A text of $n$ words is now represented by a vector $(x_1 , x_2 , . . . , x_n)$ of length $n$; note that $n$ can vary for different texts.
 </div>
 <p/>
 <div>
@@ -880,27 +880,31 @@ $$ \begin{align*}
 \phi_k|_{y=0} &= \frac{1 + \sum_{i=1}^{m} \sum_{j=1}^{n_i} 1\{x_j^{(i)}=k, y^{(i)}=0\}}{|V| + \sum_{i=1}^{m} 1\{y^{(i)}=0\} n_i} \\
 \end{align*} $$
 
-While not necessarily the very best classification algorithm, the Naive Bayes classifier often works surprisingly well. It is often also a very good “first thing to try,” given its simplicity and ease of implementation.
+While not necessarily the very best classification algorithm, the Naive Bayes classifier often works surprisingly well. It is often also a very good "first thing to try," given its simplicity and ease of implementation.
 
-### Support Vector Machines
+## Support Vector Machines
 
 SVMs are among the best (and many believe is indeed the best) "off-the-shelf" supervised learning algorithm. To tell the SVM story, we’ll need to first talk about margins and the idea of separating data with a large "gap". Next, we’ll talk about the optimal margin classifier, which will lead us into a digression on Lagrange duality. We’ll also see kernels, which give a way to apply SVMs efficiently in very high dimensional (such as infinite-dimensional) feature spaces, and finally, we’ll close off the story with the SMO algorithm, which gives an efficient implementation of SVMs.
 
-#### Margins: Intuition
+### Margins: Intuition
 
 We’ll start our story on SVMs by talking about margins. This section will give the intuitions about margins and about the "confidence" of our predictions;
 
-Consider logistic regression, where the probability $p(y = 1|x; \theta)$ is modeled by $h_\theta (x) = g(\theta^T x)$. We would then predict “1” on an input $x$ if and only if $h_\theta (x) \geq 0.5$, or equivalently, if and only if $\theta^T x \geq 0$. Consider a positive training example ($y = 1$). The larger $\theta^T x$ is, the larger also is $h_\theta (x) = p(y = 1|x; w, b)$, and thus also the higher our degree of “confidence” that the label is $1$. Thus, informally we can think of our prediction as being a very confident one that $y = 1$ if $\theta^T x \gg 0$. Similarly, we think of logistic regression as making a very confident prediction of $y = 0$, if $\theta^T x \ll 0$. Given a training set, again informally it seems that we’d have found a good fit to the training data if we can find $\theta$ so that $\theta^T x^{(i)} \gg 0$ whenever $y^{(i)} = 1$, and $\theta^T x^{(i)} \ll 0$ whenever $y^{(i)} = 0$, since this would reflect a very confident (and correct) set of classifications for all the training examples. This seems to be a nice goal to aim for, and we’ll soon formalize this idea using the notion of functional margins.
+<div>
+Consider logistic regression, where the probability $p(y = 1|x; \theta)$ is modeled by $h_\theta (x) = g(\theta^T x)$. We would then predict "1" on an input $x$ if and only if $h_\theta (x) \geq 0.5$, or equivalently, if and only if $\theta^T x \geq 0$. Consider a positive training example ($y = 1$). The larger $\theta^T x$ is, the larger also is $h_\theta (x) = p(y = 1|x; w, b)$, and thus also the higher our degree of "confidence" that the label is $1$. Thus, informally we can think of our prediction as being a very confident one that $y = 1$ if $\theta^T x \gg 0$. Similarly, we think of logistic regression as making a very confident prediction of $y = 0$, if $\theta^T x \ll 0$. Given a training set, again informally it seems that we’d have found a good fit to the training data if we can find $\theta$ so that $\theta^T x^{(i)} \gg 0$ whenever $y^{(i)} = 1$, and $\theta^T x^{(i)} \ll 0$ whenever $y^{(i)} = 0$, since this would reflect a very confident (and correct) set of classifications for all the training examples. This seems to be a nice goal to aim for, and we’ll soon formalize this idea using the notion of functional margins.
+</div>
 
-For a different type of intuition, consider the following figure, in which x’s represent positive training examples, o’s denote negative training examples, a decision boundary (this is the line given by the equation $\theta^T x = 0$, and is also called the **separating hyperplane**) is also shown, and three points have also been labeled A, B and C.
+For a different type of intuition, consider the following figure, in which x's represent positive training examples, o's denote negative training examples, a decision boundary (this is the line given by the equation $\theta^T x = 0$, and is also called the **separating hyperplane**) is also shown, and three points have also been labeled A, B and C.
 
 ![hyperplane](/images/machine-learning/hyperplane.png)
 
-Notice that the point A is very far from the decision boundary. If we are asked to make a prediction for the value of $y$ at at A, it seems we should be quite confident that $y = 1$ there. Conversely, the point C is very close to the decision boundary, and while it’s on the side of the decision boundary on which we would predict $y = 1$, it seems likely that just a small change to the decision boundary could easily have caused out prediction to be $y = 0$. Hence, we’re much more confident about our prediction at A than at C. The point B lies in-between these two cases, and more broadly, we see that if a point is far from the separating hyperplane, then we may be significantly more confident in our predictions. Again, informally we think it’d be nice if, given a training set, we manage to find a decision boundary that allows us to make all correct and confident (meaning far from the decision boundary) predictions on the training examples. We’ll formalize this later using the notion of geometric margins.
+Notice that the point A is very far from the decision boundary. If we are asked to make a prediction for the value of $y$ at at A, it seems we should be quite confident that $y = 1$ there. Conversely, the point C is very close to the decision boundary, and while it's on the side of the decision boundary on which we would predict $y = 1$, it seems likely that just a small change to the decision boundary could easily have caused out prediction to be $y = 0$. Hence, we’re much more confident about our prediction at A than at C. The point B lies in-between these two cases, and more broadly, we see that if a point is far from the separating hyperplane, then we may be significantly more confident in our predictions. Again, informally we think it’d be nice if, given a training set, we manage to find a decision boundary that allows us to make all correct and confident (meaning far from the decision boundary) predictions on the training examples. We’ll formalize this later using the notion of geometric margins.
 
-#### Notation
+### Notation
 
+<div>
 To make our discussion of SVMs easier, we’ll first need to introduce a new notation for talking about classification. We will be considering a linear classifier for a binary classification problem with labels $y$ and features $x$. From now, we’ll use $y \in \{−1, 1\}$ (instead of $\{0, 1\}$) to denote the class labels. Also, rather than parameterizing our linear classifier with the vector $\theta$, we will use parameters $w$, $b$, and write our classifier as
+</div>
 
 $$ h_{w,b} (x) = g(w^T x + b) $$
 
@@ -908,7 +912,7 @@ Here, $g(z) = 1$ if $z \ge 0$, and $g(z) = -1$ otherwise. This "$w, b$" notation
 
 Note also that, from our definition of $g$ above, our classifier will directly predict either $1$ or $-1$ (cf. the perceptron algorithm), without first going through the intermediate step of estimating the probability of $y$ being $1$ (which was what logistic regression did).
 
-#### Functional and Geometric Margins
+### Functional and Geometric Margins
 
 Lets formalize the notions of the functional and geometric margins. Given a training example $(x^{(i)}, y^{(i)})$, we define the **functional margin** of $(w, b)$ with respect to the training example
 
@@ -916,11 +920,15 @@ $$ \hat{\gamma}^{(i)} = y^{(i)} (w^T x + b) $$
 
 Note that if $y^{(i)} = 1$, then for the functional margin to be large (i.e., for our prediction to be confident and correct), then we need $w^T x + b$ to be a large positive number. Conversely, if $y^{(i)} = −1$, then for the functional margin to be large, then we need $w^T x + b$ to be a large negative number. Moreover, if $y^{(i)} (w^T x + b) > 0$, then our prediction on this example is correct. (Check this yourself.) Hence, a large functional margin represents a confident and a correct prediction.
 
-For a linear classifier with the choice of $g$ given above (taking values in $\{−1, 1\}$), there’s one property of the functional margin that makes it not a very good measure of confidence, however. Given our choice of $g$, we note that if we replace $w$ with $2w$ and $b$ with $2b$, then since $g(w^T x + b) = g(2w^T x + 2b)$, this would not change $h_{w,b} (x)$ at all. I.e., $g$, and hence also $h_{w,b} (x)$, depends only on the sign, but not on the magnitude, of $w^T x + b$. However, replacing $(w, b)$ with $(2w, 2b)$ also results in multiplying our functional margin by a factor of $2$. Thus, it seems that by exploiting our freedom to scale $w$ and $b$, we can make the functional margin arbitrarily large without really changing anything meaningful. Intuitively, it might therefore make sense to impose some sort of normalization condition such as that $||w||_2 = 1$; i.e., we might replace $(w, b)$ with  $(w/||w||_2 , b/||w||_2 )$, and instead consider the functional margin of $(w/||w||_2 , b/||w||_2)$. We’ll come back to this later.
+<div>
+For a linear classifier with the choice of $g$ given above (taking values in $\{−1, 1\}$), there's one property of the functional margin that makes it not a very good measure of confidence, however. Given our choice of $g$, we note that if we replace $w$ with $2w$ and $b$ with $2b$, then since $g(w^T x + b) = g(2w^T x + 2b)$, this would not change $h_{w,b} (x)$ at all. I.e., $g$, and hence also $h_{w,b} (x)$, depends only on the sign, but not on the magnitude, of $w^T x + b$. However, replacing $(w, b)$ with $(2w, 2b)$ also results in multiplying our functional margin by a factor of $2$. Thus, it seems that by exploiting our freedom to scale $w$ and $b$, we can make the functional margin arbitrarily large without really changing anything meaningful. Intuitively, it might therefore make sense to impose some sort of normalization condition such as that $||w||_2 = 1$; i.e., we might replace $(w, b)$ with  $(w/||w||_2 , b/||w||_2 )$, and instead consider the functional margin of $(w/||w||_2 , b/||w||_2)$. We’ll come back to this later.
+</div>
+<br/>
+<div>
+Given a training set $S = \{(x^{(i)}, y^{(i)}); i = 1, . . . , m\}$, we also define the  function margin of $(w, b)$ with respect to $S$ as the smallest of the functional margins of the individual training examples. Denoted by $\hat{\gamma}$, this can therefore be written:
+</div>
 
-Given a training set $S = {(x^{(i)}, y^{(i)}); i = 1, . . . , m}$, we also define the  function margin of $(w, b)$ with respect to $S$ as the smallest of the functional margins of the individual training examples. Denoted by $\hat{\gamma}$, this can therefore be written:
-
-$$ \hat{\gamma} = min_{i=1,...,m} \hat{\gamma}^{(i)} $$
+$$ \hat{\gamma} = \min_{i=1,...,m} \hat{\gamma}^{(i)} $$
 
 Next, lets talk about **geometric margins**. Consider the picture below:
 
@@ -928,26 +936,402 @@ Next, lets talk about **geometric margins**. Consider the picture below:
 
 The decision boundary corresponding to $(w, b)$ is shown, along with the vector $w$. Note that $w$ is orthogonal to the separating hyperplane. (You should convince yourself that this must be the case.) Consider the point at A, which represents the input $x^{(i)}$ of some training example with label $y^{(i)} = 1$. Its distance to the decision boundary, $\gamma^{(i)}$, is given by the line segment AB.
 
-How can we find the value of $\gamma^{(i)}$ ? Well, $w/||w||$ is a unit-length vector pointing in the same direction as $w$. Since A represents $x^{(i)}$, we therefore find that the point B is given by $x^{(i)} − \gamma^{(i)} · w/||w||$. But this point lies on the decision boundary, and all points $x$ on the decision boundary satisfy the equation $w^T x + b = 0$. Hence,
+<div>
+How can we find the value of $\gamma^{(i)}$? Well, ($w/||w||$) is a unit-length vector pointing in the same direction as $w$. Since A represents $x^{(i)}$, we therefore find that the point B is given by ($x^{(i)} − \gamma^{(i)} · w/||w||$). But this point lies on the decision boundary, and all points $x$ on the decision boundary satisfy the equation $w^T x + b = 0$. Hence,
+</div>
 
-$$ w^T (x^{(i)} - \gamma^{(i)} \frac{w}{||w||}) + b = 0 $$
+$$ w^T \bigg(x^{(i)} - \gamma^{(i)} \frac{w}{||w||}\bigg) + b = 0 $$
 
 Solving for $\gamma^{(i)}$ yields
 
-$$ \gamma^{(i)} = \frac{w^T x^{(i)} + b}{||w||} = (\frac{w}{||w||})^T x^{(i)} + \frac{b}{||w||} $$
+$$ \gamma^{(i)} = \frac{w^T x^{(i)} + b}{||w||} = \bigg(\frac{w}{||w||}\bigg)^T x^{(i)} + \frac{b}{||w||} $$
 
-This was worked out for the case of a positive training example at A in the figure, where being on the “positive” side of the decision boundary is good. More generally, we define the geometric margin of $(w, b)$ with respect to a training example $(x^{(i)}, y^{(i)})$ to be
+This was worked out for the case of a positive training example at A in the figure, where being on the "positive" side of the decision boundary is good. More generally, we define the geometric margin of $(w, b)$ with respect to a training example $(x^{(i)}, y^{(i)})$ to be
 
-$$ \gamma^{(i)} = y^{(i)} \bigg((\frac{w}{||w||})^T x^{(i)} + \frac{b}{||w||}\bigg) $$
+$$ \gamma^{(i)} = y^{(i)} \bigg(\Big(\frac{w}{||w||}\Big)^T x^{(i)} + \frac{b}{||w||}\bigg) $$
 
+<div>
 Note that if $||w|| = 1$, then the functional margin equals the geometric margin - this thus gives us a way of relating these two different notions of margin. Also, the geometric margin is invariant to rescaling of the parameters; i.e., if we replace $w$ with $2w$ and $b$ with $2b$, then the geometric margin does not change. This will in fact come in handy later. Specifically, because of this invariance to the scaling of the parameters, when trying to fit $w$ and $b$ to training data, we can impose an arbitrary scaling constraint on $w$ without changing anything important; for instance, we can demand that $||w|| = 1$, or $|w_1| = 5$, or $|w_1 + b| + |w_2| = 2$, and any of these can be satisfied simply by rescaling $w$ and $b$.
-
+</div>
+<br/>
+<div>
 Finally, given a training set $S = \{(x^{(i)}, y^{(i)}); i = 1, . . . , m\}$, we also define the geometric margin of $(w, b)$ with respect to $S$ to be the smallest of the geometric margins on the individual training examples:
+</div>
 
-$$ \gamma = min_{i=1,...,m} \gamma^{(i)} $$
+$$ \gamma = \min_{i=1,...,m} \gamma^{(i)} $$
 
-#### The optimal margin classifier
+### The optimal margin classifier
 
+Given a training set, it seems from our previous discussion that a natural desideratum is to try to find a decision boundary that maximizes the (geometric) margin, since this would reflect a very confident set of predictions on the training set and a good "fit" to the training data. Specifically, this will result in a classifier that separates the positive and the negative training examples with a "gap" (geometric margin).
 
+For now, we will assume that we are given a training set that is linearly separable; i.e., that it is possible to separate the positive and negative examples using some separating hyperplane. How we we find the one that achieves the maximum geometric margin? We can pose the following optimization problem:
 
-#### Lagrange duality
+$$ \begin{align*}
+\max_{\gamma, w, b} \enspace & \gamma \\
+s.t. \enspace \enspace & y^{(i)} (w^T x^{(i)} + b) \ge \gamma, \enspace i = 1,...,m \\
+& ||w|| = 1 \\
+\end{align*} $$
+
+<div>
+I.e., we want to maximize $\gamma$, subject to each training example having functional margin at least $\gamma$. The $||w|| = 1$ constraint moreover ensures that the functional margin equals to the geometric margin, so we are also guaranteed that all the geometric margins are at least $\gamma$. Thus, solving this problem will result in ($w, b$) with the largest possible geometric margin with respect to the training set.
+</div>
+<br/>
+<div>
+If we could solve the optimization problem above, we'd be done. But the $||w|| = 1$ constraint is a nasty (non-convex) one, and this problem certainly isn't in any format that we can plug into standard optimization software to solve. So, lets try transforming the problem into a nicer one. Consider:
+</div>
+
+$$ \begin{align*}
+\max_{\gamma, w, b} \enspace & \frac{\hat{\gamma}}{||w||} \\
+s.t. \enspace \enspace & y^{(i)} (w^T x^{(i)} + b) \ge \hat{\gamma}, \enspace i = 1,...,m \\
+\end{align*} $$
+
+<div>
+Here, we’re going to maximize $\hat{\gamma}/||w||$, subject to the functional margins all being at least $\hat{\gamma}$. Since the geometric and functional margins are related by $\gamma = \hat{\gamma}/||w|$, this will give us the answer we want. Moreover, we’ve gotten rid of the constraint $||w|| = 1$ that we didn’t like. The downside is that we now have a nasty (again, non-convex) objective $\frac{\hat{\gamma}}{||w||}$ function; and, we still don’t have any off-the-shelf software that can solve this form of an optimization problem.
+</div>
+
+Lets keep going. Recall our earlier discussion that we can add an arbitrary scaling constraint on $w$ and $b$ without changing anything. This is the key idea we’ll use now. We will introduce the scaling constraint that the functional margin of $w, b$ with respect to the training set must be $1$:
+
+$$ \hat{\gamma} = 1 $$
+
+<div>
+Since multiplying $w$ and $b$ by some constant results in the functional margin being multiplied by that same constant, this is indeed a scaling constraint, and can be satisfied by rescaling $w, b$. Plugging this into our problem above, and noting that maximizing $\hat{\gamma}/||w|| = 1/||w||$ is the same thing as minimizing $||w||^2$, we now have the following optimization problem:
+</div>
+
+$$ \begin{align*}
+\min_{\gamma, w, b} \enspace & \frac{1}{2} ||w||^2 \\
+s.t. \enspace \enspace & y^{(i)} (w^T x^{(i)} + b) \ge 1, \enspace i = 1,...,m \\
+\end{align*} $$
+
+We’ve now transformed the problem into a form that can be efficiently solved. The above is an optimization problem with a convex quadratic objective and only linear constraints. Its solution gives us the **optimal margin classifier**. This optimization problem can be solved using commercial quadratic programming (QP) code. You may be familiar with linear programming, which solves optimization problems that have linear objectives and linear constraints. QP software is also widely available, which allows convex quadratic objectives and linear constraints.
+
+While we could call the problem solved here, what we will instead do is make a digression to talk about Lagrange duality. This will lead us to our optimization problem's dual form, which will play a key role in allowing us to use kernels to get optimal margin classifiers to work efficiently in very high dimensional spaces. The dual form will also allow us to derive an efficient algorithm for solving the above optimization problem that will typically do much better than generic QP software.
+
+### Lagrange duality
+
+Lets temporarily put aside SVMs and maximum margin classifiers, and talk about solving constrained optimization problems.
+
+Consider a problem of the following form:
+
+$$ \begin{align*}
+\min_{w} \enspace & f(w) \\
+s.t. \enspace \enspace & h_i (w) = 0, \enspace i = 1,...,l \\
+\end{align*} $$
+
+Some of you may recall how the method of Lagrange multipliers can be used to solve it. In this method, we define the **Lagrangian** to be
+
+$$ L(w,\beta) = f(w) + \sum_{i=1}^{l} \beta_i h_i(w) $$
+
+Here, the $\beta_i$ 's are called the **Lagrange multipliers**. We would then find and set $L$'s partial derivatives to zero:
+
+$$
+\frac{\partial L}{\partial w_i} = 0 \enspace \enspace \frac{\partial L}{\partial \beta_i} = 0
+$$
+
+and solve for $w$ and $\beta$.
+
+In this section, we will generalize this to constrained optimization problems in which we may have inequality as well as equality constraints. Due to time constraints, we won’t really be able to do the theory of Lagrange duality justice in this class, but we will give the main ideas and results, which we will then apply to our optimal margin classifier's optimization problem.
+
+Consider the following, which we’ll call the **primal** optimization problem:
+
+$$ \begin{align*}
+\min_{w} \enspace & f(w) \\
+s.t. \enspace \enspace & g_i (w) \le 0, \enspace i = 1,...,k \\
+& h_i (w) = 0, \enspace i = 1,...,l \\
+\end{align*} $$
+
+To solve it, we start by defining the **generalized Lagrangian**
+
+$$ L(w, \alpha, \beta) = f(w) + \sum_{i=1}^{k} \alpha_i g_i(w) + \sum_{i=1}^{l} \beta_i h_i(w) $$
+
+Here, the $\alpha_i$ 's and $\beta_i$ 's are the Lagrange multipliers. Consider the quantity
+
+$$ \theta_P (w) = \max_{\alpha, \beta: \alpha_i \ge 0} L(w, \alpha, \beta) $$
+
+Here, the "$P$" subscript stands for "primal." Let some $w$ be given. If $w$ violates any of the primal constraints (i.e., if either $g_i (w) > 0$ or $h_i (w) \neq 0$ for some $i$), then you should be able to verify that
+
+$$ \begin{align*}
+\theta_P (w) &= \max_{\alpha, \beta: \alpha_i \ge 0} f(w) + \sum_{i=1}^{k} \alpha_i g_i(w) + \sum_{i=1}^{l} \beta_i h_i(w) \\
+&= + \infty \\
+\end{align*} $$
+
+Conversely, if the constraints are indeed satisfied for a particular value of $w$, then $\theta_P (w) = f(w)$. Hence,
+
+$$
+\theta_P (w) =
+  \begin{cases}
+    f(w) & \text{if $w$ satisfies primal constraints} \\
+    + \infty       & \text{otherwise}
+   \end{cases}
+$$
+
+Thus, $\theta_P$ takes the same value as the objective in our problem for all values of $w$ that satisfies the primal constraints, and is positive infinity if the constraints are violated. Hence, if we consider the minimization problem
+
+$$ \min_w \theta_P (w) = \min_w \max_{\alpha, \beta: \alpha_i \ge 0} L(w, \alpha, \beta) $$
+
+we see that it is the same problem (i.e., and has the same solutions as) our original, primal problem. For later use, we also define the optimal value of the objective to be $p^{\ast} = \min_w \theta_P (w)$; we call this the **value** of the primal problem.
+
+Now, lets look at a slightly different problem. We define
+
+$$ \theta_D (\alpha, \beta) = \min_w L(w, \alpha, \beta) $$
+
+Here, the "$D$" subscript stands for "dual." Note also that whereas in the definition of $\theta_P$ we were optimizing (maximizing) with respect to $\alpha, \beta$, here are minimizing with respect to $w$.
+
+We can now pose the **dual** optimization problem:
+
+$$ \max_{\alpha, \beta: \alpha_i \ge 0} \theta_D (\alpha, \beta) = \max_{\alpha, \beta: \alpha_i \ge 0} \min_w L(w, \alpha, \beta) $$
+
+This is exactly the same as our primal problem shown above, except that the order of the "max" and the "min" are now exchanged. We also define the optimal value of the dual problem's objective to be $d^{\ast}=\max_{\alpha, \beta: \alpha_i \ge 0} \theta_D (w)$.
+
+How are the primal and the dual problems related? It can easily be shown that
+
+$$ d^{\ast} = \max_{\alpha, \beta: \alpha_i \ge 0} \min_w L(w, \alpha, \beta) \le  \min_w \max_{\alpha, \beta: \alpha_i \ge 0} L(w, \alpha, \beta) = p^{\ast} $$
+
+(You should convince yourself of this; this follows from the "max min" of a function always being less than or equal to the "min max.") However, under certain conditions, we will have
+
+$$ d^{\ast} = p^{\ast} $$
+
+so that we can solve the dual problem in lieu of the primal problem. Lets see what these conditions are.
+
+Suppose $f$ and the $g_i$ 's are convex, and the $h_i$ 's are affine. Suppose further that the constraints $g_i$ are (strictly) feasible; this means that there exists some $w$ so that $g_i (w) < 0$ for all $i$.
+
+When $f$ has a Hessian, then it is convex if and only if the hessian is positive semi-definite. For instance, $f(w) = w^Tw$ is convex; similarly, all linear (and affine) functions are also convex. (A function $f$ can also be convex without being differentiable, but we won’t need those more general definitions of convexity here.)
+
+I.e., there exists $a_i , b_i$, so that $h_i (w) = a_i^T w + b_i$. "Affine" means the same thing as
+linear, except that we also allow the extra intercept term $b_i$.
+
+Under our above assumptions, there must exist $w^{\ast}, α^{\ast}, β^{\ast}$ so that $w^{\ast}$ is the solution to the primal problem, $α^{\ast}, β^{\ast}$ are the solution to the dual problem, and moreover $p^{\ast} = d^{\ast} = L(w^{\ast}, α^{\ast}, β^{\ast})$. Moreover, $w^{\ast}, α^{\ast}, β^{\ast}$ satisfy the **Karush-Kuhn-Tucker (KKT) conditions**, which are as follows:
+
+$$ \begin{align*}
+\frac{\partial}{\partial w_i} L(w^{\ast}, α^{\ast}, β^{\ast}) &= 0, \enspace i = 1,...,n \\
+\frac{\partial}{\partial \beta_i} L(w^{\ast}, α^{\ast}, β^{\ast}) &= 0, \enspace i = 1,...,l \\
+a_i^{\ast} g_i(w^{\ast}) &= 0, \enspace i = 1,...,k \\
+g_i(w^{\ast}) &\le 0, \enspace i = 1,...,k \\
+a^{\ast} &\ge 0, \enspace i = 1,...,k \\
+\end{align*} $$
+
+Moreover, if some $w^{\ast}, α^{\ast}, β^{\ast}$ satisfy the KKT conditions, then it is also a solution to the primal and dual problems.
+
+We draw attention to $a_i^{\ast} g_i(w^{\ast}) = 0$, which is called the KKT **dual complementarity** condition. Specifically, it implies that if $α_i^{\ast} > 0$, then $g_i (w^{\ast}) = 0$. (I.e., the "$g_i (w) \le 0$" constraint is **active**, meaning it holds with equality rather than with inequality.) Later on, this will be key for showing that the SVM has only a small number of "support vectors"; the KKT dual complementarity condition will also give us our convergence test when we talk about the SMO algorithm.
+
+### Optimal margin classifiers
+
+Previously, we posed the following (primal) optimization problem for finding the optimal margin classifier:
+
+$$ \begin{align*}
+\min_{\gamma, w, b} \enspace & \frac{1}{2} ||w||^2 \\
+s.t. \enspace \enspace & y^{(i)} (w^T x^{(i)} + b) \ge 1, \enspace i = 1,...,m \\
+\end{align*} $$
+
+We can write the constraints as
+
+$$ g_i(w) = - y^{(i)} (w^T x^{(i)} + b) + 1 \le 0 $$
+
+We have one such constraint for each training example. Note that from the KKT dual complementarity condition, we will have $\alpha_i > 0$ only for the training examples that have functional margin exactly equal to one (i.e., the ones corresponding to constraints that hold with equality, $g_i (w) = 0$). Consider the figure below, in which a maximum margin separating hyperplane is shown by the solid line.
+
+![multi-hyperplane](/images/machine-learning/multi-hyperplane.png)
+
+The points with the smallest margins are exactly the ones closest to the decision boundary; here, these are the three points (one negative and two positive examples) that lie on the dashed lines parallel to the decision boundary. Thus, only three of the $\alpha_i$ 's - namely, the ones corresponding to these three training examples - will be non-zero at the optimal solution to our optimization problem. These three points are called the **support vectors** in this problem. The fact that the number of support vectors can be much smaller than the size the training set will be useful later.
+
+Lets move on. Looking ahead, as we develop the dual form of the problem, one key idea to watch out for is that we’ll try to write our algorithm in terms of only the inner product $<x^{(i)}, x^{(j)}>$ (think of this as $(x^{(i)})^T x^{(j)}$) between points in the input feature space. The fact that we can express our algorithm in terms of these inner products will be key when we apply the kernel trick.
+
+When we construct the Lagrangian for our optimization problem we have:
+
+$$ L(w, b, \alpha) = \frac{1}{2} ||w||^2 - \sum_{i=1}^{m} \alpha_i [y^{(i)}(w^T x^{(i)} + b) - 1] $$
+
+Note that there’re only "$\alpha_i$" but no "$\beta_i$" Lagrange multipliers, since the problem has only inequality constraints.
+
+Lets find the dual form of the problem. To do so, we need to first minimize $L(w, b, \alpha)$ with respect to $w$ and $b$ (for fixed $\alpha$), to get $\theta_D$, which we’ll do by setting the derivatives of $L$ with respect to $w$ and $b$ to zero. We have:
+
+$$ \nabla_w L(w, b, \alpha) = w - \sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)} = 0 $$
+
+This implies that
+
+$$ w = \sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)} $$
+
+As for the derivative with respect to b, we obtain
+
+$$ \frac{\partial}{\partial b} L(w, b, \alpha) = \sum_{i=1}^{m} a_i y^{(i)} = 0 $$
+
+If we take the definition of $w = \sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)}$ and plug that back into the Lagrangian, and simplify, we get
+
+$$ L(w, b, \alpha) = \sum_{i=1}^{m} \alpha_i - \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} y^{(i)} y^{(j)} \alpha_i \alpha_j (x^{(i)})^T x^{(j)} - b \sum_{i=1}^{m} \alpha_i y^{(i)}  $$
+
+But from Equation $\sum_{i=1}^{m} a_i y^{(i)} = 0$, the last term must be zero, so we obtain
+
+$$ L(w, b, \alpha) = \sum_{i=1}^{m} \alpha_i - \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} y^{(i)} y^{(j)} \alpha_i \alpha_j (x^{(i)})^T x^{(j)} $$
+
+Recall that we got to the equation above by minimizing $L$ with respect to $w$ and $b$. Putting this together with the constraints $\alpha_i \ge 0$ (that we always had) and the constraint $\sum_{i=1}^{m} a_i y^{(i)} = 0$, we obtain the following dual optimization problem:
+
+$$ \begin{align*}
+max_\alpha \enspace \enspace & W(\alpha) = \sum_{i=1}^{m} \alpha_i - \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} y^{(i)} y^{(j)} \alpha_i \alpha_j <x^{(i)}, x^{(j)}> \\
+s.t. \enspace \enspace & \alpha_i \ge 0, \enspace \enspace i = 1,...,m \\
+& \sum_{i=1}^{m} \alpha_i y^{(i)} = 0 \\
+\end{align*} $$
+
+You should also be able to verify that the conditions required for $p^{\ast} = d^{\ast}$ and the KKT conditions to hold are indeed satisfied in our optimization problem. Hence, we can solve the dual in lieu of solving the primal problem. Specifically, in the dual problem above, we have a maximization problem in which the parameters are the $\alpha_i$ 's. We’ll talk later about the specific algorithm that we’re going to use to solve the dual problem, but if we are indeed able to solve it (i.e., find the $\alpha$'s that maximize $W(\alpha)$ subject to the constraints), then we can use $w = \sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)}$ to go back and find the optimal $w$'s as a function of the $\alpha$'s. Having found $w^{\ast}$, by considering the primal problem, it is also straightforward to find the optimal value for the intercept term $b$ as
+
+$$ b^{\ast} = - \frac{max_{i:y^{(i)}=−1} {w^{\ast}}^{T} x^{(i)} + min_{i:y^{(i)}=1} {w^{\ast}}^{T} x^{(i)}}{2} $$
+
+Before moving on, lets also take a more careful look at $w = \sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)}$, which gives the optimal value of $w$ in terms of (the optimal value of) $\alpha$. Suppose we’ve fit our model's parameters to a training set, and now wish to make a prediction at a new point input $x$. We would then calculate $w^T x + b$, and predict $y = 1$ if and only if this quantity is bigger than zero. But using $w = \sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)}$, this quantity can also be written:
+
+$$ \begin{align*}
+w^T x + b &= \bigg(\sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)} \bigg)^T x + b \\
+          &= \sum_{i=1}^{m} \alpha_i y^{(i)} <x^{(i)}, x> + b \\
+\end{align*} $$
+
+Hence, if we’ve found the $\alpha_i$ 's, in order to make a prediction, we have to calculate a quantity that depends only on the inner product between $x$ and the points in the training set. Moreover, we saw earlier that the $\alpha_i$ 's will all be zero except for the support vectors. Thus, many of the terms in the sum above will be zero, and we really need to find only the inner products between $x$ and the support vectors (of which there is often only a small number) in
+order to make our prediction.
+
+By examining the dual form of the optimization problem, we gained significant insight into the structure of the problem, and were also able to write the entire algorithm in terms of only inner products between input feature vectors. In the next section, we will exploit this property to apply the kernels to our classification problem. The resulting algorithm, **support vector machines**, will be able to efficiently learn in very high dimensional spaces.
+
+### Kernels
+
+Back in our discussion of linear regression, we had a problem in which the input x was the living area of a house, and we considered performing regression using the features $x$, $x^2$ and $x^3$ (say) to obtain a cubic function. To distinguish between these two sets of variables, we’ll call the "original" input value the input **attributes** of a problem (in this case, $x$, the living area). When that is mapped to some new set of quantities that are then passed to the learning algorithm, we’ll call those new quantities the input **features**. (Unfortunately, different authors use different terms to describe these two things, but we’ll try to use this terminology consistently in these notes.) We will also let $\phi$ denote the **feature mapping**, which maps from the attributes to the features. For instance, in our example, we had
+
+$$ \phi(x) = \begin{bmatrix}
+             x \\
+             x^2 \\
+             x^3 \\
+             \end{bmatrix}$$
+
+Rather than applying SVMs using the original input attributes $x$, we may instead want to learn using some features $\phi(x)$. To do so, we simply need to go over our previous algorithm, and replace $x$ everywhere in it with $\phi(x)$.
+
+Since the algorithm can be written entirely in terms of the inner products $<x,z>$, this means that we would replace all those inner products with $<\phi(x),\phi(z)>$. Specificically, given a feature mapping $\phi$, we define the corresponding **Kernel** to be
+
+$$ K(x,z) = \phi(x)^T \phi(z) $$
+
+Then, everywhere we previously had $<x,z>$ in our algorithm, we could simply replace it with $K(x,z)$, and our algorithm would now be learning using the features $\phi$.
+
+Now, given $\phi$, we could easily compute $K(x,z)$ by finding $\phi(x)$ and $\phi(z)$ and taking their inner product. But what's more interesting is that often, $K(x,z)$ may be very inexpensive to calculate, even though $\phi(x)$ itself may be very expensive to calculate (perhaps because it is an extremely high dimensional vector). In such settings, by using in our algorithm an efficient way to calculate $K(x,z)$, we can get SVMs to learn in the high dimensional feature space space given by $\phi$, but without ever having to explicitly find or represent vectors $\phi(x)$.
+
+Lets see an example. Suppose $x,z \in R^n$, and consider
+
+$$ K(x,z) = (x^T z)^2 $$
+
+We can also write this as
+
+$$ \begin{align*}
+K(x,z) &= \bigg(\sum_{i=1}^{n} x_i z_i\bigg) \bigg(\sum_{j=1}^{n} x_i z_i\bigg) \\
+       &= \sum_{i=1}^{n} \sum_{j=1}^{n} x_i x_j z_i z_j \\
+       &= \sum_{i=1}^{n} \sum_{j=1}^{n} (x_i x_j) (z_i z_j) \\
+\end{align*} $$
+
+Thus, we see that $K(x,z) = \phi(x)^T \phi(z)$, where the feature mapping $\phi$ is given (shown here for the case of $n = 3$) by
+
+$$ \phi(x) = \begin{bmatrix}
+             x_1 x_1 \\
+             x_1 x_2 \\
+             x_1 x_3 \\
+             x_2 x_1 \\
+             x_2 x_2 \\
+             x_2 x_3 \\
+             x_3 x_1 \\
+             x_3 x_2 \\
+             x_3 x_3 \\
+             \end{bmatrix}$$
+
+Note that whereas calculating the high-dimensional $\phi(x)$ requires $O(n^2)$ time, finding $K(x,z)$ takes only $O(n)$ time - linear in the dimension of the input  attributes.
+
+For a related kernel, also consider
+
+$$ \begin{align*}
+K(x,z) &= (x^T z + c)^2 \\
+       &= \sum_{i=1}^{n} \sum_{j=1}^{n} (x_i x_j) (z_i z_j) + \sum_{i=1}^{n} (\sqrt{2c} x_i) (\sqrt{2c} z_i) + c^2 \\
+\end{align*} $$
+
+This corresponds to the feature mapping (again shown for $n = 3$)
+
+$$ \phi(x) = \begin{bmatrix}
+             x_1 x_1 \\
+             x_1 x_2 \\
+             x_1 x_3 \\
+             x_2 x_1 \\
+             x_2 x_2 \\
+             x_2 x_3 \\
+             x_3 x_1 \\
+             x_3 x_2 \\
+             x_3 x_3 \\
+             \sqrt{2c} x_1 \\
+             \sqrt{2c} x_2 \\
+             \sqrt{2c} x_3 \\
+             c \\
+             \end{bmatrix}$$
+
+and the parameter $c$ controls the relative weighting between the $x_i$ (first order) and the $x_i x_j$ (second order) terms.
+
+More broadly, the kernel $K(x,z) = (x^T z + c)^d$ corresponds to a feature mapping to an $C_{n+d}^{d}$ feature space, corresponding of all monomials of the form $x_{i1} x_{i2} ... x_{ik}$ that are up to order $d$. However, despite working in this $O(n^d)$ - dimensional space, computing $K(x,z)$ still takes only $O(n)$ time, and hence we never need to explicitly represent feature vectors in this very high dimensional feature space.
+
+Now, lets talk about a slightly different view of kernels. Intuitively, (and there are things wrong with this intuition, but nevermind), if $\phi(x)$ and $\phi(z)$ are close together, then we might expect $K(x,z) = \phi(x)^T \phi(z)$ to be large. Conversely, if $\phi(x)$ and $\phi(z)$ are far apart - say nearly orthogonal to each other - then $K(x,z) = \phi(x)^T \phi(z)$ will be small. So, we can think of $K(x,z)$ as some measurement of how similar are $\phi(x)$ and $\phi(z)$, or of how similar are $x$ and $z$.
+
+Given this intuition, suppose that for some learning problem that you’re working on, you’ve come up with some function $K(x,z)$ that you think might be a reasonable measure of how similar $x$ and $z$ are. For instance, perhaps you chose
+
+$$ K(x,z) = exp \bigg(-\frac{||x - z||^2}{2 \sigma^2}\bigg) $$
+
+This is a resonable measure of $x$ and $z$'s similarity, and is close to $1$ when $x$ and $z$ are close, and near $0$ when $x$ and $z$ are far apart. Can we use this definition of $K$ as the kernel in an SVM? In this particular example, the answer is yes. (This kernel is called the **Gaussian kernel**, and corresponds to an infinite dimensional feature mapping $\phi$.) But more broadly, given some function $K$, how can we tell if it's a valid kernel; i.e., can we tell if there is some feature mapping $\phi$ so that $K(x,z) = \phi(x)^T \phi(z)$ for all $x, z$ ?
+
+Suppose for now that $K$ is indeed a valid kernel corresponding to some feature mapping $\phi$. Now, consider some finite set of m points (not necessarily the training set) {$x^{(1)},...,x^{(m)}$}, and let a square, $m$-by-$m$ matrix $K$ be defined so that its $(i, j)$ - entry is given by $K_{ij} = K(x_{(i)}, x_{(j)})$. This matrix is called the **Kernel matrix**. Note that we’ve overloaded the notation and used $K$ to denote both the kernel function $K(x,z)$ and the kernel matrix $K$, due to their obvious close relationship.
+
+Now, if $K$ is a valid Kernel, then $K_{ij} = K(x_{(i)}, x_{(j)}) = \phi(x^{(i)})^T \phi(x^{(j)}) = \phi(x^{(j)})^T \phi(x^{(i)}) = K(x^{(j)}, x^{(i)}) = K_{ji}$, and hence $K$ must be symmetric. More- over, letting $\phi_k (x)$ denote the $k$-th coordinate of the vector $\phi(x)$, we find that for any vector $z$, we have
+
+$$ \begin{align*}
+z^T K z &= \sum_{i} \sum_{j} z_i K_{ij} z_j \\
+        &= \sum_{i} \sum_{j} z_i \phi(x^{(i)})^T \phi(x^{(j)}) z_j \\
+        &= \sum_{i} \sum_{j} z_i \sum_{k} \phi_k(x^{(i)}) \phi_k(x^{(j)}) z_j \\
+        &= \sum_{i} \sum_{j} \sum_{k} z_i \phi_k(x^{(i)}) \phi_k(x^{(j)}) z_j \\
+        &= \sum_{k} \bigg(\sum_{i} z_i \phi_k(x^{(i)})\bigg)^2 \\
+        &\ge 0 \\
+\end{align*} $$
+
+Since $z$ was arbitrary, this shows that $K$ is positive semi-definite ($K \ge 0$).
+
+Hence, we’ve shown that if $K$ is a valid kernel (i.e., if it corresponds to some feature mapping $\phi$), then the corresponding Kernel matrix $K \in R^{m×m}$ is symmetric positive semidefinite. More generally, this turns out to be not only a necessary, but also a sufficient, condition for $K$ to be a valid kernel (also called a **Mercer kernel**). The following result is due to **Mercer**.
+
+Many texts present Mercer's theorem in a slightly more complicated form involving $L^2$ functions, but when the input attributes take values in $R^n$, the version given here is equivalent.
+
+**Theorem (Mercer)**. Let $K : R^n \times R^n \to R$ be given. Then for $K$ to be a valid (Mercer) kernel, it is necessary and sufficient that for any {$x^{(1)},...,x^{(m)}$}, ($m < \infty$), the corresponding kernel matrix is symmetric positive semi-definite.
+
+Given a function $K$, apart from trying to find a feature mapping $\phi$ that corresponds to it, this theorem therefore gives another way of testing if it is a valid kernel. You’ll also have a chance to play with these ideas more in problem set 2.
+
+In class, we also briefly talked about a couple of other examples of kernels. For instance, consider the digit recognition problem, in which given an image (16x16 pixels) of a handwritten digit (0-9), we have to figure out which digit it was. Using either a simple polynomial kernel $K(x,z) = (x^T z)^ d$ or the Gaussian kernel, SVMs were able to obtain extremely good performance on this problem. This was particularly surprising since the input attributes $x$ were just a 256-dimensional vector of the image pixel intensity values, and the system had no prior knowledge about vision, or even about which pixels are adjacent to which other ones. Another example that we briefly talked about in lecture was that if the objects $x$ that we are trying to classify are strings (say, $x$ is a list of amino acids, which strung together form a protein), then it seems hard to construct a reasonable, "small" set of features for most learning algorithms, especially if different strings have different lengths. However, consider letting $\phi(x)$ be a feature vector that counts the number of occurrences of each length-$k$ substring in $x$. If we’re considering strings of english alphabets, then there’re $26^k$ such strings. Hence, $\phi(x)$ is a $26^k$ dimensional vector; even for moderate values of $k$, this is probably too big for us to efficiently work with. (e.g., $26^4 ≈ 460000$.) However, using (dynamic programming-ish) string matching algorithms, it is possible to efficiently compute $K(x,z) = \phi(x)^T \phi(z)$, so that we can now implicitly work in this $26^k$ -dimensional feature space, but without ever explicitly computing feature vectors in this space.
+
+The application of kernels to support vector machines should already be clear and so we won’t dwell too much longer on it here. Keep in mind however that the idea of kernels has significantly broader applicability than SVMs. Specifically, if you have any learning algorithm that you can write in terms of only inner products $<x,z>$ between input attribute vectors, then by replacing this with $K(x,z)$ where $K$ is a kernel, you can "magically" allow your algorithm to work efficiently in the high dimensional feature space corresponding to $K$. For instance, this kernel trick can be applied with the perceptron to to derive a kernel perceptron algorithm. Many of the algorithms that we’ll see later in this class will also be amenable to this method, which has come to be known as the "kernel trick".
+
+### Regularization and the non-separable case
+
+The derivation of the SVM as presented so far assumed that the data is linearly separable. While mapping data to a high dimensional feature space via $\phi$ does generally increase the likelihood that the data is separable, we can’t guarantee that it always will be so. Also, in some cases it is not clear that finding a separating hyperplane is exactly what we’d want to do, since that might be susceptible to outliers. For instance, the left figure below shows an optimal margin classifier, and when a single outlier is added in the upper-left region (right figure), it causes the decision boundary to make a dramatic swing, and the resulting classifier has a much smaller margin.
+
+![regularization-and-non-separable](/images/machine-learning/regularization-and-non-separable.png)
+
+To make the algorithm work for non-linearly separable datasets as well as be less sensitive to outliers, we reformulate our optimization (using $\ell_1$ **regularization**) as follows:
+
+$$ \begin{align*}
+\min_{\gamma, w, b} \enspace & \frac{1}{2} ||w||^2 + C \sum_{i=1}{m} \xi_i \\
+s.t. \enspace \enspace & y^{(i)} (w^T x^{(i)} + b) \ge 1 - \xi_i, \enspace i = 1,...,m \\
+& \xi_i \ge 0, \enspace i = 1,...,m \\
+\end{align*} $$
+
+<div>
+Thus, examples are now permitted to have (functional) margin less than $1$, and if an example whose functional margin is $1 − \xi_i$, we would pay a cost of the objective function being increased by $C\xi_i$. The parameter $C$ controls the relative weighting between the twin goals of making the $||w||^2$ large (which we saw earlier makes the margin small) and of ensuring that most examples have functional margin at least $1$.
+</div>
+
+As before, we can form the Lagrangian:
+
+$$ L(w,b,\xi, \alpha, r) = \frac{1}{2} w^T w + C \sum_{i=1}^{m} \xi_i - \sum_{i=1}^{m} \alpha_i [y^{(i)}(w^T x^{(i)} + b) - 1 + \xi_i] - \sum_{i=1}^{m} r_i \xi_i $$
+
+Here, the $\alpha_i$ 's and $r_i$ 's are our Lagrange multipliers (constrained to be $\ge 0$). We won’t go through the derivation of the dual again in detail, but after setting the derivatives with respect to $w$ and $b$ to zero as before, substituting them back in, and simplifying, we obtain the following dual form of the problem:
+
+$$ \begin{align*}
+max_\alpha \enspace \enspace & W(\alpha) = \sum_{i=1}^{m} \alpha_i - \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} y^{(i)} y^{(j)} \alpha_i \alpha_j <x^{(i)}, x^{(j)}> \\
+s.t. \enspace \enspace & 0 \le \alpha_i \le C, \enspace \enspace i = 1,...,m \\
+& \sum_{i=1}^{m} \alpha_i y^{(i)} = 0 \\
+\end{align*} $$
+
+### The SMO algorithm
+
+#### Coordinate ascent
+
+![coordinate-ascent](/images/machine-learning/coordinate-ascent.png)
+
+#### SMO
+
+![smo](/images/machine-learning/smo.png)
